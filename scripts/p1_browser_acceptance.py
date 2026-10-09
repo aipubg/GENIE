@@ -15,7 +15,7 @@ import time
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-os.environ["GENIE_DATA_DIR"] = tempfile.mkdtemp()
+os.environ.setdefault("GENIE_DATA_DIR", tempfile.mkdtemp(prefix="genie-browser-fixture-"))
 
 RESULTS = []
 
@@ -75,7 +75,7 @@ def main():
     print(f"fixture: {url}", flush=True)
 
     from browser.service import BrowserService
-    svc = BrowserService()
+    svc = BrowserService(headless=(os.environ.get("GENIE_ACCEPTANCE_HEADLESS") == "1"))
     print(f"profile (absolute): {svc.profile_dir}", flush=True)
 
     try:

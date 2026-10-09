@@ -49,6 +49,13 @@ The Computer Use bridge remains unavailable with `Trusted RPC service is not con
 
 ## P0.9 status
 
+## P0.10 status
+
+- Real isolated browser fixture: **PASS_FIXTURE** — runner executed `p1_browser_acceptance.py`; 19/19 assertions passed in 7.81 s, exit code 0.
+- Fixture tab switching/scrolling: included in the executed 19 assertions; no owner browser/profile was used.
+- Interactive desktop preflight: **BLOCKED_INTERACTIVE_SESSION** — Windows input desktop accessible, but `GENIE_WINDOW=NOT_FOUND`; this is specifically `BLOCKED_GENIE_NOT_RUNNING`, not a machine-wide desktop failure.
+- Existing Brave, YouTube, WhatsApp and physical voice: **NOT_RUN / BLOCKED_AUTHORIZATION**; no owner session or test-conversation authorization was available.
+
 - Local Windows acceptance runner: **PASS_FIXTURE** — `scripts/p09_local_windows_acceptance.py --mode fixture --no-external-messages`; Preview and packaged Python paths present, pywinauto available, external messages disabled.
 - Interactive desktop acceptance: **BLOCKED_INTERACTIVE_SESSION** — current session has no interactive desktop (`INTERACTIVE_DESKTOP=False`). No owner browser, YouTube, WhatsApp, or voice result is claimed.
 - Existing-browser fallback, tab switching and scrolling remain unverified real GUI; fixture/headless contracts remain separate from owner acceptance.
