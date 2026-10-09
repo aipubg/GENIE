@@ -47,6 +47,12 @@ The Computer Use bridge remains unavailable with `Trusted RPC service is not con
 
 ## P0.8 status — latest authoritative runtime result
 
+## P0.9 status
+
+- Local Windows acceptance runner: **PASS_FIXTURE** — `scripts/p09_local_windows_acceptance.py --mode fixture --no-external-messages`; Preview and packaged Python paths present, pywinauto available, external messages disabled.
+- Interactive desktop acceptance: **BLOCKED_INTERACTIVE_SESSION** — current session has no interactive desktop (`INTERACTIVE_DESKTOP=False`). No owner browser, YouTube, WhatsApp, or voice result is claimed.
+- Existing-browser fallback, tab switching and scrolling remain unverified real GUI; fixture/headless contracts remain separate from owner acceptance.
+
 | Test | HTTP/status | Error/stage | Duration | Result |
 |---|---:|---|---:|---|
 | Unauthenticated GET | 403 | HTTP reachability | 156 ms | PASS_HEADLESS_INTEGRATION |
