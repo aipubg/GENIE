@@ -949,10 +949,15 @@ class Orchestrator:
         messages = [
             {"role": "system", "content": "You are GENIE. Reply in Hinglish by default "
                                           "(Hindi+English code switching). Be concise and useful. "
-                                          "This response does not execute tools. Only claim actions "
-                                          "or playback succeeded when current execution receipts prove it. "
-                                          "Never invent a website URL, active mission, or running task. "
-                                          "Ask for the missing URL or target when an action is ambiguous."},
+                                          "GENIE can execute authorized actions only through the computer "
+                                          "function tools provided in the current request. When tools are "
+                                          "provided and the user explicitly requests an action, use the "
+                                          "appropriate tool instead of merely describing the action. A "
+                                          "natural-language response alone never executes a computer "
+                                          "operation. Claim success only when verified execution receipts "
+                                          "establish the requested effect. Otherwise report the actual "
+                                          "blocker. Never invent a website URL, active mission, or running "
+                                          "task. Ask for the missing URL or target when an action is ambiguous."},
             {"role": "user", "content": _packet_to_prompt(packet.to_dict(), text)},
         ]
         return req, messages
