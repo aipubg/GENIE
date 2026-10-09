@@ -37,6 +37,14 @@ The Computer Use bridge remains unavailable with `Trusted RPC service is not con
 
 ## P0.3 status
 
+## P0.4 status
+
+- Authenticated Gemini diagnostic: **BLOCKED_PROVIDER** — `scripts/diag_gemini_authenticated.py` safely inspected the real Vault and reported `GEMINI_CREDENTIAL_MISSING`; no key was printed or changed.
+- Endpoint construction: **PASS_HEADLESS_INTEGRATION** — `chat_url()` targets `/v1beta/openai/chat/completions`; the prior unauthenticated GET 404 is not used as Chat evidence.
+- Redirect security: **PASS_UNIT_ONLY** — same-origin now compares scheme, hostname, and effective port; redirect chain is captured from the handler and HTTP errors include elapsed timing.
+- Real provider completion and Chat-driven C: storage: **BLOCKED_PROVIDER** until the owner configures a Gemini credential.
+- Focused regressions: **78 passed**.
+
 - Provider transport classification: **PASS_HEADLESS_INTEGRATION** — `models/provider_http.py` now preserves stable DNS/TLS/timeout/refusal/reset codes and elapsed timing; OpenAI-compatible adapter surfaces the category.
 - Direct ComputerService storage query: **PASS_HEADLESS_INTEGRATION** — packaged `files.disk_usage('C:\\')` returned total 563.9 GB, used 114.6 GB, free 449.3 GB.
 - Real non-mock Chat and Chat-driven storage query: **BLOCKED_PROVIDER** — no authorized provider completion was available; static HTTP probe reached Gemini with HTTP 404 and no credentials were used. No Chat success is claimed.
@@ -59,4 +67,4 @@ The Computer Use bridge remains unavailable with `Trusted RPC service is not con
 
 ## GitHub
 
-Baseline `4234e965272e008e09ed84810aae6333924fcea2` was already published. P0.1 was published at `a3ace888016c1e37a7729db607f887cca107401e`; this P0.2 source update will be published after the safe exclusion-checked push. No credentials, owner data, profiles, logs, or generated runtime binaries are included.
+Baseline `4234e965272e008e09ed84810aae6333924fcea2` was already published. P0.1/P0.2/P0.3 were published through `ad1deee9f1e8e63ccee0b762ca9d315e434466d9`; this P0.4 source update is published after safe exclusion checks. No credentials, owner data, profiles, logs, or generated runtime binaries are included.

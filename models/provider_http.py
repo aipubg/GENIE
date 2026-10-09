@@ -43,6 +43,13 @@ USER_AGENT = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
 _CREDENTIAL_HEADERS = ("authorization", "x-api-key", "api-key", "x-auth-token",
                        "x-goog-api-key", "api_key")
 
+def _origin(url: str):
+    from urllib.parse import urlsplit
+    parsed = urlsplit(url)
+    scheme = parsed.scheme.lower()
+    port = parsed.port or (443 if scheme == "https" else 80)
+    return scheme, (parsed.hostname or "").lower(), port
+
 # Ordered probes for automatic auth negotiation (§9). Bearer first because it
 # is the OpenAI-compatible default; the rest are common API-key conventions.
 AUTH_SCHEMES: Tuple[str, ...] = ("bearer", "x-api-key", "api-key")
@@ -126,10 +133,7 @@ class _SafeRedirectHandler(urllib.request.HTTPRedirectHandler):
     def redirect_request(self, req, fp, code, msg, headers, newurl):  # noqa: D102
         self.chain.append(f"{code} -> {newurl}")
         try:
-            from urllib.parse import urlsplit
-            old_host = urlsplit(req.full_url).hostname or ""
-            new_host = urlsplit(newurl).hostname or ""
-            same_origin = old_host.lower() == new_host.lower()
+            same_origin = _origin(req.full_url) == _origin(newurl)
         except Exception:
             same_origin = False
         new_req = super().redirect_request(req, fp, code, msg, headers, newurl)
@@ -173,7 +177,8 @@ def request(url: str, *, method: str = "GET",
         "timeout": float(timeout),
     }
 
-    opener = urllib.request.build_opener(_SafeRedirectHandler())
+    redirect_handler = _SafeRedirectHandler()
+    opener = urllib.request.build_opener(redirect_handler)
     # TLS verification stays ON (§11): no custom unverified context.
     req = urllib.request.Request(url, data=body, headers=req_headers,
                                  method=method.upper())
@@ -184,7 +189,7 @@ def request(url: str, *, method: str = "GET",
             raw = resp.read()
             final_url = resp.geturl()
             ctype = resp.headers.get("Content-Type", "")
-            chain = getattr(opener, "_chain", []) or []
+            chain = redirect_handler.chain
             return {"ok": 200 <= status < 300, "status": status, "body": raw,
                     "final_url": final_url, "content_type": ctype,
                     "redirect_chain": list(chain), "elapsed_ms": round((time.perf_counter()-started)*1000, 1), "request": desc}
@@ -198,7 +203,8 @@ def request(url: str, *, method: str = "GET",
                 "final_url": getattr(exc, "url", url),
                 "content_type": (exc.headers.get("Content-Type", "")
                                  if exc.headers else ""),
-                "redirect_chain": list(handler) if handler is not None else [],
+                "redirect_chain": list(redirect_handler.chain),
+                "elapsed_ms": round((time.perf_counter()-started)*1000, 1),
                 "request": desc}
     except urllib.error.URLError as exc:
         code = classify_transport_error(exc)
