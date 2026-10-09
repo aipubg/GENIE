@@ -53,6 +53,14 @@ The Computer Use bridge remains unavailable with `Trusted RPC service is not con
 
 ## P0.11 status
 
+## P0.12 status
+
+- Attach-first interactive runner: **PASS_UNIT_ONLY** — supports `--attach-existing`, `--launch-if-absent`, and `--test-chat`; it never terminates an attached instance.
+- Current interactive attach attempt: **BLOCKED_INTERACTIVE_SESSION** — `INPUT_DESKTOP=ACCESSIBLE`, `GENIE_WINDOW=NOT_FOUND`, `GUI_PREFLIGHT=BLOCKED_GENIE_NOT_RUNNING`.
+- WPF HWND/PID/NavList/Composer and real WPF Chat: **NOT_RUN** because no visible GENIE instance was available.
+- Browser fixture regression: **PASS_FIXTURE**, 21/21 assertions, 8.14 s.
+- Backend parity: **264/264**; WPF Release **0 warnings/0 errors**; build-match **34/34**.
+
 - Browser fixture: **PASS_FIXTURE** — executed 21/21 assertions in 8.38 s, including actual scroll-position movement and CDP tab creation/rebind.
 - CDP tab binding: **PASS_FIXTURE** — original target was rebound and verified by active target identity; this is fixture CDP binding, not visible owner-browser activation.
 - Interactive preflight: **BLOCKED_INTERACTIVE_SESSION** until GENIE Preview is running; probe now checks exact visible `GENIE` window, HWND and `NavList` AutomationId rather than generic Edit-list presence.

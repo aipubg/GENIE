@@ -12,7 +12,9 @@ def main():
         windows=Desktop(backend="uia").windows(); genie=[w for w in windows if w.window_text().strip()=="GENIE" and w.is_visible()]
         if not genie: print("GENIE_WINDOW=NOT_FOUND\nGUI_PREFLIGHT=BLOCKED_GENIE_NOT_RUNNING"); return 2
         if len(genie)!=1: print("GENIE_WINDOW=AMBIGUOUS\nGUI_PREFLIGHT=BLOCKED_MULTIPLE_GENIE_WINDOWS"); return 2
-        observed=genie[0]; print(f"GENIE_WINDOW=FOUND\nGENIE_HWND={observed.handle}")
+        observed=genie[0]; print(f"GENIE_WINDOW=FOUND\nGENIE_HWND={observed.handle}",flush=True)
+        try: print(f"GENIE_PID={observed.process_id()}\nGENIE_EXE_MATCH=UNKNOWN",flush=True)
+        except Exception: print("GENIE_PID=UNAVAILABLE\nGENIE_EXE_MATCH=UNKNOWN",flush=True)
         nav=Desktop(backend="uia").window(handle=observed.handle).child_window(auto_id="NavList",control_type="List")
         if not nav.exists(timeout=5): print("NAV_LIST=NOT_FOUND\nGUI_PREFLIGHT=FAIL_WPF_ACCESSIBILITY"); return 1
         print("NAV_LIST=FOUND\nGUI_PREFLIGHT=PASS_READONLY_UIA"); return 0
