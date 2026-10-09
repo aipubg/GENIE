@@ -55,6 +55,7 @@ def _origin(url: str):
 AUTH_SCHEMES: Tuple[str, ...] = ("bearer", "x-api-key", "api-key")
 
 def classify_transport_error(exc: Exception) -> str:
+    if "INSECURE_REDIRECT_BLOCKED" in str(exc): return "INSECURE_REDIRECT_BLOCKED"
     reason = exc.reason if isinstance(exc, urllib.error.URLError) else exc
     if isinstance(reason, socket.gaierror): return "DNS_RESOLUTION_FAILED"
     if isinstance(reason, ssl.SSLCertVerificationError): return "TLS_CERTIFICATE_FAILED"
@@ -136,6 +137,8 @@ class _SafeRedirectHandler(urllib.request.HTTPRedirectHandler):
             same_origin = _origin(req.full_url) == _origin(newurl)
         except Exception:
             same_origin = False
+        if _origin(req.full_url)[0] == "https" and _origin(newurl)[0] != "https":
+            raise urllib.error.URLError("INSECURE_REDIRECT_BLOCKED")
         new_req = super().redirect_request(req, fp, code, msg, headers, newurl)
         if new_req is not None and not same_origin:
             # Drop every credential header before the request leaves the origin.

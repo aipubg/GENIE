@@ -39,6 +39,8 @@ def main() -> int:
     endpoint = provider_http.chat_url(registry.base_url("gemini")); parsed = urlsplit(endpoint)
     print("provider=gemini"); print("endpoint_host=", parsed.hostname); print("endpoint_path=", parsed.path)
     diagnostic_event("ENDPOINT_VALID", True)
+    models_probe = provider_http.request("https://generativelanguage.googleapis.com/v1beta/models?pageSize=1", method="GET", secret=secret, auth_scheme="x-goog-api-key", timeout=12)
+    diagnostic_event("AUTH_GET_STATUS", models_probe.get("status", 0)); diagnostic_event("AUTH_GET_ERROR", models_probe.get("error_code") or "NONE"); diagnostic_event("AUTH_GET_ELAPSED_MS", models_probe.get("elapsed_ms"))
     models = [m for m in provider.get("models", []) if m.get("enabled", True)]
     preferred = ("gemini-3.8-flash", "gemini-3.7-flash", "gemini-3.1-pro-preview")
     selected = next((x for x in preferred if any(m.get("model_id") == x for m in models)), models[0].get("model_id") if models else "")

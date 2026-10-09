@@ -43,6 +43,18 @@ The Computer Use bridge remains unavailable with `Trusted RPC service is not con
 
 ## P0.6 status
 
+## P0.7 status
+
+- DNS: **PASS_HEADLESS_INTEGRATION**, resolved in 16 ms.
+- Direct TCP: **PASS_HEADLESS_INTEGRATION**, connected to 443 in 47 ms.
+- Direct TLS: **PASS_HEADLESS_INTEGRATION**, TLS 1.3 in 47 ms.
+- Proxy: **PASS_HEADLESS_INTEGRATION**, no proxy configured.
+- urllib HTTPS: **PASS_HEADLESS_INTEGRATION**, unauthenticated HTTP 403 in 140 ms (HTTP responder reached; not Chat evidence).
+- curl HTTPS: **PASS_HEADLESS_INTEGRATION**, HTTP 403, TCP 25 ms, TLS 376 ms, first byte 752 ms.
+- Authenticated Chat POST: **FAIL / BLOCKED_PROVIDER**, transport timeout after request start at ~20,068 ms.
+- Gateway/packaged Chat and Chat-driven C: storage: **BLOCKED_PROVIDER**; no authenticated completion.
+- HTTPS downgrade protection added and packaged source synchronized; no system network settings changed.
+
 - Packaged diagnostic checkpoints: **PASS_HEADLESS_INTEGRATION** — packaged identity, config, Vault, credential presence, endpoint validation, request start and finish were all observed.
 - Authenticated Gemini completion: **FAIL / BLOCKED_PROVIDER** — `HTTP_STATUS=0`, `HTTP_ERROR_CODE=TRANSPORT_TIMEOUT`, inner elapsed **20084.0 ms**, process elapsed **20188.0 ms**, exit code 1. This is a transport timeout after request start; it is not a 404/401 claim.
 - Hard deadline runner: **PASS_HEADLESS_INTEGRATION** — packaged Python, unbuffered checkpoints, 50-second outer deadline.
