@@ -51,6 +51,13 @@ The Computer Use bridge remains unavailable with `Trusted RPC service is not con
 
 ## P0.10 status
 
+## P0.11 status
+
+- Browser fixture: **PASS_FIXTURE** — executed 21/21 assertions in 8.38 s, including actual scroll-position movement and CDP tab creation/rebind.
+- CDP tab binding: **PASS_FIXTURE** — original target was rebound and verified by active target identity; this is fixture CDP binding, not visible owner-browser activation.
+- Interactive preflight: **BLOCKED_INTERACTIVE_SESSION** until GENIE Preview is running; probe now checks exact visible `GENIE` window, HWND and `NavList` AutomationId rather than generic Edit-list presence.
+- Existing Brave, visible tab activation, YouTube, WhatsApp, physical voice: **NOT_RUN / BLOCKED_AUTHORIZATION**.
+
 - Real isolated browser fixture: **PASS_FIXTURE** — runner executed `p1_browser_acceptance.py`; 19/19 assertions passed in 7.81 s, exit code 0.
 - Fixture tab switching/scrolling: included in the executed 19 assertions; no owner browser/profile was used.
 - Interactive desktop preflight: **BLOCKED_INTERACTIVE_SESSION** — Windows input desktop accessible, but `GENIE_WINDOW=NOT_FOUND`; this is specifically `BLOCKED_GENIE_NOT_RUNNING`, not a machine-wide desktop failure.

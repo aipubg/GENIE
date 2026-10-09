@@ -9,9 +9,13 @@ def main():
     try:
         print("INPUT_DESKTOP=ACCESSIBLE",flush=True)
         from pywinauto import Desktop
-        windows=Desktop(backend="uia").windows(); genie=[w for w in windows if w.window_text()=="GENIE" and w.is_visible()]
+        windows=Desktop(backend="uia").windows(); genie=[w for w in windows if w.window_text().strip()=="GENIE" and w.is_visible()]
         if not genie: print("GENIE_WINDOW=NOT_FOUND\nGUI_PREFLIGHT=BLOCKED_GENIE_NOT_RUNNING"); return 2
-        edits=genie[0].descendants(control_type="Edit"); print("GENIE_WINDOW=FOUND\nGUI_PREFLIGHT="+("PASS_READONLY_UIA" if isinstance(edits,list) else "FAIL_UIA")); return 0
+        if len(genie)!=1: print("GENIE_WINDOW=AMBIGUOUS\nGUI_PREFLIGHT=BLOCKED_MULTIPLE_GENIE_WINDOWS"); return 2
+        observed=genie[0]; print(f"GENIE_WINDOW=FOUND\nGENIE_HWND={observed.handle}")
+        nav=Desktop(backend="uia").window(handle=observed.handle).child_window(auto_id="NavList",control_type="List")
+        if not nav.exists(timeout=5): print("NAV_LIST=NOT_FOUND\nGUI_PREFLIGHT=FAIL_WPF_ACCESSIBILITY"); return 1
+        print("NAV_LIST=FOUND\nGUI_PREFLIGHT=PASS_READONLY_UIA"); return 0
     except Exception as e: print("GUI_PREFLIGHT_ERROR_TYPE="+type(e).__name__); return 1
     finally: u.CloseDesktop(h)
 if __name__=="__main__": raise SystemExit(main())

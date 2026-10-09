@@ -120,8 +120,18 @@ def main():
               body2[:200])
 
         # ---- D. scroll ----------------------------------------------------
+        before_y = svc._connect_page().evaluate("window.scrollY")
         scrolled = svc.scroll({"dy": 400})
-        check("scroll_page", bool(scrolled.get("ok")), str(scrolled)[:150])
+        after_y = svc._connect_page().evaluate("window.scrollY")
+        check("scroll_effect_verified", bool(scrolled.get("ok")) and isinstance(before_y,(int,float)) and isinstance(after_y,(int,float)) and after_y > before_y and scrolled.get("verify",{}).get("verified") is True, f"before={before_y} after={after_y}")
+
+        original_id = svc._active_target_id()
+        new_tab = svc.new_tab({"url": url + "?fixture=second"})
+        second_id = new_tab.get("tab_id")
+        check("second_fixture_tab_created", bool(new_tab.get("ok")) and bool(second_id) and second_id != original_id, str(new_tab)[:160])
+        switched = svc.switch_tab({"tab_id": original_id})
+        active = svc._active_target_id()
+        check("original_fixture_tab_rebound", bool(switched.get("ok")) and switched.get("verify",{}).get("verified") is True and active == original_id, f"requested={original_id} active={active}")
 
         # ---- E. select (canonical contract: value) -------------------------
         selected = svc.select_option({"selector": "#sel", "value": "beta"})
