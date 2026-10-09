@@ -23,6 +23,9 @@ from typing import Dict, Optional
 
 _IS_WINDOWS = sys.platform.startswith("win")
 
+class VaultLoadError(RuntimeError):
+    """An existing encrypted Vault could not be loaded safely."""
+
 
 # --------------------------------------------------------------------------- DPAPI
 def _dpapi_protect(data: bytes) -> bytes:
@@ -109,9 +112,12 @@ class Vault:
             return
         try:
             raw = self._decrypt(self.path.read_bytes())
-            self._data = json.loads(raw.decode("utf-8"))
-        except Exception:
-            self._data = {}
+            loaded = json.loads(raw.decode("utf-8"))
+            if not isinstance(loaded, dict) or not all(isinstance(k, str) and isinstance(v, str) for k, v in loaded.items()):
+                raise ValueError("invalid vault entries")
+            self._data = loaded
+        except Exception as exc:
+            raise VaultLoadError("Existing GENIE Vault is unreadable; no data was modified.") from exc
 
     def _flush(self) -> None:
         payload = json.dumps(self._data).encode("utf-8")

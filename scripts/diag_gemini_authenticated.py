@@ -3,16 +3,24 @@ from __future__ import annotations
 import json
 import sys
 from pathlib import Path
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "app"))
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+RUNTIME_APP = (PROJECT_ROOT / "backend-dist" / "backend-runtime" / "app").resolve()
+sys.path.insert(0, str(RUNTIME_APP))
 from urllib.parse import urlsplit
-from core.config import Config
-from security.vault import Vault
+from core.config import get_config
+from security.vault import Vault, VaultLoadError
 from models.registry import ModelRegistry
 from models import provider_http
 
 def main() -> int:
-    config = Config(); vault = Vault(config.vault_path); registry = ModelRegistry(vault=vault)
+    if not (RUNTIME_APP / "core" / "paths.py").is_file(): print("BLOCKED: PACKAGED_RUNTIME_APP_NOT_FOUND"); return 2
+    from core import paths
+    if Path(paths.__file__).resolve().parents[1] != RUNTIME_APP or not paths.is_packaged(): print("BLOCKED: PACKAGED_IDENTITY_MISMATCH"); return 2
+    config = get_config(reload=True)
+    print("runtime_mode=packaged"); print("data_dir_source=", paths.data_dir_source()); print("vault_exists=", config.vault_path.is_file())
+    try: vault = Vault(config.vault_path)
+    except VaultLoadError: print("BLOCKED: VAULT_UNREADABLE_OR_WRONG_IDENTITY"); return 2
+    registry = ModelRegistry(vault=vault)
     provider = registry.provider("gemini")
     if not provider or not provider.get("enabled", True):
         print("BLOCKED: GEMINI_PROVIDER_NOT_CONFIGURED_OR_DISABLED"); return 2
