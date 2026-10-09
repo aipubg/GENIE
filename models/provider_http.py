@@ -185,17 +185,19 @@ def request(url: str, *, method: str = "GET",
     # TLS verification stays ON (§11): no custom unverified context.
     req = urllib.request.Request(url, data=body, headers=req_headers,
                                  method=method.upper())
-    started = time.perf_counter()
+    started = time.perf_counter(); stage = "awaiting_response_headers"; observed_status = 0; headers_elapsed_ms = None
     try:
         with opener.open(req, timeout=timeout) as resp:
             status = resp.status
+            observed_status = status; headers_elapsed_ms = round((time.perf_counter()-started)*1000, 1); stage = "reading_response_body"
             raw = resp.read()
+            stage = "complete"
             final_url = resp.geturl()
             ctype = resp.headers.get("Content-Type", "")
             chain = redirect_handler.chain
             return {"ok": 200 <= status < 300, "status": status, "body": raw,
                     "final_url": final_url, "content_type": ctype,
-                    "redirect_chain": list(chain), "elapsed_ms": round((time.perf_counter()-started)*1000, 1), "request": desc}
+                    "redirect_chain": list(chain), "elapsed_ms": round((time.perf_counter()-started)*1000, 1), "stage": stage, "observed_http_status": observed_status, "headers_elapsed_ms": headers_elapsed_ms, "request": desc}
     except urllib.error.HTTPError as exc:
         try:
             raw = exc.read()
@@ -207,7 +209,7 @@ def request(url: str, *, method: str = "GET",
                 "content_type": (exc.headers.get("Content-Type", "")
                                  if exc.headers else ""),
                 "redirect_chain": list(redirect_handler.chain),
-                "elapsed_ms": round((time.perf_counter()-started)*1000, 1),
+                "elapsed_ms": round((time.perf_counter()-started)*1000, 1), "stage": stage, "observed_http_status": observed_status, "headers_elapsed_ms": headers_elapsed_ms,
                 "request": desc}
     except urllib.error.URLError as exc:
         code = classify_transport_error(exc)
@@ -221,7 +223,7 @@ def request(url: str, *, method: str = "GET",
         return {"ok": False, "status": 0, "body": b"", "final_url": url,
                 "content_type": "", "redirect_chain": [],
                 "error_code": code, "error": code,
-                "elapsed_ms": round((time.perf_counter()-started)*1000, 1), "request": desc}
+                "elapsed_ms": round((time.perf_counter()-started)*1000, 1), "stage": stage, "observed_http_status": observed_status, "headers_elapsed_ms": headers_elapsed_ms, "request": desc}
 
 
 def _auth_failed(res: Dict[str, Any]) -> bool:

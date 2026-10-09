@@ -45,6 +45,19 @@ The Computer Use bridge remains unavailable with `Trusted RPC service is not con
 
 ## P0.7 status
 
+## P0.8 status — latest authoritative runtime result
+
+| Test | HTTP/status | Error/stage | Duration | Result |
+|---|---:|---|---:|---|
+| Unauthenticated GET | 403 | HTTP reachability | 156 ms | PASS_HEADLESS_INTEGRATION |
+| Authenticated models GET | 200 | none | 250.3 ms | PASS_REAL |
+| OpenAI-compatible POST | 200 | none | 1,946.6 ms | PASS_REAL |
+| Native Gemini POST | not run | bounded differential not required after compatible success | — | NOT_REQUIRED |
+| Gateway/packaged Chat | 200 | `trace_054ea7bd98af`, reply `GENIE_PROVIDER_OK` | 2,599 ms | PASS_REAL |
+| Chat-driven C: storage | 200 | `trace_b89ad1e604ed`, `files.disk_usage`, verified receipt | 127 ms tool latency | PASS_REAL |
+
+The earlier P0.7 timeout is superseded by this successful authenticated GET, direct POST, Gateway Chat, and Chat-to-tool execution. Direct network phases remain healthy: DNS, TCP, TLS and curl/urllib reachability all passed. GUI-only browser/WhatsApp/voice acceptance remains `BLOCKED_ENVIRONMENT` because the trusted `sky` bridge is unavailable.
+
 - DNS: **PASS_HEADLESS_INTEGRATION**, resolved in 16 ms.
 - Direct TCP: **PASS_HEADLESS_INTEGRATION**, connected to 443 in 47 ms.
 - Direct TLS: **PASS_HEADLESS_INTEGRATION**, TLS 1.3 in 47 ms.
