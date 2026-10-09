@@ -31,8 +31,8 @@
       "policy": {"allowed_data_classes": ["PUBLIC", "INTERNAL"], "vision_allowed": true},
       "models": [
         {"model_id": "gemini-3.8-flash", "display_name": "Gemini 3.8 Flash", "capabilities": ["general", "vision", "tools", "reasoning", "coding"], "context_window": 1048576, "max_output": 65536, "cost_in_per_1k": 0.00075, "cost_out_per_1k": 0.00375, "priority": 5},
-        {"model_id": "gemini-2.5-flash", "display_name": "Gemini 2.5 Flash", "capabilities": ["general", "vision", "tools", "reasoning"], "context_window": 1048576, "max_output": 65536, "cost_in_per_1k": 0.0003, "cost_out_per_1k": 0.0025, "priority": 10},
-        {"model_id": "gemini-2.5-pro", "display_name": "Gemini 2.5 Pro", "capabilities": ["general", "vision", "tools", "reasoning", "coding"], "context_window": 1048576, "max_output": 65536, "cost_in_per_1k": 0.00125, "cost_out_per_1k": 0.01, "priority": 20}
+        {"model_id": "gemini-3.7-flash", "display_name": "Gemini 3.7 Flash", "capabilities": ["general", "vision", "tools", "reasoning"], "context_window": 1048576, "max_output": 65536, "cost_in_per_1k": 0.0003, "cost_out_per_1k": 0.0025, "priority": 10},
+        {"model_id": "gemini-3.1-pro-preview", "display_name": "Gemini 3.1 Pro Preview", "capabilities": ["general", "vision", "tools", "reasoning", "coding"], "context_window": 1048576, "max_output": 65536, "cost_in_per_1k": 0.00125, "cost_out_per_1k": 0.01, "priority": 20}
       ]
     },
     {
