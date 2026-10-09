@@ -55,6 +55,13 @@ The Computer Use bridge remains unavailable with `Trusted RPC service is not con
 
 ## P0.12 status
 
+## P0.13 status
+
+- Attach-existing semantics: **PASS_UNIT_ONLY** — no-launch/no-terminate path implemented; absent window returns the specific `BLOCKED_GENIE_NOT_RUNNING` result.
+- Current attach+test-chat attempt: **NOT_RUN** — `INPUT_DESKTOP=ACCESSIBLE`, but no visible GENIE window was present, so no Chat harness was invoked and no GUI result was fabricated.
+- Browser fixture: **PASS_FIXTURE**, 21/21 assertions.
+- SSE/WPF Chat and Chat-driven disk tool: **NOT_RUN** in this session because no WPF window was available.
+
 - Attach-first interactive runner: **PASS_UNIT_ONLY** — supports `--attach-existing`, `--launch-if-absent`, and `--test-chat`; it never terminates an attached instance.
 - Current interactive attach attempt: **BLOCKED_INTERACTIVE_SESSION** — `INPUT_DESKTOP=ACCESSIBLE`, `GENIE_WINDOW=NOT_FOUND`, `GUI_PREFLIGHT=BLOCKED_GENIE_NOT_RUNNING`.
 - WPF HWND/PID/NavList/Composer and real WPF Chat: **NOT_RUN** because no visible GENIE instance was available.
