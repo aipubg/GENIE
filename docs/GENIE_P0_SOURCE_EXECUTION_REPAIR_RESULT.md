@@ -35,6 +35,13 @@ The Computer Use bridge remains unavailable with `Trusted RPC service is not con
 
 ## P0.2 status
 
+## P0.3 status
+
+- Provider transport classification: **PASS_HEADLESS_INTEGRATION** — `models/provider_http.py` now preserves stable DNS/TLS/timeout/refusal/reset codes and elapsed timing; OpenAI-compatible adapter surfaces the category.
+- Direct ComputerService storage query: **PASS_HEADLESS_INTEGRATION** — packaged `files.disk_usage('C:\\')` returned total 563.9 GB, used 114.6 GB, free 449.3 GB.
+- Real non-mock Chat and Chat-driven storage query: **BLOCKED_PROVIDER** — no authorized provider completion was available; static HTTP probe reached Gemini with HTTP 404 and no credentials were used. No Chat success is claimed.
+- Browser CDP fixture, existing-browser fallback, tab switch/scroll, WhatsApp navigation: **BLOCKED_ENVIRONMENT** for real GUI; trusted `sky` bridge remains unavailable.
+
 - Contradictory tool-execution system instruction: **PASS_UNIT_ONLY**; `_reason_messages()` now explicitly authorizes tool use only through supplied computer functions and requires verified receipts.
 - Full collection: **1,817 tests collected, 79 deselected**. The broad run was stopped after repeated long-running portions; it is not reported as a full PASS. Focused workflow/owner/interaction regressions remain **78 passed**.
 - Ordinary Gemini Chat and safe disk-space tool call: **FAIL/BLOCKED_PROVIDER**; no verified real-provider completion was available, so no success is claimed.

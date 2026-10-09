@@ -26,7 +26,9 @@ SAFETY: no function here logs, prints or returns a credential value.
 from __future__ import annotations
 
 import json
+import socket
 import ssl
+import time
 import urllib.error
 import urllib.request
 from typing import Any, Dict, List, Optional, Tuple
@@ -44,6 +46,16 @@ _CREDENTIAL_HEADERS = ("authorization", "x-api-key", "api-key", "x-auth-token",
 # Ordered probes for automatic auth negotiation (§9). Bearer first because it
 # is the OpenAI-compatible default; the rest are common API-key conventions.
 AUTH_SCHEMES: Tuple[str, ...] = ("bearer", "x-api-key", "api-key")
+
+def classify_transport_error(exc: Exception) -> str:
+    reason = exc.reason if isinstance(exc, urllib.error.URLError) else exc
+    if isinstance(reason, socket.gaierror): return "DNS_RESOLUTION_FAILED"
+    if isinstance(reason, ssl.SSLCertVerificationError): return "TLS_CERTIFICATE_FAILED"
+    if isinstance(reason, ssl.SSLError): return "TLS_CONNECTION_FAILED"
+    if isinstance(reason, (socket.timeout, TimeoutError)): return "TRANSPORT_TIMEOUT"
+    if isinstance(reason, ConnectionRefusedError): return "CONNECTION_REFUSED"
+    if isinstance(reason, ConnectionResetError): return "CONNECTION_RESET"
+    return "TRANSPORT_UNAVAILABLE"
 
 
 def normalize_base_url(base: str) -> str:
@@ -165,6 +177,7 @@ def request(url: str, *, method: str = "GET",
     # TLS verification stays ON (§11): no custom unverified context.
     req = urllib.request.Request(url, data=body, headers=req_headers,
                                  method=method.upper())
+    started = time.perf_counter()
     try:
         with opener.open(req, timeout=timeout) as resp:
             status = resp.status
@@ -174,7 +187,7 @@ def request(url: str, *, method: str = "GET",
             chain = getattr(opener, "_chain", []) or []
             return {"ok": 200 <= status < 300, "status": status, "body": raw,
                     "final_url": final_url, "content_type": ctype,
-                    "redirect_chain": list(chain), "request": desc}
+                    "redirect_chain": list(chain), "elapsed_ms": round((time.perf_counter()-started)*1000, 1), "request": desc}
     except urllib.error.HTTPError as exc:
         try:
             raw = exc.read()
@@ -188,14 +201,18 @@ def request(url: str, *, method: str = "GET",
                 "redirect_chain": list(handler) if handler is not None else [],
                 "request": desc}
     except urllib.error.URLError as exc:
+        code = classify_transport_error(exc)
         return {"ok": False, "status": 0, "body": b"", "final_url": url,
                 "content_type": "", "redirect_chain": [],
-                "error": f"unreachable ({exc.__class__.__name__})",
+                "error_code": code, "error": code,
+                "elapsed_ms": round((time.perf_counter()-started)*1000, 1),
                 "request": desc}
     except Exception as exc:  # noqa: BLE001
+        code = classify_transport_error(exc)
         return {"ok": False, "status": 0, "body": b"", "final_url": url,
                 "content_type": "", "redirect_chain": [],
-                "error": f"{exc.__class__.__name__}", "request": desc}
+                "error_code": code, "error": code,
+                "elapsed_ms": round((time.perf_counter()-started)*1000, 1), "request": desc}
 
 
 def _auth_failed(res: Dict[str, Any]) -> bool:

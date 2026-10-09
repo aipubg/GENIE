@@ -38,7 +38,7 @@ class OpenAICompatAdapter(ProviderAdapter):
         status = int(res.get("status") or 0)
         raw = (res.get("body") or b"").decode("utf-8", "replace")
         if status == 0:
-            raise ProviderError(f"transport error: {res.get('error') or 'unreachable'}")
+            raise ProviderError(f"Provider transport failure [{res.get('error_code', 'TRANSPORT_UNAVAILABLE')}]")
         if status >= 400:
             raise ProviderError(f"HTTP {status} from provider: "
                                 f"{raw[:400]}")
