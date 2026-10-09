@@ -27,14 +27,27 @@ def test_grants_cannot_authorize_other_principals(overrides):
 
 def test_screen_grant_pins_destination_and_expiry():
     policy = OwnerPolicy()
-    scope = {"kind": "screen_analysis", "provider": "configured", "destination": "https://example.invalid/v1",
-             "scope": "cropped-redacted-window"}
-    policy.configure({"enabled": True, "grants": [{**scope, "expires_at": time.time() + 60}]})
+    scope = {"kind": "screen_analysis", "provider": "configured", "destination": "example.invalid",
+             "application": "Fixture", "scope": "cropped-redacted-window"}
+    policy.configure({"enabled": True, "grants": [{**scope,
+        "destination": "https://example.invalid/v1", "expires_at": time.time() + 60}]})
+    assert policy.status()["grants"][0]["destination"] == "example.invalid"
     assert policy.allows(CallContext(), scope)
-    assert not policy.allows(CallContext(), {**scope, "destination": "https://other.invalid/v1"})
+    assert not policy.allows(CallContext(), {**scope, "destination": "other.invalid"})
     assert not policy.allows(CallContext(), {**scope, "provider": "other"})
+    assert not policy.allows(CallContext(), {**scope, "application": "Other"})
     policy.configure({"enabled": True, "grants": [{**scope, "expires_at": time.time() - 1}]})
     assert not policy.allows(CallContext(), scope)
+
+
+def test_legacy_screen_grant_requires_application_reauthorization():
+    policy = OwnerPolicy()
+    legacy = {"kind": "screen_analysis", "provider": "configured",
+              "destination": "example.invalid", "scope": "cropped-redacted-window"}
+    policy.configure({"enabled": True, "grants": [{**legacy, "expires_at": time.time() + 60}]})
+    assert not policy.allows(CallContext(), legacy)
+    assert not policy.allows(CallContext(), {**legacy, "application": "Fixture"})
+    assert policy.status()["grants"][0]["application"] == "legacy-unscoped-requires-reauthorization"
 
 
 def test_message_grant_matches_exact_contact_and_text():

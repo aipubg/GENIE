@@ -9,6 +9,8 @@ import pytest
 
 from computer import uia
 from computer.messages import MessageTransactions
+from computer.approvals import ActionApprovals
+from computer.owner_policy import OwnerPolicy
 from computer.tool_bridge import execute
 from computer.visual import VisualFallback, parse_grounding
 from core.config import Config
@@ -43,16 +45,47 @@ def test_visual_upload_requires_destination_approval_and_pins_gateway():
     gateway.candidates.return_value = [SimpleNamespace(provider_id="fixture-provider", protocol="openai_chat")]
     gateway.registry.base_url.return_value = "https://vision.example.invalid/v1"
     gateway.complete.return_value = SimpleNamespace(text="{}")
-    approvals = SimpleNamespace(request=MagicMock(return_value={"ok": False}))
+    policy = OwnerPolicy()
+    approvals = ActionApprovals(policy)
+    approvals.request = MagicMock(wraps=approvals.request)
     visual = VisualFallback(None, approvals, gateway)
     frame = {"identity": (1, 2, "app", "Fixture"), "png": b"fixture-only"}
-    with pytest.raises(ValueError, match="not approved"):
+    with pytest.raises(ValueError, match="OWNER_SCOPE_NOT_AUTHORIZED"):
         visual._ask(CallContext(), "describe", [frame], threading.Event())
     gateway.complete.assert_not_called()
-    approvals.request.return_value = {"ok": True}
+    approvals.request.assert_not_called()
+    policy.configure({"enabled": True, "grants": [{
+        "kind": "screen_analysis", "provider": "fixture-provider",
+        "destination": "https://vision.example.invalid/v1",
+        "application": "Fixture", "scope": "cropped-redacted-window",
+        "expires_at": time.time() + 60}]})
     assert visual._ask(CallContext(), "describe", [frame], threading.Event()) == "{}"
     assert gateway.complete.call_args.args[1].allowed_provider_ids == ["fixture-provider"]
     assert "vision.example.invalid" in approvals.request.call_args.args[1]
+
+
+@pytest.mark.parametrize("change", ["application", "provider", "destination", "expired", "cancelled"])
+def test_visual_upload_rejects_wrong_scope_expiry_and_cancellation(change):
+    gateway = MagicMock()
+    gateway.candidates.return_value = [SimpleNamespace(provider_id="fixture-provider", protocol="openai_chat")]
+    gateway.registry.base_url.return_value = "https://vision.example.invalid/v1"
+    grant = {"kind": "screen_analysis", "provider": "fixture-provider",
+             "destination": "vision.example.invalid", "application": "Fixture",
+             "scope": "cropped-redacted-window", "expires_at": time.time() + 60}
+    if change in ("application", "provider", "destination"):
+        grant[change] = "other.invalid" if change == "destination" else "Other"
+    elif change == "expired":
+        grant["expires_at"] = time.time() - 1
+    policy = OwnerPolicy()
+    policy.configure({"enabled": True, "grants": [grant]})
+    visual = VisualFallback(None, ActionApprovals(policy), gateway)
+    cancel = threading.Event()
+    if change == "cancelled":
+        cancel.set()
+    frame = {"identity": (1, 2, "app", "Fixture"), "png": b"fixture-only"}
+    with pytest.raises(ValueError, match="not approved" if change == "cancelled" else "OWNER_SCOPE_NOT_AUTHORIZED"):
+        visual._ask(CallContext(), "describe", [frame], cancel)
+    gateway.complete.assert_not_called()
 
 
 def test_constrained_provider_never_falls_back_to_mock(app):
@@ -70,8 +103,15 @@ def test_constrained_provider_never_falls_back_to_mock(app):
 def message_env(monkeypatch):
     values = {"recipient": "Fixture recipient", "composer": "", "send": "Send"}
     windows = {key: 42 for key in values}
-    monkeypatch.setattr(uia, "describe_registered", lambda key: {
-        "name": key, "window": "Disposable chat", "window_id": windows[key], "process_id": 7})
+    def describe(key, *, allow_disabled=False):
+        # Real composers disable Send while empty. Preparation may observe it,
+        # but authorization and dispatch must see an enabled Send control.
+        enabled = key != "send" or bool(values["composer"])
+        if not enabled and not allow_disabled:
+            return {}
+        return {"name": key, "window": "Disposable chat", "window_id": windows[key],
+                "process_id": 7, "enabled": enabled}
+    monkeypatch.setattr(uia, "describe_registered", describe)
     monkeypatch.setattr(uia, "get_value", lambda key: {"ok": True, "value": values[key]})
     def write(key, text):
         values[key] = text
@@ -137,6 +177,7 @@ def test_message_submission_is_not_delivery(message_env, monkeypatch):
     result = service.send(ctx, tx, threading.Event())
     assert result["ok"] and result["status"] == "submitted"
     assert result["sent"] is result["delivered"] is result["read"] is None
+    assert service.send(ctx, tx, threading.Event())["error_code"] == "stale_transaction"
     invoke.assert_called_once()
 
 
