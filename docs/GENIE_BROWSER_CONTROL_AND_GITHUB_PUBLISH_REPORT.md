@@ -18,17 +18,19 @@ Current source: `E:\G3\GENIE` on `upgrade/genie-continuity-ui`. This report reco
 - Python syntax/import: source `browser`, `computer`, `core`, `director`, `voice`, and `models` compile; packaged Python 3.12.6 imports the critical browser/computer/director modules from `backend-runtime/app` after source sync.
 - Focused browser unit regressions: **53 passed, 6 skipped**. The new session/profile/scroll/reload cases: **11 passed**.
 - A broader unit selection returned **86 passed, 6 skipped, 12 failed**. These failures are in older WhatsApp/visual-policy fixtures whose mocks and expectations predate current scoped authorization, plus missing Pillow in the system Python. They do not establish live owner workflow success and are not hidden by the focused result.
-- Canonical `scripts/sync_backend_runtime.py --no-prune`: **264 source/runtime files match**; `--check --no-prune` passes. Source fingerprint is recorded in `backend-dist/backend-runtime/RUNTIME_MANIFEST.json`.
+- Canonical `scripts/sync_backend_runtime.py --no-prune`: **264 source/runtime files match**; `--check --no-prune` passes. Source fingerprint: `da3ea4e96da5dffa0aedf997990961fd3ca7d6e5731c9036aec95759ecc14d72`.
 - Build-match: **34/34**. WPF Release `net8.0-windows/win-x64`: **0 warnings, 0 errors**.
+- Packaged model-facing tool catalog: **47** declarations, including the new verified reload operation.
 - Preview: `E:\G3\GENIE\ui\windows\Genie.Desktop\bin\Release\net8.0-windows\win-x64\Genie.Desktop.exe`. The executable SHA-256 is `2AF57AFD492FBCA6EB35E0CF5116FA63D45EF2F4EEF87AF19A988832A2DEE580`; DLL SHA-256 is `1241374B2508A9CA9259EC23778542D5E3343223FA7FF255FDDFD55AE71E2370`.
 - No daemon/Preview process was launched because this request reserves GUI and live workflows for the owner.
 
 ## GitHub publication
 
 - Target: `https://github.com/aipubg/GENIE.git`; the public repository was empty before this pass. The local branch/history is `upgrade/genie-continuity-ui`, starting from local HEAD `c188a00a8211c5aa7c2ce6c88362004ac25296cb` before the new commit.
-- Existing source, tests, scripts, UI source and safe documentation are reviewed for publication. Embedded Python runtime, build outputs, local browser profiles, logs, memory/owner databases, credentials, and user model store remain excluded. A tracked generated WPF temporary project was removed from the Git index only; its working file was preserved.
+- A new clean root snapshot was published to GitHub `main` because the older **local-only** history contains machine logs under `artifacts/` and agent memory under `.workbuddy-aii/`. The original local history and all working files remain intact; neither was force-pushed nor rewritten. The published snapshot has **1,048 files**, including Python source, tests, scripts, docs, UI source, installer source, safe assets and dependency manifests.
+- Embedded Python runtime, build outputs, local browser profiles, logs, agent memory, memory/owner databases, credentials, and user model store remain excluded. A tracked generated WPF temporary project was removed from the Git index only; its working file was preserved. The clean snapshot omits the historical LFS model payloads; persistent provisioning scripts and model metadata remain in source. No LFS object transfer was needed for the published root.
 - Complete reachable Git history was scanned for key-format signatures without displaying values. Three matches were documented pattern/test fixtures; no live credential was identified by that scan. Git LFS `fsck` passed. Laya and Vosk LFS artifacts are locally available in history; their upstream model metadata lists Apache-2.0. The current source tree excludes duplicated model payloads and uses persistent model provisioning.
-- **Publication status, commit SHA, remote HEAD, and LFS transfer result will be filled from the actual push result.**
+- Initial safe source commit: `12f2a4bb64a74f727a38613c9efa77d75b120497`, pushed to `refs/heads/main` without force. `git ls-remote` confirmed that exact remote HEAD, and GitHub displayed `browser/service.py` on `main`. This final report update is a successor commit; verify the latest remote SHA with `git ls-remote origin refs/heads/main`.
 
 ## Owner manual verification — PENDING_OWNER
 
