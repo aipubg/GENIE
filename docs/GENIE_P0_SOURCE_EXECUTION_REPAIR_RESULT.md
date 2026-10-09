@@ -57,6 +57,13 @@ The Computer Use bridge remains unavailable with `Trusted RPC service is not con
 
 ## P0.13 status
 
+## P0.14 status
+
+- `--test-chat` now invokes `p1_chat_gui_test.py --attach-hwnd ... --expect GENIE_GUI_OK` and propagates its exit code; it is no longer an inert cleanup flag.
+- Actual attach attempt: one transient run found a GENIE window and invoked the Chat harness, which returned exit code 1 (`FAIL_WPF_CHAT`). A subsequent attach probe found no running GENIE window. No WPF Chat success is claimed.
+- Browser fixture: **PASS_FIXTURE**, 21/21 assertions.
+- Current WPF Chat and WPF disk-tool acceptance: **FAIL/NOT_RUN** pending a stable running Preview and inspectable Chat result.
+
 - Attach-existing semantics: **PASS_UNIT_ONLY** — no-launch/no-terminate path implemented; absent window returns the specific `BLOCKED_GENIE_NOT_RUNNING` result.
 - Current attach+test-chat attempt: **NOT_RUN** — `INPUT_DESKTOP=ACCESSIBLE`, but no visible GENIE window was present, so no Chat harness was invoked and no GUI result was fabricated.
 - Browser fixture: **PASS_FIXTURE**, 21/21 assertions.

@@ -15,6 +15,7 @@ from __future__ import annotations
 import pathlib
 import sys
 import time
+import argparse
 
 REPO = pathlib.Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO / "scripts"))
@@ -85,15 +86,21 @@ def wait_settled(window, timeout=120.0) -> bool:
 
 
 def main() -> int:
-    msg = sys.argv[1] if len(sys.argv) > 1 else "Hello GENIE"
+    ap=argparse.ArgumentParser(); ap.add_argument("message", nargs="?", default="Reply with exactly GENIE_GUI_OK"); ap.add_argument("--attach-hwnd", type=int); ap.add_argument("--expect", default=""); ap.add_argument("--no-external-messages", action="store_true"); args=ap.parse_args(); msg=args.message
     print("=" * 64)
     print("Phase 1 — typed Chat GUI end-to-end (automated evidence)")
     print(f"exe: {cu.DEFAULT_EXE}")
     print("=" * 64)
 
-    proc = cu.launch(cu.DEFAULT_EXE)
+    proc = None
     try:
-        window = cu.main_window(timeout=90)
+        if args.attach_hwnd:
+            from pywinauto import Desktop
+            window = Desktop(backend="uia").window(handle=args.attach_hwnd)
+            if not window.exists(timeout=5): check("attached GENIE window", False, "HWND unavailable"); return 2
+        else:
+            proc = cu.launch(cu.DEFAULT_EXE)
+            window = cu.main_window(timeout=90)
         window.set_focus()
         time.sleep(12)                     # let the backend answer
         check("main window rendered", True, f"handle={window.handle}")
@@ -133,7 +140,8 @@ def main() -> int:
         new = [t for t in after if t not in before and len(t) > 2]
         # A real reply is new text beyond the echoed user message.
         reply = [t for t in new if msg.strip().lower() not in t.lower()]
-        check("Chat rendered a reply", len(reply) > 0,
+        expected = args.expect or "GENIE_GUI_OK"
+        check("Chat rendered a reply", len(reply) > 0 and expected in " ".join(reply),
               " | ".join(reply)[:160])
 
         try:
@@ -148,10 +156,9 @@ def main() -> int:
     except Exception as exc:
         check("typed Chat GUI end-to-end", False, str(exc))
     finally:
-        try:
-            proc.terminate()
-        except Exception:
-            pass
+        if proc is not None:
+            try: proc.terminate()
+            except Exception: pass
 
     return _summary()
 

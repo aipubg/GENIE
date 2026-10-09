@@ -21,15 +21,17 @@ def interactive(attach=False, launch=False, test_chat=False):
         time.sleep(5)
     try: r=subprocess.run([sys.executable,"-u",str(PROBE)],cwd=str(ROOT),capture_output=True,text=True,timeout=45,check=False)
     except subprocess.TimeoutExpired: out("RESULT","FAIL_INTERACTIVE_PROBE_TIMEOUT"); return 124
+    observed_hwnd=None
     for line in r.stdout.splitlines():
         if line.startswith(("INPUT_DESKTOP=","GENIE_WINDOW=","GUI_PREFLIGHT=")): print(line,flush=True)
-    if r.returncode==0 and test_chat:
-        # Chat execution is deliberately delegated only after exact UIA preflight;
-        # never launch a second Preview from this attach path.
-        out("CHAT_TEST","NOT_RUN_ATTACH_HARNESS_REQUIRES_VERIFIED_WINDOW")
-        out("RESULT","NOT_RUN_CHAT_GUI")
+        if line.startswith("GENIE_HWND="):
+            try: observed_hwnd=int(line.split("=",1)[1])
+            except ValueError: observed_hwnd=None
+    if r.returncode==0 and test_chat and observed_hwnd:
+        chat=subprocess.run([sys.executable,"-u",str(ROOT/"scripts/p1_chat_gui_test.py"),"--attach-hwnd",str(observed_hwnd),"--expect","GENIE_GUI_OK","--no-external-messages"],cwd=str(ROOT),text=True,capture_output=True,timeout=180,check=False)
+        out("CHAT_TEST_EXIT_CODE",chat.returncode); out("RESULT", "PASS_REAL_WPF_CHAT" if chat.returncode==0 else "FAIL_WPF_CHAT")
         if created: created.terminate()
-        return 2
+        return chat.returncode
     out("RESULT","PASS_INTERACTIVE_PREFLIGHT" if r.returncode==0 else "BLOCKED_INTERACTIVE_GUI_PROBE")
     if created and not test_chat: created.terminate()
     return 0 if r.returncode==0 else 2
