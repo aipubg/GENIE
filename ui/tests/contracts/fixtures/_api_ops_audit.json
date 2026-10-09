@@ -1,0 +1,16 @@
+{
+  "code": 200,
+  "body": {
+    "audit": [
+      {
+        "seq": 1,
+        "ts": 1700000000000,
+        "who": "system",
+        "device": "device-example",
+        "action": "files.read",
+        "result": "allowed",
+        "mission_id": null
+      }
+    ]
+  }
+}

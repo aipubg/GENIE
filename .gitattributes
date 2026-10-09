@@ -1,0 +1,45 @@
+# Required distributable model artifacts are stored through Git LFS.
+# Keep line endings stable across Windows and non-Windows checkouts.
+# Text files are normalised to LF in the repository and checked out with the
+# platform's native ending, so edits no longer show up as whole-file churn.
+
+* text=auto
+
+# Sources and docs
+*.md    text
+*.txt   text
+*.json  text
+*.yml   text
+*.yaml  text
+*.toml  text
+*.ini   text
+*.csv   text
+*.py    text
+*.js    text
+*.ts    text
+*.css   text
+*.html  text
+*.nsh   text eol=crlf
+*.cmd   text eol=crlf
+*.bat   text eol=crlf
+
+# Binary assets must never be touched
+*.png   binary
+*.ico   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.bmp   binary
+*.svg   text
+*.exe   binary
+*.dll   binary
+*.node  binary
+*.pdb   binary
+*.7z    binary
+*.zip   binary
+*.db    binary
+*.asar  binary
+
+# Required distributable model artifacts are stored through Git LFS.
+data/models/laya/weights/** filter=lfs diff=lfs merge=lfs -text
+data/models/vosk-model-small-en-us-0.15/** filter=lfs diff=lfs merge=lfs -text

@@ -1,0 +1,147 @@
+{
+  "version": 1,
+  "note": "Predefined provider templates. User additions and overrides are stored under the canonical per-user GENIE data directory. Secrets live in the vault as secret://provider/<id>/key.",
+  "protocol_defaults": {
+    "openai_chat": {"chat_path": "/chat/completions", "auth": "bearer", "style": "openai"},
+    "openai_responses": {"chat_path": "/responses", "auth": "bearer", "style": "openai_responses"}
+  },
+  "providers": [
+    {
+      "id": "deepseek",
+      "display_name": "DeepSeek",
+      "protocol": "openai_chat",
+      "base_url": "https://api.deepseek.com/v1",
+      "secret_ref": "secret://provider/deepseek/key",
+      "enabled": true,
+      "priority": 10,
+      "policy": {"allowed_data_classes": ["PUBLIC", "INTERNAL", "SENSITIVE"], "vision_allowed": false},
+      "models": [
+        {"model_id": "deepseek-chat", "display_name": "DeepSeek V3 Chat", "capabilities": ["general", "coding", "tools"], "context_window": 65536, "max_output": 8192, "cost_in_per_1k": 0.00027, "cost_out_per_1k": 0.0011, "priority": 10},
+        {"model_id": "deepseek-reasoner", "display_name": "DeepSeek R1 Reasoner", "capabilities": ["general", "reasoning", "coding"], "context_window": 65536, "max_output": 32768, "cost_in_per_1k": 0.00055, "cost_out_per_1k": 0.0022, "priority": 20}
+      ]
+    },
+    {
+      "id": "gemini",
+      "display_name": "Google Gemini",
+      "protocol": "openai_chat",
+      "base_url": "https://generativelanguage.googleapis.com/v1beta/openai",
+      "secret_ref": "secret://provider/gemini/key",
+      "enabled": true,
+      "priority": 20,
+      "policy": {"allowed_data_classes": ["PUBLIC", "INTERNAL"], "vision_allowed": true},
+      "models": [
+        {"model_id": "gemini-3.8-flash", "display_name": "Gemini 3.8 Flash", "capabilities": ["general", "vision", "tools", "reasoning", "coding"], "context_window": 1048576, "max_output": 65536, "cost_in_per_1k": 0.00075, "cost_out_per_1k": 0.00375, "priority": 5},
+        {"model_id": "gemini-2.5-flash", "display_name": "Gemini 2.5 Flash", "capabilities": ["general", "vision", "tools", "reasoning"], "context_window": 1048576, "max_output": 65536, "cost_in_per_1k": 0.0003, "cost_out_per_1k": 0.0025, "priority": 10},
+        {"model_id": "gemini-2.5-pro", "display_name": "Gemini 2.5 Pro", "capabilities": ["general", "vision", "tools", "reasoning", "coding"], "context_window": 1048576, "max_output": 65536, "cost_in_per_1k": 0.00125, "cost_out_per_1k": 0.01, "priority": 20}
+      ]
+    },
+    {
+      "id": "openrouter",
+      "display_name": "OpenRouter",
+      "protocol": "openai_chat",
+      "base_url": "https://openrouter.ai/api/v1",
+      "secret_ref": "secret://provider/openrouter/key",
+      "enabled": true,
+      "priority": 30,
+      "policy": {"allowed_data_classes": ["PUBLIC", "INTERNAL"], "vision_allowed": true},
+      "models": [
+        {"model_id": "openai/gpt-4o-mini", "display_name": "GPT-4o mini (via OpenRouter)", "capabilities": ["general", "tools", "vision"], "context_window": 128000, "max_output": 16384, "cost_in_per_1k": 0.00015, "cost_out_per_1k": 0.0006, "priority": 10},
+        {"model_id": "anthropic/claude-3.5-sonnet", "display_name": "Claude 3.5 Sonnet (via OpenRouter)", "capabilities": ["general", "reasoning", "coding", "tools", "vision"], "context_window": 200000, "max_output": 8192, "cost_in_per_1k": 0.003, "cost_out_per_1k": 0.015, "priority": 20}
+      ]
+    },
+    {
+      "id": "together",
+      "display_name": "Together AI",
+      "protocol": "openai_chat",
+      "base_url": "https://api.together.xyz/v1",
+      "secret_ref": "secret://provider/together/key",
+      "enabled": true,
+      "priority": 40,
+      "policy": {"allowed_data_classes": ["PUBLIC", "INTERNAL"], "vision_allowed": true},
+      "models": [
+        {"model_id": "meta-llama/Llama-3.3-70B-Instruct-Turbo", "display_name": "Llama 3.3 70B", "capabilities": ["general", "tools", "coding"], "context_window": 131072, "max_output": 4096, "cost_in_per_1k": 0.00088, "cost_out_per_1k": 0.00088, "priority": 10}
+      ]
+    },
+    {
+      "id": "glm",
+      "display_name": "GLM Open Platform (Zhipu)",
+      "protocol": "openai_chat",
+      "base_url": "https://open.bigmodel.cn/api/paas/v4",
+      "secret_ref": "secret://provider/glm/key",
+      "enabled": true,
+      "priority": 50,
+      "policy": {"allowed_data_classes": ["PUBLIC", "INTERNAL"], "vision_allowed": true},
+      "models": [
+        {"model_id": "glm-4.6", "display_name": "GLM-4.6", "capabilities": ["general", "tools", "coding", "reasoning"], "context_window": 200000, "max_output": 8192, "cost_in_per_1k": 0.0006, "cost_out_per_1k": 0.0022, "priority": 10},
+        {"model_id": "glm-4.5-flash", "display_name": "GLM-4.5 Flash", "capabilities": ["general", "tools", "vision"], "context_window": 128000, "max_output": 8192, "cost_in_per_1k": 0.0, "cost_out_per_1k": 0.0, "priority": 20}
+      ]
+    },
+    {
+      "id": "kimi",
+      "display_name": "Kimi International (Moonshot)",
+      "protocol": "openai_chat",
+      "base_url": "https://api.moonshot.ai/v1",
+      "secret_ref": "secret://provider/kimi/key",
+      "enabled": true,
+      "priority": 60,
+      "policy": {"allowed_data_classes": ["PUBLIC", "INTERNAL"], "vision_allowed": false},
+      "models": [
+        {"model_id": "kimi-k2-0905-preview", "display_name": "Kimi K2", "capabilities": ["general", "tools", "coding", "reasoning"], "context_window": 256000, "max_output": 16384, "cost_in_per_1k": 0.0006, "cost_out_per_1k": 0.0025, "priority": 10},
+        {"model_id": "moonshot-v1-8k", "display_name": "Moonshot v1 8K", "capabilities": ["general", "tools"], "context_window": 8000, "max_output": 4096, "cost_in_per_1k": 0.0003, "cost_out_per_1k": 0.0003, "priority": 20}
+      ]
+    },
+    {
+      "id": "minimax",
+      "display_name": "MiniMax International",
+      "protocol": "openai_chat",
+      "base_url": "https://api.minimax.io/v1",
+      "secret_ref": "secret://provider/minimax/key",
+      "enabled": true,
+      "priority": 70,
+      "policy": {"allowed_data_classes": ["PUBLIC", "INTERNAL"], "vision_allowed": false},
+      "models": [
+        {"model_id": "MiniMax-M2", "display_name": "MiniMax M2", "capabilities": ["general", "tools", "coding"], "context_window": 200000, "max_output": 8192, "cost_in_per_1k": 0.0003, "cost_out_per_1k": 0.0012, "priority": 10}
+      ]
+    },
+    {
+      "id": "tencent_cloud",
+      "display_name": "Tencent Cloud (OpenAI-compatible)",
+      "protocol": "openai_chat",
+      "base_url": "https://api.lkeap.cloud.tencent.com/v1",
+      "secret_ref": "secret://provider/tencent_cloud/key",
+      "enabled": true,
+      "priority": 80,
+      "policy": {"allowed_data_classes": ["PUBLIC", "INTERNAL"], "vision_allowed": false},
+      "models": [
+        {"model_id": "deepseek-v3", "display_name": "DeepSeek V3 (Tencent)", "capabilities": ["general", "coding", "tools"], "context_window": 64000, "max_output": 8192, "cost_in_per_1k": 0.00027, "cost_out_per_1k": 0.0011, "priority": 10},
+        {"model_id": "hunyuan-turbo", "display_name": "Hunyuan Turbo", "capabilities": ["general", "tools"], "context_window": 32000, "max_output": 4096, "cost_in_per_1k": 0.0002, "cost_out_per_1k": 0.0005, "priority": 20}
+      ]
+    },
+    {
+      "id": "tokenhub",
+      "display_name": "TokenHub (custom endpoint)",
+      "protocol": "openai_chat",
+      "base_url": "",
+      "secret_ref": "secret://provider/tokenhub/key",
+      "enabled": false,
+      "priority": 90,
+      "requires_user_config": true,
+      "policy": {"allowed_data_classes": ["PUBLIC", "INTERNAL"], "vision_allowed": false},
+      "models": []
+    },
+    {
+      "id": "mock",
+      "display_name": "GENIE Mock Provider (offline/test)",
+      "protocol": "mock",
+      "kind": "test",
+      "base_url": "",
+      "secret_ref": "",
+      "enabled": true,
+      "priority": 999,
+      "policy": {"allowed_data_classes": ["PUBLIC", "INTERNAL", "SENSITIVE"], "vision_allowed": false},
+      "models": [
+        {"model_id": "mock-general", "display_name": "Mock General", "capabilities": ["general", "tools", "coding", "reasoning"], "context_window": 32000, "max_output": 2048, "cost_in_per_1k": 0.0, "cost_out_per_1k": 0.0, "priority": 999}
+      ]
+    }
+  ]
+}

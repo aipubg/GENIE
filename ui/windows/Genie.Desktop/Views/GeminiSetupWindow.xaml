@@ -1,0 +1,22 @@
+<Window x:Class="Genie.Desktop.Views.GeminiSetupWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="GENIE - Gemini Setup" Width="500" SizeToContent="Height"
+        ResizeMode="NoResize" WindowStartupLocation="CenterOwner" ShowInTaskbar="False"
+        Background="{DynamicResource G.Bg}" Foreground="{DynamicResource G.Text}">
+    <StackPanel Margin="28">
+        <TextBlock Text="Connect Gemini" FontSize="24" Margin="0,0,0,18"/>
+        <TextBlock Text="Gemini API key" Margin="0,0,0,6"/>
+        <PasswordBox x:Name="ApiKey" Padding="10,8" FontSize="16"
+                     AutomationProperties.Name="Gemini API key"/>
+        <TextBlock Text="Voice audio goes to Google Gemini. Your API key is encrypted on this Windows account."
+                   TextWrapping="Wrap" Margin="0,12,0,8" Opacity="0.8"/>
+        <TextBlock Margin="0,0,0,12"><Hyperlink Click="GetKey_Click">Get a key in Google AI Studio</Hyperlink></TextBlock>
+        <TextBlock x:Name="SetupStatus" TextWrapping="Wrap" MinHeight="42" MaxWidth="440"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,12,0,0">
+            <Button x:Name="Later" Content="Local mode" Click="Later_Click" Style="{StaticResource G.Button}" Padding="14,8"/>
+            <Button x:Name="Connect" Content="Verify and continue" Click="Connect_Click" IsDefault="True"
+                    Style="{StaticResource G.Button}" Padding="14,8" Margin="10,0,0,0"/>
+        </StackPanel>
+    </StackPanel>
+</Window>

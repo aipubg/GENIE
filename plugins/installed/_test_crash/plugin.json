@@ -1,0 +1,18 @@
+{
+  "id": "test_crash",
+  "name": "Crash isolation test fixture",
+  "version": "1.0.0",
+  "description": "Test fixture: its adapter terminates the host process on invoke, proving a plugin crash cannot take down the daemon.",
+  "entry": "adapter.py",
+  "platforms": ["windows", "linux", "macos"],
+  "permissions": ["application.test.control"],
+  "capabilities": [
+    {"name": "die", "description": "Terminate the plugin host process",
+     "permissions": ["application.test.control"], "timeout_ms": 5000},
+    {"name": "raise", "description": "Raise an exception inside the adapter",
+     "permissions": ["application.test.control"], "timeout_ms": 5000},
+    {"name": "ok", "description": "Return normally",
+     "permissions": ["application.test.control"], "timeout_ms": 5000}
+  ],
+  "author": "GENIE", "license": "MIT", "first_party": true
+}

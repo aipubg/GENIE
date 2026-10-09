@@ -1,0 +1,719 @@
+# GENIE connected capabilities
+
+## CURRENT ACCEPTANCE — 2026-10-09
+
+The model-facing catalog has **44 tools**. Generic browser interaction and disposable upload are fixture accepted (19/19). Faster-Whisper small is provisioned at the canonical persistent model path with pinned revision/checksums; packaged Python loaded it and `/api/status` reports STT ready/loaded. Full pytest passed **1,781** (79 deselected, 1 warning); build-match **34/34**; WPF Release **0 warnings / 0 errors**; runtime sync **263 files**, parity passed at source commit `6f2bb7ec217a`. Packaged daemon `/health` and `/api/status` pass, ready, `director: needle` (12/12 smoke), Laya shadow-only/not routing. The current Preview EXE process launched, but the native UI surface was unavailable. C: disk query passed through the daemon and matched `Get-Volume`. Ordinary Chat returned an explicit mock/demo response, not a real model answer. Real owner GUI workflows remain pending; see `OWNER_FINAL_ACCEPTANCE.md`.
+
+## HISTORY — retained repair records
+
+Previously recorded connectivity evidence is retained below as history.
+
+GENIE CONNECTED CAPABILITIES
+Codebase Connectivity Audit
+Date: 2026-10-05 (Asia/Colombo; dated artifacts retain their original filenames)
+Repository: E:\G3\GENIE
+Branch recorded in source context: upgrade/genie-continuity-ui
+
+
+ROOT CONNECTIVITY REPAIR PASS (2026-10-07)
+=========================================
+Supersedes the connectivity claims below for the specific edges named. Evidence
+is unit/contract execution plus runtime sync/build-match; real owner workflows
+are NOT claimed.
+
+CONNECTED (code-level, with test evidence):
+- Canonical runtime capability manifest (E23/B03). One authority derived from
+  SCOPE_BY_CAPABILITY + planner.CHAINS + verifier.REGISTRY/READ_ONLY; the
+  conversational catalog is generated from it. 41 tools exposed.
+- Generic input now model-reachable: input_type, input_hotkey (allow-listed),
+  input_scroll, input_click (grounded on an observed rect), input_drag.
+- Browser session/mode selection (browser_session) plus browser_scroll,
+  browser_upload, browser_download, browser_downloads.
+- Grounded visual action surface (desktop_visual_action): click/focus/type/key/
+  hotkey/scroll/select/verify through the canonical input authority.
+- Visual provider policy wired (E31/B04): provider policies load into the
+  effective PolicyRegistry; a vision provider is discovered and elevated for the
+  single owner-approved request only. SECRET/RESTRICTED never elevatable.
+- Browser session affinity (E37/B05): task-scoped session binding; owner_existing
+  fails closed without verified CDP attach; default/named are handoff-only.
+- Streaming durable mission reaches MissionRunner + schedule setup (E53/B01).
+- Live perform_task escalates unmatched actionable requests (B07).
+- Automatic UIA -> grounded visual escalation with TARGET_NOT_EXPOSED_BY_UIA (B06).
+- Ungrounded "done" prevented; compact bounded tool results (B02/B10).
+
+- Message transaction semantics: action tokens cannot become message text; recipient +
+  message + window/PID + conversation + composer + transaction ID bound separately from
+  the Enter/Send action.
+- Observational memory (E60/B08): bounded local summaries reach ContextCompiler through
+  the same memory authority; no titles, no screenshots; repeated evidence required.
+- Mission action objectives (B09): reasoning/artifact/action classification; action and
+  artifact objectives require a VERIFIED execution receipt.
+
+TESTS: message_transaction 28/28, observation_memory 26/26, mission_objective 20/20,
+capability_manifest 11/11, session_affinity 9/9, visual_policy 17/17,
+visual_escalation 13/13, tool_result_budget 15/15, execution_parity 16/16,
+browser_mode 22/22, desktop_awareness 31/31, website_task 23/23,
+injection_boundary 16/16. Sync 259 files; build-match 34/34; WPF Release 0/0.
+
+CURRENT WORKFLOW REPAIR AND BOUNDED ACCEPTANCE
+============================================
+This section supersedes older current-state claims below. Historical evidence is
+preserved, not replaced. The complete owner objective is STILL NOT accepted.
+
+ACTUAL PREVIEW GUI, CONFIGURED CLOUD MODEL, REAL LOCAL APP:
+- trace_fe4577151231: inspect GENIE Acceptance Editor, replace Acceptance text,
+  invoke Save fixture, reobserve. Independent publish/acceptance.txt contains
+  exactly Workflow verified 2026-10-03. No personal Notepad document touched.
+- trace_7f7a67d12568: exact Fixture recipient and draft displayed in the real
+  confirmation dialog; expired approval correctly prevented submission.
+- trace_5238b2faa103 (history 355/356): message.prepare and message.send through
+  ordinary Chat both verified. Dialog displayed Fixture recipient and exact text
+  Fixture message 2026-10-04. After local-test approval the composer cleared,
+  outgoing text appeared and publish/messages.txt independently contains exactly
+  Fixture recipient: Fixture message 2026-10-04. Natural final reported submitted,
+  not delivered. No personal WhatsApp contact or external account was modified.
+
+MESSAGE TRANSACTION IMPLEMENTATION:
+- Canonical message.prepare snapshots exact observed header/composer/Send from
+  one HWND/PID, refuses ambiguous recipient or replacing an unrelated draft.
+- Canonical message.send is owner/device/session/agent-bound, expiring and single
+  use. Exact recipient/draft rechecked after approval. COM invocation is attempted
+  once; uncertain results never retried. Shared desktop lease is acquired AFTER
+  confirmation, not held while the owner decides. Cancellation is rechecked.
+- Local outgoing text + cleared composer proves submitted only. Sent, delivered,
+  and read remain unknown without application-specific evidence.
+
+OTHER VERIFIED IMPLEMENTATION / ISOLATED TESTS (NOT UNIVERSAL GUI PASS):
+- New shared tools desktop_prepare_message, desktop_send_message,
+  desktop_focus_window, desktop_visual_observe, desktop_visual_click use the same
+  canonical permission/execution path. Direct generic Send invokes are redirected
+  to the exact-recipient/draft transaction, not executed on a guessed target.
+- Hinglish compound app requests preserve the full request for tool reasoning.
+  Store/install/download requests no longer become video playback because of
+  Play Store; media keyword substrings no longer match page as next-track age.
+- Voice negotiates rates/channels on the SELECTED device and converts streaming
+  PCM to/from Gemini 16/24 kHz. Real packaged Realtek output rejected those wire
+  rates; 44.1 kHz callback output opened and played 150 ms of silence successfully.
+  Explicit device choices are never replaced silently. Stop/interruption flushes
+  converted audio. Capturing/device_verified now require an actual open stream.
+  This proves output transport, NOT microphone -> task -> audible response.
+- Real isolated browser/CDP/ComputerService fixture PASS, 22.23 s: replacement,
+  contenteditable, accessible-name buttons, navigation, local confirmation,
+  ambiguous/no-op rejection and password exclusion. Scripted model; not GUI Voice.
+- Gemini REST provider: old gemini-2.5-flash returned account-availability HTTP404.
+  Added official gemini-3.8-flash template without removing legacy/user models;
+  actual provider test PASS, 8485 ms. Saved credentials/policies were not changed.
+  Catalog and pricing sources: https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash
+  and https://ai.google.dev/gemini-api/docs/pricing (2026-10-05; prices need review
+  before January 2027). Gateway screen eligibility is separately constrained.
+
+LAYA ISOLATED EVALUATION:
+- Original pinned Laya source/model, warm isolated CPU worker, offline checkpoint,
+  bounded deadline/cooldown, optional off/shadow/assist integration in Director.
+  Heuristic-fast stays first; NEDLE2 retained. Laya cannot directly execute tools.
+- Real 20-case eval: 10/20 correct (50%), cold ready 22274.29 ms, warm median
+  94.0 ms versus baseline Needle 836.72 ms. Some wrong routes highly confident.
+  Therefore Laya remains OFF; faster inference is not reliable task acceptance.
+
+REGRESSION / DELIVERY:
+- Final configured full suite: 1760 passed, 79 deselected, one audioop deprecation
+  warning, 376.36 s; zero failures. artifacts/workflow-final-pytest-20261005.xml.
+- Runtime synchronized 258/258; final build-match 34/34. Earlier concurrent probe
+  failures did not recur after tests finished. WPF rebuilt, 0 warnings/errors. Exact
+  source-built Preview restarted and packaged /api/status ready=true confirmed.
+- Counts: 123 ComputerService IDs, 30 shared tools, 32 Live declarations. Counts
+  do not prove acceptance. Each ID has one row in workflow_runs[].capabilities in
+  artifacts/connectivity-production-evidence.json; old 119-ID evidence retained.
+- New evidence: browser-workflow-20261004.json, live-workflow-20261004.json,
+  live-workflow-20261005.json, laya-routing-20261003.json, dated pytest XMLs.
+  Latest Live failures are preserved in the UNCONNECTED report, not hidden.
+
+HISTORICAL TOOL-BRIDGE REPAIR AND ACCEPTANCE (2026-10-03)
+=======================================
+Scope: the raw-tool-JSON defect is repaired and real execution is demonstrated.
+The COMPLETE WhatsApp recipient/compose/confirm/send workflow is NOT passed.
+This section supersedes older current-state claims and counts below.
+
+Reproduction and root cause:
+- Original persisted failure trace_c2ace75fe4b6 displayed two tool JSON objects.
+- Actual pre-fix GUI replay trace_8bf6c32943d8 executed desktop_windows, then
+  displayed prose plus find_application JSON instead of continuing the task.
+- The old dialogue parsed one textual object and passed mixed prose through.
+  Provider adapters discarded native tool calls; WPF and saved history mixed
+  progress into assistant text. This was not repaired by hiding JSON in a prompt.
+
+Production repair:
+- Completion carries structured tool_calls/tool_error/tool_protocol. Native Chat
+  Completions calls and Responses function_call/function_call_output are handled
+  at the provider boundary, retaining call IDs and continuation reasoning items.
+- Strict compatibility normalization exists ONLY at that boundary for endpoints
+  without declared native tool support. Full JSON objects, known legacy envelopes
+  and multiple calls are validated before ANY call in their batch can execute.
+  Mixed prose/raw JSON, unknown tools/fields, duplicate keys/IDs, invalid types,
+  partial data and non-finite values fail closed with one bounded model correction.
+- The shared Chat/Live dispatcher validates schemas/cancellation and uses the
+  existing permission-checked ComputerService. The bounded dialogue returns real
+  receipts to the selected model, supports multiple calls, and deduplicates native
+  call IDs. Confirmation/denial/uncertain outcomes stop safely. No new executor.
+- SSE progress is a distinct event; WPF renders status separately, ignores internal
+  event kinds and persists only final/token text. Old saved failures are preserved,
+  not silently rewritten. One status line is displayed during execution.
+- Ambiguous Windows targets include process, PID and class identity. Tool metadata
+  explains host/content selection and broadening a failed name search by type.
+
+Actual Preview GUI, real configured cloud model, real Windows/browser executor:
+- trace_04f49c535165: exact original WhatsApp request, 29.01 s approximate backend
+  interval. WhatsApp launched and UIA calls executed; final natural reply contained
+  no raw tool JSON or duplicate progress. Initial Search targeting still failed.
+- trace_dc4ca25c7cb1: actual window enumeration and WhatsApp Edit discovery,
+  16.82 s. Host HWND 2097462/PID 5748; rendered HWND 67000/PID 14044.
+  Search or start a new chat was found in the rendered content window.
+- trace_3605b365d36d: SAME-owner-session continuation set that Search field to
+  physics, verified by uia.set_value and an independent screenshot, 25.94 s.
+  Multiple matching chats were visible. No recipient was guessed, composer filled
+  or message sent. UIA did not expose the result names usefully in this run.
+- trace_75fdd51a9c48: navigate/observe/fill/click/reobserve via GUI, 39.44 s.
+  Local accessible_controls.html returned Applied: Bridge verified 2026-10-02.
+  browser.fill and browser.act both verified=true. Real cloud model, not a stub.
+Times above are first backend log to persisted reply, not microphone latency.
+
+Separate production HTTP SSE acceptance trace_2196622e9ecd: inspect_desktop ->
+desktop.observe and desktop_windows -> window.list both verified. One progress
+event, one natural final, done; 13.43 s from HTTP submission. Desktop metadata
+reported 1 display and 11 windows. This is NOT pixel understanding or a GUI test.
+
+Real Gemini Live diagnostic on 2026-10-02: desktop_controls then
+desktop_control(state), verified results returned to the same Live session,
+151680 bytes of reply audio and a natural transcript. Typed diagnostic input;
+no physical microphone, audible playback or transmitted screen frames tested.
+Xkiro models are declared general-only: GUI runs used strict compatibility mode
+with qwen/qwen3.8-max:free, not native OpenAI tool calls. Native Chat/Responses
+wire contracts are fixture-tested; real native function calls verified via Live.
+Action turns use complete() plus status events, not provider tool-delta streaming.
+Reference: https://developers.openai.com/api/docs/guides/function-calling
+
+Final configured suite: 1722 passed, 79 deselected, 1 audioop deprecation warning,
+375.90 s; zero remaining failures. Focused bridge/UIA/closure tests: 120 passed.
+Real isolated browser fixture: PASS, 22.08 s, including negative/confirmation tests.
+Runtime sync: 253/253, build-match: 34/34, WPF Release: 0 warnings/errors.
+UI SHA256: e6b23014e5be3977477cfd24e76a9350f1ed9ba451e7152a2942cb13d53e19cd
+Packaged daemon ready, owner session retained, credentials unchanged.
+
+Evidence: artifacts/connectivity-production-evidence.json, tool-stream-acceptance.json,
+tool-bridge-final-pytest.xml, browser_bridge_acceptance.json, live_tool_bridge_acceptance.json.
+Inventory: 119 canonical IDs, 25 shared tools, 27 Live declarations. Every ID appears
+in the reports; the evidence matrix assigns each ID once with its verification scope.
+Registration, unit coverage and direct-service checks are NOT universal GUI/Voice PASS.
+
+HISTORICAL REAL-INTERACTION ACCEPTANCE (2026-09-28)
+==============================================
+The two primary gates were exercised through actual source-built WPF Chat,
+using the GUI composer and Send/Enter, not only HTTP/direct-service tests.
+This section supersedes conflicting older acceptance and counts below.
+
+Production repairs:
+- WhatsApp open timeout: packaged AppsFolder launches had no expected executable.
+  Existing-window detection missed the already-running package and repeated the
+  same launch/wait across fallback strategies (about 82 seconds). Resolve each
+  candidate process's Windows ApplicationUserModelId, reuse its existing HWND,
+  and verify HWND/PID/package identity. Unknown post-launch outcomes stop retries.
+- WhatsApp accessibility: native HWND targeting avoids global UIA enumeration.
+  Immediate-child breadth-first traversal replaces pywinauto's eager descendants
+  scan. Depth 32 reaches WebView controls below the former depth 8; time/node
+  budgets, per-subtree errors and runtime-ID deduplication preserve diagnostics.
+  Duplicate host/content titles return candidates and require an observed HWND.
+- Browser fill: observed labels, unique visible editable targets, exact full-value
+  verification, replacement rather than append, and contenteditable support.
+  Hidden duplicates and ambiguous fields cannot receive arbitrary input.
+- Browser observe/click now use the same accessible label precedence. A real CDP
+  fixture reproduced failure for aria-label != inner text; the repaired path
+  activates that button and input[type=button]. Password values are not labels.
+- Consequential browser clicks use the existing owner confirmation service,
+  reobserve afterward and bind execution to tab/URL/document identity. Rejection
+  and changed-page cases cannot dispatch. The live confirmation UI itself is
+  still owner acceptance; the fixture approves only a local dummy submission.
+- Shared Chat/Live bridge and canonical ComputerService remain authoritative.
+  No duplicate executor, blanket permission grant, rc27 or Phase 2 was added.
+
+Actual GUI evidence (trace IDs; approximate first backend log -> persisted reply):
+1. SAME WhatsApp read-only request before/after repair:
+   trace_8b8a7ad8adf8: 99.64 s, application.open failed then UIA recovery.
+   trace_e49e3867c77b: 16.15 s, application.open verified, explicit HWND recovery
+   from ambiguity, one Search Edit found. No conversation selected or message sent.
+   Observed host HWND 722130/PID 16308/class WinUIDesktopWin32WindowClass;
+   content HWND 1443096/PID 4896/class Chrome_WidgetWin_1.
+2. WINDOWS INTERACTION GATE PASS: trace_4372a05fe2e7, 17.93 s.
+   Independent GENIE Acceptance Editor -> inspect Edit -> uia.set_value ->
+   invoke Save fixture -> inspect saved status. Independently read acceptance.txt:
+   exact contents "GENIE desktop interaction verified 2026-09-27".
+   Fixture source: tests/fixtures/desktop_editor; output beside its built EXE.
+3. WEBPAGE INTERACTION GATE PASS: trace_15c17a3aabb3, 21.10 s.
+   GENIE-owned browser -> local primitives_test.html -> observe Search box ->
+   fill -> click Go -> fresh page text "clicked:GENIE webpage interaction verified
+   2026-09-28". browser.fill and browser.act both verified=true.
+4. PUBLIC SITE CLICK PASS: trace_a7089beac776, 20.98 s.
+   example.com -> observed Learn more -> verified click -> reobserve IANA at
+   https://www.iana.org/help/example-domains. Final response used actual page text.
+5. PUBLIC SEARCH PARTIAL: trace_381e184d1026, 24.26 s.
+   Bing field filled and actual results read with WorkBuddy links. The model used
+   a results-URL fallback instead of the requested Search button. Do NOT classify
+   that exact button-submit workflow as passed.
+
+Real Gemini Live diagnostic: gemini-3.8-live called desktop_controls then
+desktop_control(state), both verified, returning selected=true, 107040 bytes of
+audio and transcript "The navigation control is selected." This used typed input
+and an isolated local ComputerService with production LiveSession/Daemon dispatch.
+It did NOT test WPF microphone input, audible playback or camera/screen frames.
+
+Evidence: artifacts/connectivity-production-evidence.json includes only the
+synthetic GUI prompts/replies, bounded tool/permission logs, model-call counts,
+timing scope, per-ID matrix and independent file verification. Separate artifacts:
+window-controls-acceptance.json, browser_bridge_acceptance.json (13.78 s real CDP
+fixture; scripted model, no GUI), live_tool_bridge_acceptance.json.
+
+Current surfaces: 119 registered IDs, 25 shared tools, 27 Live declarations.
+The matrix assigns every ID once; registration alone is not a passed connection.
+That configured full-suite repeat completed: 1699 passed, 79 deselected, one
+warning; artifacts/connectivity-interaction-final-pytest.xml records 371.818 s.
+Preceding repeat: 1699 passed, 79 deselected, one audioop warning, 373.38 s.
+This pass initially exposed two obsolete UIA fixtures using global windows and
+descendants mocks. Updated mocks to native-window/children boundaries while
+retaining title-match assertions; both pass. No production assertion was removed.
+13 new unit regressions cover HWND routing, bounded traversal, packaged reuse,
+uncertain launches and confirmation binding. Real browser negative tests retain
+expected failures for ambiguous/no-effect actions.
+
+Runtime sync: 252/252. Build-match: 34/34. WPF Release: 0 warnings/errors.
+Exact source UI DLL SHA256:
+a309dc4604416c278e8957c7dda51d17afbc289eaf3ac9b96bd1d620a88b2979
+Commit: 6f2bb7ec217abb58db0fe94f59c2bc7449f3e0c2 plus preserved working-tree changes.
+Packaged backend: E:\G3\GENIE\backend-dist\backend-runtime.
+Full owner-app/browser/voice acceptance is NOT complete; see the companion report.
+
+HISTORICAL VERIFIED REPAIRS (2026-09-27)
+====================================
+This section supersedes conflicting historical counts and acceptance below.
+Current surfaces: 119 ComputerService IDs, 25 shared Chat/Voice tools, 27 Live
+declarations (25 shared plus perform_task and recent_conversation).
+
+1. Real daemon UIA failure reproduced: Chat desktop_controls(window=GENIE)
+   returned element_not_found even though the standalone diagnostic read controls.
+   The per-request COM wrapper was replaced by a persistent MTA worker owning
+   pywinauto and its element registry. Reentrant calls stay on that worker and
+   per-request diagnostics are returned to the caller. Timed-out actions are
+   marked outcome-unknown and are not retried by the executor.
+   Before trace: trace_f2e5b4044c21. After: trace_b5f67aa0449d, 71 controls.
+2. Real production Chat -> desktop_controls -> desktop_control(select) ->
+   desktop_controls succeeded on GENIE's Chat navigation item. The final
+   observation returned selected=true. Trace: trace_3af7076fc5a3.
+   This was an HTTP Chat request driving actual WPF controls, not manual GUI
+   message entry, and does not prove arbitrary third-party UI compatibility.
+3. Shared browser bridge now reads ActionResult.verified, not nonexistent
+   top-level verify. Executor error/error_code fields in data reach both Chat
+   and Live. Same-page browser actions compare observed content/control state;
+   ambiguous or covered controls are rejected. A pre-existing destination tab
+   no longer proves a new-tab click worked; expect_same_page is not proof.
+   Real isolated CDP + ComputerService + owner grants passed menu click,
+   draft fill, navigation via scripted Chat model, no-effect rejection and
+   duplicate-label rejection in 6.91 seconds (final repeat: 11.92 seconds). Evidence:
+   artifacts/browser_bridge_acceptance.json; scripts/verify_browser_bridge.py.
+   Final production Chat also navigated example.com -> IANA, with browser.act
+   ok=true/verified=true and a fresh browser.observe afterward. Trace:
+   trace_830ac2492010 (approximately 20 seconds, five reasoning calls).
+4. Nontrivial reasoning has access to the shared tool loop even without a
+   matching action keyword. Greetings and history-only questions stay separate.
+   App-interaction and constrained requests no longer collapse to application.open.
+   Explicit "do not launch" discovery request was reproduced and rerouted.
+   Trace trace_3c99a2f1f1b7 found WhatsApp's installed MSIX registration, read
+   registered browsers, and did not launch an application. WorkBuddy remained
+   undiscovered; this is not proof of absence from the machine.
+5. installed_browsers now returns actual HTTP and HTTPS defaults using Windows
+   association APIs. Both were Brave, verified through production Chat:
+   trace_2972bb49dfe4. No browser was opened by that read-only request.
+6. inspect_desktop moved into the shared catalog (one Live declaration), making
+   current desktop metadata available to typed Chat too. No screen pixels were
+   transmitted during this verification.
+7. Fresh /api/voice/test handshake PASSED for gemini-3.8-live. The historical
+   invalid-key entry is not a current Live blocker. A separate real Gemini Live
+   session called desktop_controls then desktop_control(state), reached the
+   production Daemon._live_tool/ComputerService bridge, received both verified
+   receipts and generated 314402 bytes of reply audio plus matching transcript.
+   Evidence: artifacts/live_tool_bridge_acceptance.json and
+   scripts/verify_live_tool_bridge.py. Input was typed diagnostic text. Microphone
+   capture, audible playback, barge-in and the WPF voice button remain untested.
+
+Validation: focused set 164 passed. Final configured full suite: 1686 passed,
+79 deselected, one audioop deprecation warning, 367.29 seconds. No failures.
+Evidence: artifacts/connectivity-final-pytest.xml. Hardware/owner markers and
+external_optional donor tests remain excluded by the existing pytest configuration.
+Runtime synchronized 252/252; build-match 34/34; WPF Release 0 warnings/errors.
+Source Preview restarted and running (PID 3632 at this check).
+Current per-ID matrix and bounded tool logs are exported by
+scripts/collect_connectivity_evidence.py to
+artifacts/connectivity-production-evidence.json. Unexercised IDs are explicitly
+UNVERIFIED_THIS_PASS, rather than being marked passed from registry membership.
+
+Windows API references used for default association implementation:
+https://learn.microsoft.com/windows/win32/api/shlwapi/nf-shlwapi-assocquerystringw
+https://learn.microsoft.com/windows/win32/api/shlwapi/ne-shlwapi-assocstr
+
+HISTORICAL REPORT (2026-09-25 AND EARLIER)
+========================================
+
+SCOPE AND CLAIM RULE
+====================
+This report records capabilities whose source connection path was traced to the
+shared permission-checked computer authority, or whose specific persistence/UI
+contract was exercised by tests. "CONNECTED IN SOURCE" is not the same claim as
+"validated against the owner's live Windows session." Live acceptance evidence
+and its limits are recorded below; no physical microphone, camera, personal
+browser profile, or destructive system operation is claimed as passed. The full
+registered computer inventory and unresolved capabilities are in
+GENIE_UNCONNECTED_CAPABILITIES.txt.
+
+AUDIT COUNTS (distinct layers; do not add them)
+===============================================
+119  ComputerService capability IDs in SCOPE_BY_CAPABILITY.
+24   shared model-facing bridge declarations in computer/tool_bridge.py.
+27   Gemini Live function declarations (the 24 shared declarations plus
+     perform_task, inspect_desktop and recent_conversation).
+1666 full-suite tests passed; 79 tests are deselected by pytest configuration;
+     one warning remains: Python audioop deprecation.
+16   previously reported failures reproduced and resolved/classified; no pytest
+     failures remain in the final configured suite.
+91   final targeted connectivity/browser/UIA/desktop regressions passed.
+
+LATEST FOLLOW-UP (2026-09-25)
+=============================
+Production Chat reproduced and fixed a browser interaction misroute. A
+multi-step request containing navigation, observation and click was being split
+by the deterministic website planner; unsupported prose clauses prevented the
+shared Chat tool loop from running. Such requests now defer as one turn to
+bounded tool reasoning instead of executing a partial plan. Typed Chat does not
+require provider-native function calling because it uses a validated JSON tool
+protocol.
+
+The live Chat path exposed an OpenAI-compatible provider wrapper:
+<minimax:tool_call><tool_call>{JSON}</tool_call>. The bounded loop now parses a
+single complete wrapped JSON payload, then validates the tool name and dispatches
+only through the shared permission-checked bridge. Unknown/malformed or multiple
+tool blocks are not executed. GENIE-owned-browser routing is explicit:
+read_web_page controls GENIE's browser; open_named_browser is an OS handoff for
+an installed Windows browser.
+
+Added `browser_fill`, routed to existing `browser.fill` and the same
+ComputerService trust/executor/verifier path. It requires an exact observed
+field label, enters a draft only, and never submits or sends. `browser.act` uses
+observed element bounds plus trusted CDP mouse events, requires an observable
+effect, and checks for a new CDP tab when an anchor opens `_blank`. After an
+unverified click, Chat observes once and will not repeat the click. A Windows
+EnumWindows callback contains per-window metadata exceptions.
+
+Live evidence: source Preview PID 6672 + packaged backend `/health` ready, UIA
+available through pywinauto, runtime root `backend-dist/backend-runtime`, source
+commit `6f2bb7ec217a`. A production Chat request used the corrected tool loop,
+clicked the public `example.com` “More information...” link once, observed the
+result, and reported verified title `Example Domains` and URL
+`https://www.iana.org/help/example-domains` (trace `trace_a309e8137504`, 76.4 s).
+Browser status independently showed the same URL/title. This is PASS for that
+GENIE-owned public-page workflow only. No WhatsApp private content/message was
+accessed. Google reports the saved Gemini credential as invalid (HTTP 400); its
+value is not recorded. No Gemini Live microphone/function call was made.
+
+Final configured suite: 1666 passed, 79 deselected, one `audioop` deprecation
+warning (366.61 s). Focused connectivity set: 91 passed. Runtime sync 252/252,
+build-match 34/34 and WPF Release build (0 warnings/errors) passed after the
+final changes.
+
+LIVE ACCEPTANCE (2026-09-24)
+===========================
+The actual source-built WPF process was started from
+ui/windows/Genie.Desktop/bin/Release/net8.0-windows/win-x64/Genie.Desktop.exe
+(window title GENIE; PID 17632 at verification). The packaged backend was
+restarted from backend-dist/backend-runtime/python/pythonw.exe and answered
+/api/status ready=true. Runtime root/app are the repository's backend-runtime,
+source commit 6f2bb7ec217abb58db0fe94f59c2bc7449f3e0c2, and owner session is
+"owner". Google Gemini reports configured with credential_present=true; no
+credential value is recorded. Provider used for ordinary typed Chat was Xkiro,
+not Gemini.
+
+Verified through the live production HTTP Chat path (/api/chat; same daemon
+Chat handler used by WPF, but not a manual WPF control interaction):
+  * "List the currently open desktop window titles" used deterministic
+    window.list, returned a real inventory in 384 ms, and created no Mission.
+    Before the repair the request was misrouted to application.open("list").
+  * Read-only WorkBuddy AI discovery ran for 2.139 s and correctly reported no
+    match in this machine's refreshed app index; no app was launched.
+  * Official Gemini Live documentation web search returned a source URL and
+    grounded page content. End-to-end latency was approximately 50 s because
+    the active Xkiro provider returned HTTP 500 twice before gateway failover.
+  * Gemini Live connection handshake passed twice (model gemini-3.8-live);
+    microphone/audio capture was not opened.
+  * After packaged-backend restart, /api/status reports UIA available=true,
+    backend=pywinauto. A separate fresh packaged-interpreter probe enumerated
+    actual top-level windows. The earlier cached COM startup failure is repaired.
+
+The desktop awareness service reports running, unpaused, one display and local
+preview enabled. No screen pixels were uploaded; no actual Gemini Live function
+call, WPF button/send interaction, microphone turn, camera capture or owner
+browser-profile action is claimed as passed. The unconnected report lists each.
+
+1. SHARED TYPED CHAT AND GEMINI LIVE TOOL PATH
+==============================================
+Canonical execution authority:
+  computer/tool_bridge.py
+  computer/service.py::ComputerService.execute
+  computer/planner.py
+  computer/executor.py::Executor.execute / _dispatch
+  security/trust.py and core/hardening.py
+  computer/verifier.py
+
+Typed Chat path:
+  WPF Chat -> core/lifecycle.py::chat / stream_chat -> core/orchestrator.py
+  -> deterministic decision or bounded core/tool_dialogue.py loop
+  -> computer/tool_bridge.execute -> ComputerService.execute
+  -> trust + safe-mode checks -> plan -> executor -> verification receipt
+  -> orchestrator reply -> persisted session history.
+
+Gemini Live path:
+  microphone/Live session -> voice/live.py::LiveSession -> Gemini function call
+  -> core/lifecycle.py::_live_tool -> same tool_bridge and ComputerService;
+  perform_task routes through orchestrator.handle_direct_action, and
+  inspect_desktop routes through desktop.observe. Function result is returned to
+  the same Live session. Call IDs are receipt-cached so an uncertain replay does
+  not dispatch the side effect a second time.
+
+The 24 shared declarations and their source-level purpose:
+  audio_devices          -> system.audio.devices; enumerate actual devices.
+  browser_click          -> browser.act on an observed target via trusted CDP
+                            mouse input and verified outcome.
+  browser_fill           -> browser.fill using an observed label; draft only.
+  browser_observe        -> browser.observe plus gate/accessibility context.
+  browser_switch_tab     -> browser.tab_switch by observed tab ID.
+  browser_tabs           -> browser.tabs_list for authorized CDP session only.
+  create_folder          -> redirected user folder resolution -> files.mkdir.
+  desktop_control       -> revalidated UIA element -> uia read/state/focus/invoke/
+                           set_value/set_toggle/select; sensitive changes use
+                           single-use local owner confirmation.
+  desktop_controls      -> uia.find in one exact observed window.
+  desktop_windows       -> window.list of actual top-level windows.
+  file_locations        -> files.locations (real redirected user folders).
+  find_application      -> application.resolve; ambiguity does not launch a
+                           guessed candidate.
+  find_files            -> files.find bounded to the selected root.
+  installed_browsers    -> browser.installed discovery.
+  list_files            -> files.list non-recursively at a chosen location.
+  network_status        -> system.network.state (read-only interface status).
+  open_application      -> application.open through the app index/executor.
+  open_default_browser  -> OS URL handoff to actual Windows default association;
+                           receipt explicitly does not claim page verification.
+  open_named_browser    -> exact registered browser URL handoff; not CDP proof.
+  open_windows_settings -> validated Settings URI.
+  read_web_page         -> browser.navigate -> gate check -> browser.extract.
+  search_web            -> bounded HTTPS search navigation -> gate check -> page
+                           extraction, with source URL and untrusted-data notice.
+  set_mute              -> system.volume.mute.
+  set_volume            -> validated integer 0..100 -> system.volume.set.
+
+Additional Live functions:
+  perform_task          -> deterministic direct action/orchestrator route; it is
+                           not a universal unrestricted capability executor.
+  inspect_desktop       -> local desktop observation; labelled frames are sent
+                           only when remote visual consent is enabled.
+  recent_conversation   -> last six shared owner-session turns.
+
+Source connectivity evidence: declaration names are checked against the Live
+dispatch set; all bridge functions call the existing ComputerService rather than
+creating a second executor. ComputerService enforces PTE scope, safe mode and
+high-risk confirmation; UIA elements expire and are revalidated before action.
+The model receives the current bridge catalog, and tool/page text is fenced as
+untrusted evidence. Direct actions do not require a durable Mission; larger
+multi-step work follows the orchestrator/Mission path.
+
+Permission/dependency notes:
+  - Owner grant, safe-mode policy, exact UIA element and Windows integrity level
+    determine availability. A code path is not authorization.
+  - Browser CDP tools address only the authorized GENIE/CDP session. A named or
+    default URL handoff does not guarantee access to an existing signed-in tab.
+  - Search requires a configured provider for typed model planning and an
+    available browser/search endpoint; site gates/CAPTCHA stop the action.
+  - Gemini Live requires a valid Gemini credential, network, audio devices and
+    owner-started Live session. No microphone was opened in this audit.
+
+2. CONVERSATION, HISTORY AND MISSION CONTRACTS
+==============================================
+Conversation archive:
+  core/session_store.py persists bounded owner-session turns in the database;
+  core/lifecycle.py writes typed turns and voice/live.py records Live turns into
+  the same owner conversation store. History API supports pagination and clear.
+  Verification exercised archive pagination, session isolation and persistence
+  across database reopen in tests/unit/test_connectivity_closure.py.
+
+Mission lifecycle:
+  missions/service.py owns durable records; missions/runner.py executes a
+  bounded plan through the shared worker; missions/scheduler.py handles due
+  schedules; missions/control.py resolves pause/resume/cancel; IPC exposes list,
+  plan, progress, run, pause, resume, cancel and delete. Deletion rejects active
+  work and accepts settled work. The WPF Missions delete action is enabled only
+  for history/settled rows. Unit coverage verified settled-only deletion and
+  that routine direct app actions do not create durable Missions.
+
+3. COMPUTER AND BROWSER CONNECTION CONTRACTS
+============================================
+ComputerService exposes 119 IDs through one PTE/safe-mode/planner/executor path.
+Its API reports the inventory and health; this audit does not claim 119 physical
+operations individually executed. The audited tool bridge exposes the shared
+subset listed above. Remaining IDs, owner/session limitations and missing
+first-class controls are explicitly enumerated in the companion report.
+
+Browser files and route:
+  browser/service.py, browser/cdp.py, browser/targets.py, browser/mode.py,
+  browser/default_browser.py, browser/discovery.py, browser/website_task.py,
+  director/heuristics.py, core/orchestrator.py.
+  Existing owner profile and GENIE-owned profile are intentionally distinct.
+  Identity checks forbid silently attaching to an unrelated CDP port; browser
+  website tasks are bounded and use PLAN/ACT/OBSERVE/VERIFY. Page instructions
+  remain untrusted. URL handoff, CDP page action and verified playback are
+  distinct result types.
+
+4. OTHER SOURCE-CONNECTED SERVICE BOUNDARIES
+============================================
+Providers/models:
+  models/registry.py, models/gateway.py, models/provider_http.py,
+  models/providers/*.py, security/vault.py, Settings API/UI. Provider metadata
+  and model roles are persisted; secrets are referenced from the vault, not
+  returned by provider-list APIs. Gemini credential presence and a Live
+  connection handshake passed. Ordinary Chat used Xkiro; its first two model
+  attempts returned HTTP 500 before fallback. Other provider keys/model APIs
+  were not tested.
+
+Memory/context:
+  memory/service.py, memory/observations.py, context/builder.py,
+  context/compiler.py. Chat context and memory have separate paths; observation
+  collection is local-policy-controlled. No claim that every past conversation
+  is model context or that arbitrary desktop activity is retained.
+
+Desktop awareness and screen transfer:
+  computer/desktop_awareness.py -> UI/API -> lifecycle Live screen provider.
+  Local observation and cloud pixel transfer are distinct. Remote pixels require
+  remote_visual_consent and an active Live session; this audit did not transmit
+  screen frames. Screen sharing is sampled preview, not frame-perfect video.
+
+Skills, agents, plugins and devices:
+  skills/{service,runtime,registry}.py; agents/{service,runtime,team,continuation}.py;
+  plugins/{registry,service,client,host}.py; devices/{service,registry,node,sync}.py.
+  HTTP/UI controls and worker/service paths exist. Tool execution still crosses
+  each subsystem's own permission/registration checks and shared computer/device
+  executors. Individual installed plugin, remote device, skill, agent-team or
+  external MCP service is not counted as available without its dependency and
+  grant. Plugin registry intentionally ignores `_test_*` fixture directories.
+
+Perception/camera:
+  perception/service.py, perception/camera.py, perception/local_monitor.py and
+  IPC perception/local-awareness routes. Camera access is zone-policy and
+  indicator controlled; sessions are bounded. Cloud webcam use is a separate
+  consent. Camera hardware/doorbell acceptance was not performed.
+
+Other surfaced services:
+  knowledge/service.py, experience/*, forecast/service.py, proactive/service.py,
+  competition/*, security/*, integrations/* and core/ipc/server.py. Each has
+  source-level service/API registration, but an API route alone does not prove
+  an owner-facing Chat tool or an active external integration. See companion
+  report for exact partially connected/blocked categories.
+
+5. TEST EVIDENCE AND MODIFICATIONS
+==================================
+Executed in this pass:
+  `py -3.12 -m pytest -q tests/unit/test_connectivity_closure.py
+   tests/unit/test_live_voice.py tests/unit/test_local_awareness.py
+   tests/test_packaged_runtime_bootstrap.py tests/unit/test_chat_interaction_xaml.py
+   tests/contract/test_computer_contract.py
+   tests/contract/test_ipc_api.py::test_chat_roundtrip_through_http
+   tests/contract/test_ipc_api.py::test_missions_endpoint_lists_created_mission
+   tests/e2e/test_chrome_open.py`
+  Result from the final complete configured suite:
+  `py -3.12 -m pytest -q` -> 1666 passed, 79 deselected, 1 warning, 366.61s.
+  Remaining warning: `audioop` is deprecated and scheduled for removal in
+  Python 3.13. No failures remain in the configured suite.
+
+  Direct WPF Release build with bundled .NET SDK: succeeded, 0 warnings,
+  0 errors. The Git-Bash wrapper could not attach its WSL virtual disk in this
+  shell, so the equivalent direct SDK build was used.
+  scripts/sync_backend_runtime.py: 252 files synced and check passed.
+  scripts/verify_build_match.py: 34/34 passed. Installed UI copy is absent;
+  source-built UI is the running Preview. The packaged backend reports ready.
+
+Confirmed code fix in this pass:
+  computer/executor.py now passes CallContext.dry_run to computer/planner.py.
+  Dry-run planning for application.open no longer depends on that application
+  being installed; real execution still requires app discovery. The stale Chrome
+  tests now reflect the direct-action/no-durable-Mission contract.
+  The generic open-window inventory now routes to the existing `window.list`
+  executor instead of treating "list" as an application. UIA no longer caches
+  transient COM-not-initialized errors permanently. Monitor lookup safely falls
+  back when Windows returns a null monitor handle.
+
+Prior 16-test failure classification (reproduced before final suite):
+  * 1 production defect: application.open dry-run looked up a live app before
+    returning its dry-run receipt; planner/executor now propagate dry_run.
+  * 4 IPC/Chrome expectations: tests expected a durable Mission for deterministic
+    one-shot actions; assertions now match the no-Mission contract.
+  * 1 coding-mission fixture: workspace creation now tolerates a pre-created root.
+  * 8 plugin tests: `_test_*` fixture folders were correctly excluded by the
+    production registry; tests now copy/rename fixtures into isolated temporary
+    production-style install names.
+  * 1 packaged-runtime test processes pywin32 .pth paths and verifies embedded
+    pywin32/pywinauto imports.
+  * 1 snapshot-test race was isolated to its local Windows API reference so
+    DesktopAwareness polling cannot mutate the test's fake foreground window.
+  No production behavior was changed merely to satisfy fixture naming.
+
+Working-tree preservation:
+  This repository had extensive staged, unstaged and untracked owner work before
+  the audit. Nothing was reset, cleaned or discarded. New reports and the master
+  context update are additive.
+
+FINAL INVENTORY SUMMARY
+=======================
+Computer executor registry: 119 IDs. Source-connected Chat/Live declarations:
+24 shared bridge tools, 27 Live function declarations. All 119 IDs are
+accounted for in one of these two TXT reports; no duplicates are treated as new
+capabilities merely because a service appears in both registration surfaces.
+Full configured suite: 1666 pass, 79 deselected, 1 deprecation warning. A public
+GENIE-owned browser click is live-verified through Chat. WhatsApp UIA use,
+Gemini microphone/function call, screen transfer and personal-browser acceptance
+remain pending. See
+GENIE_UNCONNECTED_CAPABILITIES.txt for all operationally unverified and missing
+capabilities, including the complete 119-ID register.
+AUTONOMOUS COMPLETION LOOP (2026-10-07, third pass)
+==================================================
+- The real daemon starts and serves: /health {"ok": true}, /api/status ready=true.
+- REAL system workflows verified through the live daemon with measured latency:
+  volume 25 (146 ms), mute (143 ms), network status (1559 ms), inspect desktop
+  (14 ms), notepad (1184 ms).
+- ApplicationInteractionContext (computer/app_context.py) + app.context.bind /
+  app.context.status registered and model-exposed (43 tools).
+- Two real routing defects found and fixed: "audio devices" -> browser.media.play,
+  and network/desktop read requests falling through to conversation with no tool.
+- Observation-memory acceptance with the real DB/DPAPI/compiler: 25/25.
+
+FINAL NON-OWNER COMPLETION PASS (2026-10-07, fourth pass)
+==================================================
+- window.close: REAL verifier added (destroyed = pass; minimized / hidden /
+  still-open = fail). Previously unverified.
+- browser.select (browser_select): now model-reachable through the canonical
+  manifest; matches option value or text, case-insensitively. Catalog: 44 tools.
+- browser.upload: canonical `files` contract honoured; empty/blank/missing/
+  directory arguments rejected. (Previously `Path("")` silently attached ".")
+- GENIE-owned browser: launches and yields a reachable CDP endpoint on the default
+  profile (root cause was a relative --user-data-dir). act() re-activates the target
+  before synthetic input and keeps a verified DOM-activation fallback.
+- B02 no-receipt guard now judges the owner's utterance, not the packed context
+  prompt, so ordinary conversation is answered normally again.
+- Real acceptance: browser/upload 19/19; real Notepad app acceptance 13/13;
+  p1_final_repairs_test 32/32.
+- Packaged runtime is Python 3.12.6: director engine = needle (real NEDLE2),
+  voice mode = gemini-live, audioop + sounddevice present.
+- Laya: PROVISIONED AND RUNNING in SHADOW mode (pinned source + pinned checkpoint,
+  Apache-2.0). Measured routable accuracy 40% vs heuristic baseline 63.33%, so it is
+  NOT activated for routing.

@@ -1,0 +1,45 @@
+# GENIE backend runtime dependencies.
+#
+# These are the third-party packages the daemon actually imports at runtime,
+# derived by scanning imports across core/, models/, agents/, missions/,
+# memory/, skills/, devices/, security/, voice/, context/, director/,
+# computer/, plugins/ and the entrypoints.
+#
+# This is deliberately NOT `pip freeze` of a developer environment: that
+# environment also carries torch, scipy, onnxruntime, notebook stacks and GUI
+# frameworks that GENIE never imports. PyInstaller walks everything installed,
+# so a polluted interpreter both bloats the bundle and crashes analysis.
+#
+# Install into a dedicated build venv:
+#     py -3.12 -m venv .build\backend-freeze-venv
+#     .build\backend-freeze-venv\Scripts\python -m pip install -r requirements-runtime.txt -r requirements-build.txt
+#
+# NEDLE2 is GENIE's local Director. It needs BOTH:
+#   * cactus-needle  - the Python package (imported as `needle`)
+#   * libneedle.dll  - the ~14 MB native engine, provisioned at runtime into
+#                      %LOCALAPPDATA%\GENIE\runtime\needle2
+# Without the Python package the Director silently falls back to `heuristic`,
+# which is a degraded fallback and NOT acceptable as a healthy packaged default.
+# Note: this entry made PyInstaller's analysis segfault (its native-stack hooks);
+# with the embeddable runtime that constraint no longer applies.
+
+cactus-needle==2.0.15
+comtypes
+jsonschema
+numpy
+pywinauto
+pyserial
+sounddevice
+google-genai==2.25.0
+Pillow
+opencv-python-headless==5.0.0.93
+vosk
+cryptography
+
+# Live multilingual speech recognition (faster-whisper/CTranslate2). Used by
+# voice.providers.FasterWhisperSttProvider — the optional per-user Vosk model is en-us
+# (English-only) and cannot serve the owner's Hindi/Hinglish speech.
+faster-whisper
+ctranslate2
+tokenizers
+av

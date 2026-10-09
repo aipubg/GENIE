@@ -1,0 +1,975 @@
+<UserControl x:Class="Genie.Desktop.Views.SettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:Genie.Desktop.ViewModels"
+             d:DataContext="{d:DesignInstance Type=vm:SettingsViewModel}"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="24">
+
+            <!-- Section: General -->
+            <TextBlock Text="General" FontSize="32" FontWeight="SemiBold"/>
+            <TextBlock Text="Providers and voice live in the backend, not on this machine."
+                       Foreground="{StaticResource G.TextMid}"
+                       Margin="0,4,0,0"/>
+
+            <!-- Section: AI models / routing -->
+            <TextBlock Text="AI models" FontSize="20" FontWeight="SemiBold" Margin="0,28,0,8"/>
+            <TextBlock TextWrapping="Wrap" Foreground="{StaticResource G.TextMid}" Margin="0,0,0,8">
+                <Run Text="GENIE routes each request to the best available model automatically"/>
+                <Run Text=" — by capability, health and cost. You only configure providers and models below; there is no role to pick."/>
+            </TextBlock>
+
+            <!-- Section: Providers -->
+            <Grid Margin="0,28,0,8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="Providers" FontSize="20" FontWeight="SemiBold"/>
+                    <TextBlock Text="Each provider is the connection to one AI service. Keys live in the backend vault."
+                               Foreground="{StaticResource G.TextMid}" Margin="0,2,0,0"/>
+                </StackPanel>
+                <!-- Compact add action (section 3). Opens the provider sheet. -->
+                <Button Grid.Column="1" Padding="14,7" VerticalAlignment="Center"
+                        Style="{StaticResource G.ButtonPrimary}"
+                        Content="+ Add Provider"
+                        Command="{Binding OpenAddCommand}"
+                        Visibility="{Binding AddOpen,
+                                     Converter={StaticResource InverseBoolToVisibility}}"/>
+            </Grid>
+            <!-- Only REAL providers here. Test/stub providers are never mixed in;
+                 they appear under a diagnostics heading in Advanced mode. -->
+            <ItemsControl ItemsSource="{Binding ProductionProviders}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="0,4" Padding="12,10"
+                                Background="{StaticResource G.Surface}"
+                                BorderBrush="{StaticResource G.LineSoft}"
+                                BorderThickness="1" CornerRadius="6">
+                            <StackPanel>
+
+                                <!-- Compact row: name, runtime status, credential, models, actions.
+                                     Deliberately one line so a long provider list stays scannable. -->
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding DisplayName}" FontWeight="SemiBold"/>
+                                    </StackPanel>
+
+                                    <!-- Automatic runtime status. GENIE decides eligibility; transient
+                                         issues recover on their own, so there is no owner toggle. -->
+                                    <StackPanel Grid.Column="1" Margin="12,0,0,0"
+                                                VerticalAlignment="Center">
+                                        <TextBlock FontWeight="SemiBold"
+                                                   Foreground="{Binding RuntimeStatus, Converter={StaticResource StatusToBrush}}"
+                                                   Text="{Binding StatusLabel}"/>
+                                        <TextBlock FontSize="11" Foreground="{StaticResource G.TextMid}"
+                                                   Text="{Binding StatusDetail}"
+                                                   Visibility="{Binding StatusDetail, Converter={StaticResource StringToVisibility}}"/>
+                                        <TextBlock FontSize="11" Foreground="{StaticResource G.TextMid}"
+                                                   Text="{Binding CredentialText}"/>
+                                    </StackPanel>
+
+                                    <TextBlock Grid.Column="2" Margin="16,0,0,0"
+                                               VerticalAlignment="Center"
+                                               Foreground="{StaticResource G.TextDim}"
+                                               Text="{Binding ModelCountText}"/>
+
+                                    <StackPanel Grid.Column="3" Orientation="Horizontal"
+                                                Margin="16,0,0,0" VerticalAlignment="Center">
+                                        <Button Padding="12,5" Style="{StaticResource G.ButtonSmall}"
+                                                Content="Test"
+                                                Command="{Binding DataContext.TestProviderCommand,
+                                                          RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                CommandParameter="{Binding}"/>
+                                        <Button Margin="6,0,0,0" Padding="12,5"
+                                                Style="{StaticResource G.ButtonSmall}"
+                                                Content="Edit"
+                                                Command="{Binding DataContext.EditProviderCommand,
+                                                          RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                CommandParameter="{Binding}"/>
+                                        <Button Margin="6,0,0,0" Padding="12,5"
+                                                Style="{StaticResource G.ButtonSmall}"
+                                                Content="Delete"
+                                                Command="{Binding DataContext.DeleteProviderCommand,
+                                                          RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                CommandParameter="{Binding}"/>
+                                    </StackPanel>
+                                </Grid>
+
+                                <!-- Row status: test result, save result, or the delete warning. -->
+                                <TextBlock Margin="0,8,0,0" TextWrapping="Wrap"
+                                           Foreground="{StaticResource G.Cyan}"
+                                           Text="{Binding RowStatus}"
+                                           Visibility="{Binding RowStatus,
+                                                        Converter={StaticResource StringToVisibility}}"/>
+
+                                <!-- ================= Edit sheet =================
+                                     Only what the backend genuinely supports is editable.
+                                     A built-in provider keeps its shipped base URL; only a
+                                     custom endpoint is rewritten. The API key is never shown. -->
+                                <StackPanel Margin="0,12,0,0"
+                                            Visibility="{Binding IsExpanded,
+                                                         Converter={StaticResource BoolToVisibility}}">
+
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="140"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+
+                                        <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"
+                                                   Foreground="{StaticResource G.TextMid}" Text="Display name"/>
+                                        <TextBox Grid.Row="0" Grid.Column="1" Margin="8,0,0,6" Padding="8,6"
+                                                 Background="{StaticResource G.BgDeep}"
+                                                 Foreground="{StaticResource G.Text}"
+                                                 BorderBrush="{StaticResource G.Line}"
+                                                 Text="{Binding EditDisplayName, UpdateSourceTrigger=PropertyChanged}"/>
+
+                                        <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"
+                                                   Foreground="{StaticResource G.TextMid}" Text="Base URL"/>
+                                        <TextBox Grid.Row="1" Grid.Column="1" Margin="8,0,0,6" Padding="8,6"
+                                                 Background="{StaticResource G.BgDeep}"
+                                                 Foreground="{StaticResource G.Text}"
+                                                 BorderBrush="{StaticResource G.Line}"
+                                                 Text="{Binding EditBaseUrl, UpdateSourceTrigger=PropertyChanged}"
+                                                 IsEnabled="{Binding IsBuiltIn,
+                                                             Converter={StaticResource InverseBool}}"/>
+
+                                        <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"
+                                                   Foreground="{StaticResource G.TextMid}" Text="Replace API key"/>
+                                        <PasswordBox Grid.Row="2" Grid.Column="1" Margin="8,0,0,0" Padding="8,6"
+                                                     Background="{StaticResource G.BgDeep}"
+                                                     Foreground="{StaticResource G.Text}"
+                                                     BorderBrush="{StaticResource G.Line}"
+                                                     PasswordChanged="EditKey_PasswordChanged"/>
+                                    </Grid>
+
+                                    <TextBlock Margin="148,4,0,0" FontSize="11"
+                                               Foreground="{StaticResource G.TextDim}"
+                                               TextWrapping="Wrap" Text="{Binding KeyHint}"/>
+                                    <TextBlock Margin="148,2,0,0" FontSize="11"
+                                               Foreground="{StaticResource G.TextDim}"
+                                               TextWrapping="Wrap"
+                                               Visibility="{Binding IsBuiltIn, Converter={StaticResource BoolToVisibility}}"
+                                               Text="Built-in provider: the shipped endpoint is fixed. The key and saved models are yours to change."/>
+
+                                    <!-- Advanced (custom providers): the same settings used
+                                         when the provider was added, restored from the record
+                                         so they survive a relaunch. -->
+                                    <StackPanel Margin="0,10,0,0"
+                                                Visibility="{Binding Custom,
+                                                             Converter={StaticResource BoolToVisibility}}">
+                                        <TextBlock FontWeight="SemiBold"
+                                                   Foreground="{StaticResource G.TextMid}" Text="Advanced"/>
+                                        <Grid Margin="0,6,0,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="140"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"
+                                                       Foreground="{StaticResource G.TextMid}" Text="Auth scheme"/>
+                                            <ComboBox Grid.Row="0" Grid.Column="1" Margin="8,0,0,6"
+                                                      ItemsSource="{Binding DataContext.AuthSchemes,
+                                                                    RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                      SelectedItem="{Binding AuthScheme, Mode=TwoWay}"/>
+                                            <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"
+                                                       Foreground="{StaticResource G.TextMid}" Text="Discovery path/URL"/>
+                                            <TextBox Grid.Row="1" Grid.Column="1" Margin="8,0,0,6" Padding="8,6"
+                                                     Background="{StaticResource G.BgDeep}"
+                                                     Foreground="{StaticResource G.Text}"
+                                                     BorderBrush="{StaticResource G.Line}"
+                                                     Text="{Binding DiscoveryUrl, UpdateSourceTrigger=PropertyChanged}"/>
+                                            <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"
+                                                       Foreground="{StaticResource G.TextMid}" Text="Timeout (s)"/>
+                                            <TextBox Grid.Row="2" Grid.Column="1" Margin="8,0,0,6" Padding="8,6"
+                                                     Background="{StaticResource G.BgDeep}"
+                                                     Foreground="{StaticResource G.Text}"
+                                                     BorderBrush="{StaticResource G.Line}"
+                                                     Text="{Binding TimeoutText, UpdateSourceTrigger=PropertyChanged}"/>
+                                            <TextBlock Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"
+                                                       Foreground="{StaticResource G.TextMid}" Text="Custom headers"/>
+                                            <TextBox Grid.Row="3" Grid.Column="1" Padding="8,6"
+                                                     Background="{StaticResource G.BgDeep}"
+                                                     Foreground="{StaticResource G.Text}"
+                                                     BorderBrush="{StaticResource G.Line}"
+                                                     AcceptsReturn="True" Height="56"
+                                                     VerticalScrollBarVisibility="Auto" TextWrapping="Wrap"
+                                                     Text="{Binding HeadersText, UpdateSourceTrigger=PropertyChanged}"/>
+                                        </Grid>
+                                        <TextBlock FontSize="11" Margin="148,2,0,0"
+                                                   Foreground="{StaticResource G.TextDim}" TextWrapping="Wrap"
+                                                   Text="Custom headers: one per line as Name: Value. Used by Test Connection and Rediscover models."/>
+                                    </StackPanel>
+
+                                    <!-- Saved models for this provider -->
+                                    <TextBlock Margin="0,14,0,4" FontWeight="SemiBold"
+                                               Foreground="{StaticResource G.Text}"
+                                               Text="{Binding ModelCountText, StringFormat=Saved models ({0})}"/>
+                                    <ItemsControl ItemsSource="{Binding Models}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid Margin="0,3">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <StackPanel Grid.Column="0">
+                                                        <TextBlock Foreground="{StaticResource G.Text}"
+                                                                   Text="{Binding Label}"/>
+                                                        <TextBlock FontSize="11"
+                                                                   Foreground="{StaticResource G.TextDim}"
+                                                                   Text="{Binding CapabilityText}"/>
+                                                    </StackPanel>
+                                                    <Button Grid.Column="1" Padding="10,4"
+                                                            Style="{StaticResource G.ButtonSmall}"
+                                                            Content="Remove"
+                                                            Command="{Binding DataContext.RemoveModelCommand,
+                                                                      RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                            CommandParameter="{Binding}"/>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+
+                                    <!-- Manual model entry: the escape hatch when discovery is
+                                         unsupported or a model is missing from the provider list. -->
+                                    <Grid Margin="0,8,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Grid.Column="0" Padding="8,6"
+                                                 Background="{StaticResource G.BgDeep}"
+                                                 Foreground="{StaticResource G.Text}"
+                                                 BorderBrush="{StaticResource G.Line}"
+                                                 Text="{Binding ManualModelId, UpdateSourceTrigger=PropertyChanged}"/>
+                                        <TextBox Grid.Column="1" Margin="8,0,0,0" Padding="8,6"
+                                                 Background="{StaticResource G.BgDeep}"
+                                                 Foreground="{StaticResource G.Text}"
+                                                 BorderBrush="{StaticResource G.Line}"
+                                                 Text="{Binding ManualModelName, UpdateSourceTrigger=PropertyChanged}"/>
+                                        <Button Grid.Column="2" Margin="8,0,0,0" Padding="10,5"
+                                                Style="{StaticResource G.ButtonSmall}"
+                                                Content="+ Add model"
+                                                Command="{Binding DataContext.AddManualModelToProviderCommand,
+                                                          RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                CommandParameter="{Binding}"/>
+                                    </Grid>
+                                    <TextBlock FontSize="11" Margin="0,2,0,0"
+                                               Foreground="{StaticResource G.TextDim}"
+                                               Text="Model ID, then an optional display name."/>
+
+                                    <!-- Rediscovery results -->
+                                    <StackPanel Margin="0,12,0,0"
+                                                Visibility="{Binding RediscoverOpen,
+                                                             Converter={StaticResource BoolToVisibility}}">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" VerticalAlignment="Center"
+                                                       FontWeight="SemiBold"
+                                                       Foreground="{StaticResource G.Text}"
+                                                       Text="{Binding RediscoverSummary}"/>
+                                            <Button Grid.Column="1" Padding="10,5"
+                                                    Style="{StaticResource G.ButtonSmall}"
+                                                    Content="Select all"
+                                                    Command="{Binding DataContext.SelectAllRediscoveredCommand,
+                                                              RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    CommandParameter="{Binding}"/>
+                                            <Button Grid.Column="2" Margin="6,0,0,0" Padding="10,5"
+                                                    Style="{StaticResource G.ButtonSmall}"
+                                                    Content="None"
+                                                    Command="{Binding DataContext.DeselectAllRediscoveredCommand,
+                                                              RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    CommandParameter="{Binding}"/>
+                                            <Button Grid.Column="3" Margin="6,0,0,0" Padding="10,5"
+                                                    Style="{StaticResource G.ButtonPrimary}"
+                                                    Content="Add selected"
+                                                    Command="{Binding DataContext.AddRediscoveredCommand,
+                                                              RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    CommandParameter="{Binding}"/>
+                                        </Grid>
+                                        <ItemsControl ItemsSource="{Binding Rediscovered}" MaxHeight="200">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <CheckBox Margin="0,2" Padding="6,2"
+                                                              Foreground="{StaticResource G.Text}"
+                                                              Content="{Binding Label}"
+                                                              IsEnabled="{Binding CanSelect}"
+                                                              IsChecked="{Binding IsSelected, Mode=TwoWay}"/>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </StackPanel>
+
+                                    <!-- Edit sheet actions -->
+                                    <StackPanel Orientation="Horizontal" Margin="0,14,0,0"
+                                                HorizontalAlignment="Right">
+                                        <Button Padding="10,5" Style="{StaticResource G.ButtonSmall}"
+                                                Content="Rediscover models"
+                                                Command="{Binding DataContext.RediscoverCommand,
+                                                          RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                CommandParameter="{Binding}"/>
+                                        <Button Margin="6,0,0,0" Padding="10,5"
+                                                Style="{StaticResource G.ButtonSmall}"
+                                                Content="Close"
+                                                Command="{Binding DataContext.CancelEditCommand,
+                                                          RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                CommandParameter="{Binding}"/>
+                                        <Button Margin="6,0,0,0" Padding="14,5"
+                                                Style="{StaticResource G.ButtonPrimary}"
+                                                Content="Save"
+                                                Command="{Binding DataContext.SaveProviderEditCommand,
+                                                          RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                CommandParameter="{Binding}"/>
+                                        <!-- Deletion is destructive and needs two clicks. Not offered
+                                             while a model depends on it (models are deletable too). -->
+                                        <Button Margin="6,0,0,0" Padding="10,5"
+                                                Style="{StaticResource G.ButtonSmall}"
+                                                Content="{Binding DeleteLabel}"
+                                                IsEnabled="{Binding CanRemove}"
+                                                Command="{Binding DataContext.DeleteProviderCommand,
+                                                          RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                CommandParameter="{Binding}"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <!-- §23 — diagnostics-only providers. Advanced-gated: normal
+                 Settings shows only real providers and "+ Add Provider".
+                 Renamed so it cannot be mistaken for a production list, and the
+                 empty-state "None present." noise is removed. -->
+            <StackPanel Margin="0,16,0,0"
+                        Visibility="{Binding Advanced, Converter={StaticResource BoolToVisibility}}">
+                <TextBlock FontSize="14" FontWeight="SemiBold"
+                           Foreground="{StaticResource G.TextMid}"
+                           Text="Diagnostics endpoints (not used for routing)"/>
+                <ItemsControl ItemsSource="{Binding TestProviders}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Margin="0,4" Padding="10,8" CornerRadius="6"
+                                    Background="{StaticResource G.BgDeep}"
+                                    BorderBrush="{StaticResource G.LineSoft}"
+                                    BorderThickness="1">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding DisplayName}"
+                                                   Foreground="{StaticResource G.TextMid}"/>
+                                        <TextBlock FontSize="11"
+                                                   Foreground="{StaticResource G.TextDim}"
+                                                   Text="Test/stub — never used for real routing"/>
+                                    </StackPanel>
+                                    <TextBlock Grid.Column="1" VerticalAlignment="Center"
+                                               Foreground="{StaticResource G.TextDim}"
+                                               Text="{Binding StatusLabel}"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+
+            <!-- ============ Add Provider sheet (sections 3-8) ============
+                 Inline expanding sheet: picker -> credentials -> models.
+                 Escape/Close discards the entered key immediately; the secret
+                 is never held in client state after the flow ends. -->
+            <Border Margin="0,0,0,16" Padding="16" CornerRadius="6"
+                    Background="{StaticResource G.Surface}"
+                    BorderBrush="{StaticResource G.Primary}" BorderThickness="1"
+                    Visibility="{Binding AddOpen,
+                                 Converter={StaticResource BoolToVisibility}}">
+
+                <StackPanel>
+                    <!-- STEP 1: searchable provider picker -->
+                    <StackPanel Visibility="{Binding AddStep,
+                                             Converter={StaticResource StringEqualsToVisibility},
+                                             ConverterParameter=picker}">
+                        <TextBlock Text="Choose a provider" FontWeight="SemiBold"
+                                   Foreground="{StaticResource G.Text}"/>
+                        <TextBox Margin="0,8,0,8" Padding="8,6"
+                                 Background="{StaticResource G.BgDeep}"
+                                 Foreground="{StaticResource G.Text}"
+                                 BorderBrush="{StaticResource G.Line}"
+                                 Text="{Binding CatalogSearch, UpdateSourceTrigger=PropertyChanged}"/>
+                        <ItemsControl ItemsSource="{Binding FilteredCatalog}" MaxHeight="260">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Button Margin="0,3" Padding="12,8"
+                                            HorizontalContentAlignment="Left"
+                                            Style="{StaticResource G.Button}"
+                                            Command="{Binding DataContext.PickCatalogCommand,
+                                                      RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                            CommandParameter="{Binding}">
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding DisplayName}"
+                                                       FontWeight="SemiBold"
+                                                       Foreground="{StaticResource G.Text}"/>
+                                            <TextBlock Text="{Binding Hint}"
+                                                       FontSize="11"
+                                                       Foreground="{StaticResource G.TextDim}"/>
+                                        </StackPanel>
+                                    </Button>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <!-- Custom is PINNED here so it is always obviously reachable,
+                             not something the owner has to find by scrolling. -->
+                        <Button Margin="0,10,0,0" Padding="12,9"
+                                HorizontalContentAlignment="Left"
+                                Style="{StaticResource G.ButtonPrimary}"
+                                Command="{Binding PickCatalogCommand}"
+                                CommandParameter="{Binding CustomEntry}">
+                            <StackPanel>
+                                <TextBlock Text="Custom / OpenAI-compatible"
+                                           FontWeight="SemiBold"
+                                           Foreground="{StaticResource G.Text}"/>
+                                <TextBlock Text="Bring your own OpenAI-compatible endpoint"
+                                           FontSize="11"
+                                           Foreground="{StaticResource G.TextDim}"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Margin="0,10,0,0" Padding="12,6"
+                                Style="{StaticResource G.ButtonSmall}"
+                                HorizontalAlignment="Right"
+                                Content="Cancel" Command="{Binding CancelAddCommand}"/>
+                    </StackPanel>
+
+                    <!-- STEP 2: credentials (§1, §2, §13 — simplified custom provider) -->
+                    <StackPanel Visibility="{Binding AddStep,
+                                             Converter={StaticResource StringEqualsToVisibility},
+                                             ConverterParameter=credentials}">
+                        <TextBlock FontWeight="SemiBold" FontSize="15"
+                                   Foreground="{StaticResource G.Text}"
+                                   Text="Add Provider"/>
+                        <TextBlock Margin="0,4,0,0" FontSize="11"
+                                   Foreground="{StaticResource G.TextDim}"
+                                   Text="Enter your provider details. GENIE will discover available models automatically."/>
+                        <Grid Margin="0,10,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <!-- §3 — six rows: each field is followed by its own
+                                 error line. The message names the exact field and
+                                 the control border turns red, instead of one
+                                 generic "complete the required fields". -->
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"
+                                       Foreground="{StaticResource G.TextMid}" Text="Display name"/>
+                            <TextBox Grid.Row="0" Grid.Column="1" Margin="8,0,0,2" Padding="8,6"
+                                     Background="{StaticResource G.BgDeep}"
+                                     Foreground="{StaticResource G.Text}"
+                                     Text="{Binding AddDisplayName, UpdateSourceTrigger=PropertyChanged}">
+                                <TextBox.Style>
+                                    <Style TargetType="TextBox">
+                                        <Setter Property="BorderBrush" Value="{StaticResource G.Error}"/>
+                                        <Setter Property="BorderThickness" Value="1"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding DisplayNameError}" Value="">
+                                                <Setter Property="BorderBrush" Value="{StaticResource G.Line}"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
+                            <TextBlock Grid.Row="1" Grid.Column="1" Margin="8,0,0,6" FontSize="11"
+                                       Foreground="{StaticResource G.Error}"
+                                       Text="{Binding DisplayNameError}"
+                                       Visibility="{Binding DisplayNameError,
+                                                    Converter={StaticResource StringToVisibility}}"/>
+
+                            <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"
+                                       Foreground="{StaticResource G.TextMid}" Text="Base URL"/>
+                            <TextBox Grid.Row="2" Grid.Column="1" Margin="8,0,0,2" Padding="8,6"
+                                     Background="{StaticResource G.BgDeep}"
+                                     Foreground="{StaticResource G.Text}"
+                                     Text="{Binding AddBaseUrl, UpdateSourceTrigger=PropertyChanged}">
+                                <TextBox.Style>
+                                    <Style TargetType="TextBox">
+                                        <Setter Property="BorderBrush" Value="{StaticResource G.Error}"/>
+                                        <Setter Property="BorderThickness" Value="1"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding BaseUrlError}" Value="">
+                                                <Setter Property="BorderBrush" Value="{StaticResource G.Line}"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
+                            <TextBlock Grid.Row="3" Grid.Column="1" Margin="8,0,0,6" FontSize="11"
+                                       Foreground="{StaticResource G.Error}"
+                                       Text="{Binding BaseUrlError}"
+                                       Visibility="{Binding BaseUrlError,
+                                                    Converter={StaticResource StringToVisibility}}"/>
+
+                            <TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="Center"
+                                       Foreground="{StaticResource G.TextMid}" Text="API key"/>
+                            <PasswordBox Grid.Row="4" Grid.Column="1" Margin="8,0,0,2" Padding="8,6"
+                                         Background="{StaticResource G.BgDeep}"
+                                         Foreground="{StaticResource G.Text}"
+                                         PasswordChanged="AddKey_PasswordChanged">
+                                <PasswordBox.Style>
+                                    <Style TargetType="PasswordBox">
+                                        <Setter Property="BorderBrush" Value="{StaticResource G.Error}"/>
+                                        <Setter Property="BorderThickness" Value="1"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ApiKeyError}" Value="">
+                                                <Setter Property="BorderBrush" Value="{StaticResource G.Line}"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </PasswordBox.Style>
+                            </PasswordBox>
+                            <TextBlock Grid.Row="5" Grid.Column="1" Margin="8,0,0,0" FontSize="11"
+                                       Foreground="{StaticResource G.Error}"
+                                       Text="{Binding ApiKeyError}"
+                                       Visibility="{Binding ApiKeyError,
+                                                    Converter={StaticResource StringToVisibility}}"/>
+                        </Grid>
+
+                        <!-- Advanced (optional): for non-standard / custom OpenAI-compatible
+                             endpoints. Hidden by default so a normal owner never sees it. -->
+                        <StackPanel Margin="0,10,0,0">
+                            <CheckBox Content="Advanced options"
+                                      IsChecked="{Binding AddAdvanced}"
+                                      Foreground="{StaticResource G.TextMid}"/>
+                            <StackPanel Margin="0,8,0,0"
+                                        Visibility="{Binding AddAdvanced, Converter={StaticResource BoolToVisibility}}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="150"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"
+                                               Foreground="{StaticResource G.TextMid}" Text="Auth scheme"/>
+                                    <ComboBox Grid.Row="0" Grid.Column="1" Margin="8,0,0,6"
+                                              ItemsSource="{Binding AuthSchemes}"
+                                              SelectedItem="{Binding AddAuthScheme, Mode=TwoWay}"/>
+                                    <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"
+                                               Foreground="{StaticResource G.TextMid}" Text="Discovery path/URL"/>
+                                    <TextBox Grid.Row="1" Grid.Column="1" Margin="8,0,0,6" Padding="8,6"
+                                             Background="{StaticResource G.BgDeep}"
+                                             Foreground="{StaticResource G.Text}"
+                                             BorderBrush="{StaticResource G.Line}"
+                                             Text="{Binding AddDiscoveryUrl, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"
+                                               Foreground="{StaticResource G.TextMid}" Text="Timeout (s)"/>
+                                    <TextBox Grid.Row="2" Grid.Column="1" Margin="8,0,0,6" Padding="8,6"
+                                             Background="{StaticResource G.BgDeep}"
+                                             Foreground="{StaticResource G.Text}"
+                                             BorderBrush="{StaticResource G.Line}"
+                                             Text="{Binding AddTimeoutText, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <TextBlock Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"
+                                               Foreground="{StaticResource G.TextMid}" Text="Custom headers"/>
+                                    <TextBox Grid.Row="3" Grid.Column="1" Margin="8,0,0,0" Padding="8,6"
+                                             Background="{StaticResource G.BgDeep}"
+                                             Foreground="{StaticResource G.Text}"
+                                             BorderBrush="{StaticResource G.Line}"
+                                             AcceptsReturn="True" Height="56"
+                                             VerticalScrollBarVisibility="Auto" TextWrapping="Wrap"
+                                             Text="{Binding AddHeadersText, UpdateSourceTrigger=PropertyChanged}"/>
+                                </Grid>
+                                <TextBlock FontSize="11" Margin="158,2,0,0"
+                                           Foreground="{StaticResource G.TextDim}"
+                                           TextWrapping="Wrap"
+                                           Text="Auth scheme: bearer (default), basic (base64), or custom. Discovery path overrides the default /models. Custom headers: one per line as Name: Value."/>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <TextBlock Margin="0,10,0,0" Foreground="{StaticResource G.Cyan}"
+                                   TextWrapping="Wrap" Text="{Binding AddStatus}"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,12,0,0"
+                                    HorizontalAlignment="Right">
+                            <Button Padding="12,6" Style="{StaticResource G.ButtonSmall}"
+                                    Content="Back" Command="{Binding CancelAddCommand}"/>
+                            <Button Margin="8,0,0,0" Padding="12,6"
+                                    Style="{StaticResource G.Button}"
+                                    Content="Test Connection"
+                                    Command="{Binding TestAddCommand}"/>
+                            <Button Margin="8,0,0,0" Padding="12,6"
+                                    Style="{StaticResource G.Button}"
+                                    Content="Discover models"
+                                    Command="{Binding DiscoverAddCommand}"/>
+                            <!-- Save is available here too: a valid custom provider must
+                                 NOT be blocked just because discovery is unsupported. -->
+                            <Button Margin="8,0,0,0" Padding="14,6"
+                                    Style="{StaticResource G.ButtonPrimary}"
+                                    Content="Save Provider"
+                                    IsEnabled="{Binding CanSaveProvider}"
+                                    Command="{Binding SaveProviderCommand}"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- STEP 3: models -->
+                    <StackPanel Visibility="{Binding AddStep,
+                                             Converter={StaticResource StringEqualsToVisibility},
+                                             ConverterParameter=models}">
+                        <!-- §5 "111 models found" + §8 "3 selected" side by side so
+                             the discovery result and the current choice are both
+                             obvious without scrolling. -->
+                        <Grid Margin="0,0,0,2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" FontWeight="SemiBold"
+                                       Foreground="{StaticResource G.Text}"
+                                       Text="{Binding DiscoverySummary}"/>
+                            <TextBlock Grid.Column="1" FontWeight="SemiBold"
+                                       Foreground="{StaticResource G.Cyan}"
+                                       Text="{Binding SelectedSummary}"/>
+                        </Grid>
+                        <Grid Margin="0,10,0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Column="0"
+                                     Style="{StaticResource G.SearchBox}"
+                                     Tag="Search models..."
+                                     Text="{Binding ModelSearch, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Button Grid.Column="1" Margin="8,0,0,0" Padding="10,6"
+                                    Style="{StaticResource G.ButtonSmall}"
+                                    Content="Select all"
+                                    Command="{Binding SelectAllModelsCommand}"/>
+                            <Button Grid.Column="2" Margin="8,0,0,0" Padding="10,6"
+                                    Style="{StaticResource G.ButtonSmall}"
+                                    Content="Deselect all"
+                                    Command="{Binding DeselectAllModelsCommand}"/>
+                        </Grid>
+                        <!-- §5 / §17 — virtualized, scrollable list. A plain
+                             MaxHeight would simply clip 111 models; the panel
+                             recycles rows so hundreds stay responsive, and the
+                             search filter is client-side (no re-query). -->
+                        <ItemsControl ItemsSource="{Binding FilteredDiscovered}">
+                            <ItemsControl.Template>
+                                <ControlTemplate TargetType="ItemsControl">
+                                    <Border BorderBrush="{StaticResource G.LineSoft}"
+                                            BorderThickness="1" CornerRadius="4"
+                                            Background="{StaticResource G.BgDeep}">
+                                        <ScrollViewer MaxHeight="260"
+                                                      VerticalScrollBarVisibility="Auto"
+                                                      HorizontalScrollBarVisibility="Disabled"
+                                                      Padding="6">
+                                            <ItemsPresenter/>
+                                        </ScrollViewer>
+                                    </Border>
+                                </ControlTemplate>
+                            </ItemsControl.Template>
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel IsVirtualizing="True"
+                                                            VirtualizationMode="Recycling"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <CheckBox Margin="0,2" Padding="8,2"
+                                              Foreground="{StaticResource G.Text}"
+                                              Content="{Binding Label}"
+                                              IsChecked="{Binding IsSelected, Mode=TwoWay}"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <!-- Manual entry always available (section 7/8). -->
+                        <TextBlock Margin="0,12,0,4" Foreground="{StaticResource G.TextMid}"
+                                   Text="Add a model manually"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Column="0" Padding="8,6"
+                                     Background="{StaticResource G.BgDeep}"
+                                     Foreground="{StaticResource G.Text}"
+                                     BorderBrush="{StaticResource G.Line}"
+                                     Text="{Binding ManualModelId, UpdateSourceTrigger=PropertyChanged}"/>
+                            <TextBox Grid.Column="1" Margin="8,0,0,0" Padding="8,6"
+                                     Background="{StaticResource G.BgDeep}"
+                                     Foreground="{StaticResource G.Text}"
+                                     BorderBrush="{StaticResource G.Line}"
+                                     Text="{Binding ManualModelName, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Button Grid.Column="2" Margin="8,0,0,0" Padding="10,6"
+                                    Style="{StaticResource G.ButtonSmall}"
+                                    Content="Add"
+                                    Command="{Binding AddManualModelCommand}"/>
+                        </Grid>
+                        <TextBlock Margin="0,8,0,0" Foreground="{StaticResource G.Cyan}"
+                                   TextWrapping="Wrap" Text="{Binding AddStatus}"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,12,0,0"
+                                    HorizontalAlignment="Right">
+                            <Button Padding="12,6" Style="{StaticResource G.ButtonSmall}"
+                                    Content="Cancel" Command="{Binding CancelAddCommand}"/>
+                            <!-- §3 / §5 — the discovery step keeps its own Save
+                                 action with the spec wording, so the owner never
+                                 has to go back to another step to finish. -->
+                            <Button Margin="8,0,0,0" Padding="14,6"
+                                    Style="{StaticResource G.ButtonPrimary}"
+                                    Content="Save Provider"
+                                    IsEnabled="{Binding CanSaveProvider}"
+                                    Command="{Binding SaveProviderCommand}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Section: Voice -->
+            <TextBlock Text="Voice" FontSize="20" FontWeight="SemiBold" Margin="0,28,0,8"/>
+            <StackPanel>
+                <TextBlock Text="{Binding VoiceState}" TextWrapping="Wrap"/>
+                <CheckBox Content="Gemini Live voice" IsChecked="{Binding LiveEnabled}" Margin="0,12,0,8"
+                          Foreground="{StaticResource G.Text}"/>
+                <TextBlock Text="Live model" Margin="0,4"/>
+                <TextBox Text="{Binding LiveModel, UpdateSourceTrigger=PropertyChanged}" Padding="8,6"/>
+                <TextBlock Text="Voice" Margin="0,8,0,4"/>
+                <ComboBox ItemsSource="{Binding LiveVoices}" SelectedItem="{Binding LiveVoice}"/>
+                <TextBlock Text="Microphone" Margin="0,8,0,4"/>
+                <ComboBox ItemsSource="{Binding LiveInputs}" DisplayMemberPath="Name" SelectedValuePath="Id"
+                          SelectedValue="{Binding LiveInput}"/>
+                <TextBlock Text="Speaker" Margin="0,8,0,4"/>
+                <ComboBox ItemsSource="{Binding LiveOutputs}" DisplayMemberPath="Name" SelectedValuePath="Id"
+                          SelectedValue="{Binding LiveOutput}"/>
+                <CheckBox Content="Headphones: allow spoken interruptions" IsChecked="{Binding HeadsetMode}"
+                          Margin="0,12,0,8" Foreground="{StaticResource G.Text}"/>
+                <WrapPanel>
+                    <Button Content="Gemini API key" Command="{Binding LiveApiSetupCommand}" Style="{StaticResource G.Button}" Padding="12,6"/>
+                    <Button Content="Save voice" Command="{Binding SaveLiveCommand}" Style="{StaticResource G.Button}" Padding="12,6" Margin="8,0,0,0"/>
+                    <Button Content="Test Live" Command="{Binding TestLiveCommand}" Style="{StaticResource G.Button}" Padding="12,6" Margin="8,0,0,0"/>
+                </WrapPanel>
+                <TextBlock Text="{Binding LiveTestStatus}" TextWrapping="Wrap" Margin="0,8,0,0"/>
+            </StackPanel>
+
+            <!-- Section: Privacy -->
+            <TextBlock Text="Desktop awareness" FontSize="20" FontWeight="SemiBold" Margin="0,28,0,8"/>
+            <StackPanel Margin="0,0,0,16">
+                <CheckBox Content="Personal Owner Automation Mode" IsChecked="{Binding PersonalOwnerMode}"
+                          Foreground="{StaticResource G.Text}" Margin="0,0,0,8"/>
+                <TextBlock Text="Direct owner commands authorize routine grounded actions. This mode also permits standing visual actions. Screen uploads, network toggles and messages need exact expiring grants. Destructive actions still require confirmation. Turning this off disables standing grants." TextWrapping="Wrap"/>
+                <Expander Header="Scoped authorizations" Margin="0,8,0,8">
+                    <StackPanel>
+                        <TextBlock Text="Edit exact grants using the format in docs/GENIE_PERSONAL_OWNER_POLICY.md. Use [] to revoke all grants. Screen grants name the exact provider and destination; message grants match one recipient and exact message hash." TextWrapping="Wrap"/>
+                        <TextBox Text="{Binding OwnerGrants, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" TextWrapping="Wrap" MinHeight="80" MaxHeight="240" VerticalScrollBarVisibility="Auto"/>
+                    </StackPanel>
+                </Expander>
+                <CheckBox Content="Allow GENIE to use Gemini for redacted screen analysis"
+                          IsChecked="{Binding GeminiRedactedScreen}" Foreground="{StaticResource G.Text}"/>
+                <TextBlock Text="Authorize only the exact application/window title below, Gemini, and generativelanguage.googleapis.com for 30 days. Local awareness and remote visual consent must also be enabled. Uncheck and Save to revoke. Gemini Live sharing is separate." TextWrapping="Wrap" Margin="0,4,0,4"/>
+                <TextBox Text="{Binding ScreenApplication, UpdateSourceTrigger=PropertyChanged}" ToolTip="Exact observed application/window title" Margin="0,0,0,8"/>
+                <Button Content="Save owner automation policy" Command="{Binding SaveOwnerPolicyCommand}" Style="{StaticResource G.Button}" HorizontalAlignment="Left" Padding="12,6"/>
+                <TextBlock Text="{Binding OwnerPolicyStatus}" TextWrapping="Wrap"/>
+            </StackPanel>
+            <StackPanel>
+                <TextBlock Text="{Binding DesktopStatus}" TextWrapping="Wrap" Margin="0,0,0,8"/>
+                <CheckBox Content="Enable local desktop awareness" IsChecked="{Binding DesktopEnabled}"
+                          Foreground="{StaticResource G.Text}" Margin="0,0,0,8"/>
+                <CheckBox Content="Start automatically with GENIE" IsChecked="{Binding DesktopAutoStart}"
+                          Foreground="{StaticResource G.Text}" Margin="0,0,0,8"/>
+                <CheckBox Content="Keep local screen previews updated" IsChecked="{Binding DesktopPreview}"
+                          Foreground="{StaticResource G.Text}" Margin="0,0,0,8"/>
+                <CheckBox Content="Share authorized screen previews with Gemini during Live voice"
+                          IsChecked="{Binding DesktopCloud}" Foreground="{StaticResource G.Text}" Margin="0,0,0,8"/>
+                <WrapPanel>
+                    <Button Content="Apply" Command="{Binding SaveDesktopCommand}" Style="{StaticResource G.Button}" Padding="12,6"/>
+                    <Button Content="&#xE769;" FontFamily="Segoe MDL2 Assets" ToolTip="Pause desktop awareness"
+                            Command="{Binding PauseDesktopCommand}" Style="{StaticResource G.Button}" Margin="8,0,0,0" Width="36" Height="32"/>
+                    <Button Content="&#xE768;" FontFamily="Segoe MDL2 Assets" ToolTip="Resume desktop awareness"
+                            Command="{Binding ResumeDesktopCommand}" Style="{StaticResource G.Button}" Margin="8,0,0,0" Width="36" Height="32"/>
+                </WrapPanel>
+            </StackPanel>
+
+            <TextBlock Text="Privacy" FontSize="20" FontWeight="SemiBold" Margin="0,28,0,8"/>
+            <StackPanel>
+                <TextBlock Text="Local camera and activity memory" FontSize="18" Margin="0,0,0,12"/>
+                <CheckBox Content="Remember desktop activity locally (encrypted)" IsChecked="{Binding LocalDesktopMemory}" Foreground="{StaticResource G.Text}" Margin="0,0,0,8"/>
+                <CheckBox Content="Monitor camera locally" IsChecked="{Binding LocalCamera}" Foreground="{StaticResource G.Text}" Margin="0,0,0,8"/>
+                <CheckBox Content="Start local monitoring with GENIE" IsChecked="{Binding LocalAutoStart}" Foreground="{StaticResource G.Text}" Margin="0,0,0,8"/>
+                <TextBlock Text="Camera zone" Margin="0,4"/>
+                <ComboBox ItemsSource="{Binding LocalZones}" SelectedItem="{Binding LocalZone}"/>
+                <TextBlock Text="USB camera index" Margin="0,8,0,4"/>
+                <ComboBox ItemsSource="{Binding CameraIndices}" SelectedItem="{Binding LocalCameraIndex}"/>
+                <CheckBox Content="Send webcam snapshots to Google during Live voice" IsChecked="{Binding LocalCameraCloud}" Foreground="{StaticResource G.Text}" Margin="0,12,0,8"/>
+                <WrapPanel Margin="0,12,0,8">
+                    <Button Content="Apply monitoring" Command="{Binding SaveLocalCommand}" Style="{StaticResource G.Button}" Padding="12,6"/>
+                    <Button Content="&#xE769;" FontFamily="Segoe MDL2 Assets" ToolTip="Pause local monitoring" Command="{Binding PauseLocalCommand}" Style="{StaticResource G.Button}" Width="36" Margin="8,0,0,0"/>
+                    <Button Content="&#xE72C;" FontFamily="Segoe MDL2 Assets" ToolTip="Refresh camera preview and activity" Command="{Binding RefreshLocalCommand}" Style="{StaticResource G.Button}" Width="36" Margin="8,0,0,0"/>
+                </WrapPanel>
+                <TextBlock Text="{Binding LocalStatus}" TextWrapping="Wrap"/>
+                <Image Source="{Binding CameraPreview}" Width="320" Height="240" Stretch="Uniform" HorizontalAlignment="Left" Margin="0,8"/>
+                <TextBlock Text="Recent local observations" Margin="0,12,0,4"/>
+                <TextBox Text="{Binding LocalEvents, Mode=OneWay}" IsReadOnly="True" TextWrapping="Wrap" MaxHeight="180" VerticalScrollBarVisibility="Auto"/>
+            </StackPanel>
+            <Border Padding="12" Background="{StaticResource G.Surface}"
+                    BorderBrush="{StaticResource G.LineSoft}" BorderThickness="1" CornerRadius="6">
+                <TextBlock TextWrapping="Wrap" Foreground="{StaticResource G.TextMid}"
+                           Text="Secrets stay in the backend vault. This app never keeps an API key. Uninstalling GENIE does not delete your data."/>
+            </Border>
+
+            <!-- Section: About -->
+            <TextBlock Text="About" FontSize="20" FontWeight="SemiBold" Margin="0,28,0,8"/>
+            <Border Padding="12" Background="{StaticResource G.Surface}"
+                    BorderBrush="{StaticResource G.LineSoft}" BorderThickness="1" CornerRadius="6">
+                <StackPanel>
+                        <TextBlock Text="GENIE"/>
+                        <TextBlock Foreground="{StaticResource G.TextMid}"
+                                   Text="{Binding Version}"/>
+                    </StackPanel>
+            </Border>
+
+            <!-- Developer mode gate. Last in the page: a normal owner never scrolls
+                 into it, and it only ever reveals diagnostics. It never writes config. -->
+            <CheckBox Margin="0,24,0,4" Content="Advanced / developer mode"
+                      IsChecked="{Binding Advanced}"
+                      Foreground="{StaticResource G.TextMid}"/>
+            <TextBlock Text="Reveals instance, raw endpoint, voice implementation and runtime counters."
+                       Foreground="{StaticResource G.TextMid}"/>
+
+            <StackPanel Margin="0,12,0,0"
+                        Visibility="{Binding Advanced, Converter={StaticResource BoolToVisibility}}">
+                <Border Padding="12" Background="{StaticResource G.Surface}"
+                        BorderBrush="{StaticResource G.LineSoft}" BorderThickness="1" CornerRadius="6">
+                    <StackPanel>
+                        <TextBlock Text="Instance" FontWeight="SemiBold"/>
+                        <TextBlock Foreground="{StaticResource G.TextMid}"
+                                   Text="{Binding InstanceId, StringFormat=id: {0}}" TextWrapping="Wrap"/>
+
+                        <TextBlock Text="NEDLE2 engine" FontWeight="SemiBold" Margin="0,12,0,0"/>
+                        <TextBlock Foreground="{StaticResource G.TextMid}"
+                                   Text="{Binding EngineDetail}" TextWrapping="Wrap"/>
+
+                        <TextBlock Text="Endpoint" FontWeight="SemiBold" Margin="0,12,0,0"/>
+                        <TextBlock Foreground="{StaticResource G.TextMid}"
+                                   Text="{Binding Endpoint}" TextWrapping="Wrap"/>
+
+                        <!-- Voice implementation. These read the SAME authoritative
+                             backend values as the normal Voice section, so the two
+                             surfaces can no longer contradict each other. -->
+                        <TextBlock Text="Voice implementation" FontWeight="SemiBold" Margin="0,12,0,0"/>
+                        <TextBlock Foreground="{StaticResource G.TextMid}" TextWrapping="Wrap">
+                            <Run Text="Microphone input: "/><Run Text="{Binding MicInput}"/>
+                        </TextBlock>
+                        <TextBlock Foreground="{StaticResource G.TextMid}" TextWrapping="Wrap">
+                            <Run Text="STT: "/><Run Text="{Binding SttImpl}"/>
+                            <Run Text="   TTS: "/><Run Text="{Binding TtsImpl}"/>
+                        </TextBlock>
+                        <TextBlock Foreground="{StaticResource G.TextMid}" TextWrapping="Wrap">
+                            <Run Text="Voice state: "/><Run Text="{Binding VoiceStateText}"/>
+                        </TextBlock>
+
+                        <!-- Live amplitude meters. Real backend measurements, not
+                             synthetic values — this is how the owner proves the
+                             microphone is actually being heard. -->
+                        <TextBlock Text="Live amplitude" FontWeight="SemiBold" Margin="0,12,0,0"/>
+                        <TextBlock Foreground="{StaticResource G.TextMid}" TextWrapping="Wrap">
+                            <Run Text="Mic RMS: "/><Run Text="{Binding MicRmsText}"/>
+                            <Run Text="   TTS RMS: "/><Run Text="{Binding TtsRmsText}"/>
+                        </TextBlock>
+
+                        <TextBlock Text="Runtime" FontWeight="SemiBold" Margin="0,12,0,0"/>
+                        <TextBlock Foreground="{StaticResource G.TextMid}"
+                                   Text="{Binding RuntimeSummary}" TextWrapping="Wrap"/>
+
+                        <!-- Build identity: which UI and which backend are actually
+                             running. Diagnostics only. -->
+                        <TextBlock Text="Build identity" FontWeight="SemiBold" Margin="0,12,0,0"/>
+                        <TextBlock Foreground="{StaticResource G.TextMid}"
+                                   Text="{Binding UiBuildText}" TextWrapping="Wrap"/>
+                        <TextBlock Foreground="{StaticResource G.TextMid}"
+                                   Text="{Binding BackendBuildText}" TextWrapping="Wrap"/>
+                        <TextBlock Margin="0,2,0,0" FontSize="11"
+                                   Foreground="{StaticResource G.TextDim}"
+                                   Text="{Binding ExecutablePath}" TextWrapping="Wrap"/>
+
+                        <!-- P1.1 source-of-truth reality screen: what this running
+                             GENIE is actually using, reported by the backend. -->
+                        <TextBlock Text="Source of truth" FontWeight="SemiBold" Margin="0,10,0,0"/>
+                        <TextBlock Margin="0,2,0,0" FontSize="11"
+                                   Foreground="{StaticResource G.TextMid}"
+                                   Text="{Binding SotBackendRoot}" TextWrapping="Wrap"/>
+                        <TextBlock Margin="0,2,0,0" FontSize="11"
+                                   Foreground="{StaticResource G.TextMid}"
+                                   Text="{Binding SotDataDir}" TextWrapping="Wrap"/>
+                        <TextBlock Margin="0,2,0,0" FontSize="11"
+                                   Foreground="{StaticResource G.TextMid}"
+                                   Text="{Binding SotSession}" TextWrapping="Wrap"/>
+                        <TextBlock Margin="0,2,0,0" FontSize="11"
+                                   Foreground="{StaticResource G.TextMid}"
+                                   Text="{Binding SotStt}" TextWrapping="Wrap"/>
+                        <TextBlock Margin="0,2,0,0" FontSize="11"
+                                   Foreground="{StaticResource G.TextMid}"
+                                   Text="{Binding SotActive}" TextWrapping="Wrap"/>
+                        <TextBlock Margin="0,2,0,0" FontSize="11" TextWrapping="Wrap"
+                                   Foreground="{StaticResource G.Warn}"
+                                   Text="{Binding SotDegraded}"
+                                   Visibility="{Binding SotDegraded,
+                                                Converter={StaticResource StringToVisibility}}"/>
+                        <TextBlock Margin="0,4,0,0" TextWrapping="Wrap"
+                                   Foreground="{StaticResource G.Warn}"
+                                   Text="{Binding VersionWarning}"
+                                   Visibility="{Binding VersionWarning,
+                                                Converter={StaticResource StringToVisibility}}"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
+                <Button Padding="16,8" Style="{StaticResource G.ButtonPrimary}"
+                        Content="Refresh" Command="{Binding RefreshCommand}"/>
+                <TextBlock Margin="12,0,0,0" VerticalAlignment="Center"
+                           Foreground="{StaticResource G.TextMid}"
+                           Text="{Binding Message}"/>
+            </StackPanel>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

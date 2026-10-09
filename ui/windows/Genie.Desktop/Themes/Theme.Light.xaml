@@ -1,0 +1,43 @@
+<!--
+  LIGHT variant of the GENIE palette.
+
+  Same resource KEYS as the dark palette, so every existing binding works
+  unchanged - only the hues differ. Light surfaces with dark text; accents are
+  darkened so they stay readable against a light background (a #4DA3FF sapphire
+  on white fails contrast, so accents move to their darker counterparts).
+-->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <SolidColorBrush x:Key="G.Bg"       Color="#FFF5F7FB"/>
+    <SolidColorBrush x:Key="G.BgDeep"   Color="#FFE9EEF7"/>
+    <SolidColorBrush x:Key="G.Surface"  Color="#FFFFFFFF"/>
+    <SolidColorBrush x:Key="G.Surface2" Color="#FFF2F5FB"/>
+    <SolidColorBrush x:Key="G.Line"     Color="#FFD3DCEB"/>
+    <SolidColorBrush x:Key="G.LineSoft" Color="#FFE3E9F4"/>
+
+    <SolidColorBrush x:Key="G.Text"     Color="#FF0F1B2D"/>
+    <SolidColorBrush x:Key="G.TextMid"  Color="#FF4A5A75"/>
+    <SolidColorBrush x:Key="G.TextDim"  Color="#FF74849E"/>
+
+    <SolidColorBrush x:Key="G.Primary"  Color="#FF1F6FEB"/>
+    <SolidColorBrush x:Key="G.PrimaryDark" Color="#FF1554B8"/>
+    <SolidColorBrush x:Key="G.Cyan"     Color="#FF0B7C93"/>
+    <SolidColorBrush x:Key="G.Violet"   Color="#FF6A55E0"/>
+    <SolidColorBrush x:Key="G.Gold"     Color="#FF9A6410"/>
+
+    <SolidColorBrush x:Key="G.OK"       Color="#FF1E8E3E"/>
+    <SolidColorBrush x:Key="G.Warn"     Color="#FFB06000"/>
+    <SolidColorBrush x:Key="G.Error"    Color="#FFC5221F"/>
+
+    <LinearGradientBrush x:Key="G.Wave" StartPoint="0,0.5" EndPoint="1,0.5">
+        <GradientStop Color="#FF0B7C93" Offset="0"/>
+        <GradientStop Color="#FF1F6FEB" Offset="0.5"/>
+        <GradientStop Color="#FF6A55E0" Offset="1"/>
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="G.HeroBg" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#FFFFFFFF" Offset="0"/>
+        <GradientStop Color="#FFF5F7FB" Offset="1"/>
+    </LinearGradientBrush>
+
+</ResourceDictionary>

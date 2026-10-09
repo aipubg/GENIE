@@ -1,0 +1,9 @@
+{
+  "log_level": "INFO",
+  "ipc": { "host": "127.0.0.1", "port": 8787 },
+  "director": {
+    "engine": "auto",
+    "laya": { "mode": "shadow", "shadow_sampling": false }
+  },
+  "voice": { "language": "hinglish" }
+}

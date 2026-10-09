@@ -1,0 +1,10 @@
+{
+  "code": 200,
+  "body": {
+    "skills": 3,
+    "by_status": {
+      "active": 2,
+      "archived": 1
+    }
+  }
+}

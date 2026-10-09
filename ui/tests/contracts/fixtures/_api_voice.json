@@ -1,0 +1,18 @@
+{
+  "code": 200,
+  "body": {
+    "mode": "off",
+    "language": "en",
+    "providers": {
+      "input": {
+        "available": false
+      },
+      "stt": {
+        "name": "provider-a"
+      },
+      "tts": {
+        "name": "provider-a"
+      }
+    }
+  }
+}

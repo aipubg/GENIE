@@ -1,0 +1,806 @@
+<!--
+  Reusable control styles for the GENIE desktop client.
+  Every owner-facing view binds to these; nothing should hand-style.
+-->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- No internal palette merge on purpose. App.xaml merges the active
+         palette (Theme.Dark.xaml or Theme.Light.xaml) at application level so
+         brush lookups succeed inside ControlTemplate triggers. Merging a
+         palette here pinned every styled control to the dark hues and defeated
+         light mode entirely. -->
+
+    <!-- ===== Buttons =====================================================
+         Two sizes (regular / small) and a primary accent variant. -->
+    <Style x:Key="G.Button" TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource G.Surface2}"/>
+        <Setter Property="Foreground" Value="{StaticResource G.Text}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource G.Line}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding" Value="14,7"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="b" Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="4" Padding="{TemplateBinding Padding}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="b" Property="Background" Value="{StaticResource G.Surface}"/>
+                            <Setter TargetName="b" Property="BorderBrush" Value="{StaticResource G.Primary}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="b" Property="Background" Value="{StaticResource G.PrimaryDark}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.45"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="G.ButtonPrimary" TargetType="Button" BasedOn="{StaticResource G.Button}">
+        <Setter Property="Background" Value="{StaticResource G.PrimaryDark}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource G.Primary}"/>
+        <Setter Property="Foreground" Value="#FFFFFFFF"/>
+    </Style>
+
+    <Style x:Key="G.ButtonSmall" TargetType="Button" BasedOn="{StaticResource G.Button}">
+        <Setter Property="Padding" Value="10,4"/>
+        <Setter Property="FontWeight" Value="Normal"/>
+    </Style>
+
+    <!-- ===== Inputs ======================================================= -->
+    <ContextMenu x:Key="G.EditMenu" x:Shared="False"
+                 Background="{StaticResource G.Surface}"
+                 Foreground="{StaticResource G.Text}"
+                 BorderBrush="{StaticResource G.Line}"
+                 BorderThickness="1">
+        <MenuItem Header="Copy" Command="ApplicationCommands.Copy" CommandTarget="{Binding PlacementTarget, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+        <MenuItem Header="Paste" Command="ApplicationCommands.Paste" CommandTarget="{Binding PlacementTarget, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+        <MenuItem Header="Cut" Command="ApplicationCommands.Cut" CommandTarget="{Binding PlacementTarget, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+        <MenuItem Header="Select all" Command="ApplicationCommands.SelectAll" CommandTarget="{Binding PlacementTarget, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+    </ContextMenu>
+    <Style x:Key="G.TextBox" TargetType="TextBox">
+        <Setter Property="ContextMenu" Value="{StaticResource G.EditMenu}"/>
+        <Setter Property="Background" Value="{StaticResource G.Bg}"/>
+        <Setter Property="Foreground" Value="{StaticResource G.Text}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource G.Line}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CaretBrush" Value="{StaticResource G.Cyan}"/>
+        <Setter Property="SelectionBrush" Value="{StaticResource G.PrimaryDark}"/>
+        <Setter Property="Padding" Value="10,8"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="4">
+                        <ScrollViewer x:Name="PART_ContentHost" Margin="{TemplateBinding Padding}" Focusable="False"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ===== Section headers ==============================================
+         Used by every surface so headings read the same. -->
+    <Style x:Key="G.PageTitle" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource G.Text}"/>
+        <Setter Property="FontSize" Value="22"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+    </Style>
+    <Style x:Key="G.SectionTitle" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource G.Text}"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Margin" Value="0,22,0,8"/>
+    </Style>
+    <Style x:Key="G.SectionHint" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource G.TextMid}"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Margin" Value="0,2,0,0"/>
+    </Style>
+    <Style x:Key="G.BodyText" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource G.Text}"/>
+        <Setter Property="TextWrapping" Value="Wrap"/>
+    </Style>
+    <Style x:Key="G.Muted" TargetType="TextBlock" BasedOn="{StaticResource G.BodyText}">
+        <Setter Property="Foreground" Value="{StaticResource G.TextMid}"/>
+    </Style>
+    <Style x:Key="G.Dim" TargetType="TextBlock" BasedOn="{StaticResource G.BodyText}">
+        <Setter Property="Foreground" Value="{StaticResource G.TextDim}"/>
+    </Style>
+
+    <!-- ===== Cards / panels ============================================== -->
+    <Style x:Key="G.Card" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource G.Surface}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource G.LineSoft}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="6"/>
+        <Setter Property="Padding" Value="14"/>
+    </Style>
+
+    <!-- ===== Status pill (small text in a rounded background) ============ -->
+    <Style x:Key="G.StatusPill" TargetType="Border">
+        <Setter Property="CornerRadius" Value="9"/>
+        <Setter Property="Padding" Value="8,2"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+    </Style>
+
+    <!-- ==================================================================
+         IMPLICIT THEME LAYER
+         Every style above has an x:Key, so it only applies where it is named.
+         That is NOT enough: any control the XAML does not explicitly style
+         falls back to the default WPF (light) template, which is what produced
+         the giant white surface on Chat and would do the same on any list,
+         grid, combo or scroll area.
+
+         The styles below are keyless, so they apply to EVERY instance of the
+         type. They are the reason "no SystemColors reference" is not the same
+         thing as "dark theme": the colour has to actually reach the rendered
+         template.
+
+         Rule: if a control can appear in an owner-facing view, it gets an
+         implicit dark style here.
+         ================================================================== -->
+
+    <!-- Window / page surfaces -->
+    <Style TargetType="Window">
+        <Setter Property="Background" Value="{StaticResource G.Bg}"/>
+        <Setter Property="Foreground" Value="{StaticResource G.Text}"/>
+    </Style>
+    <Style TargetType="UserControl">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{StaticResource G.Text}"/>
+    </Style>
+    <Style TargetType="Page">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{StaticResource G.Text}"/>
+    </Style>
+    <Style TargetType="Grid">
+        <Setter Property="Background" Value="Transparent"/>
+    </Style>
+    <Style TargetType="StackPanel">
+        <Setter Property="Background" Value="Transparent"/>
+    </Style>
+    <Style TargetType="DockPanel">
+        <Setter Property="Background" Value="Transparent"/>
+    </Style>
+    <Style TargetType="WrapPanel">
+        <Setter Property="Background" Value="Transparent"/>
+    </Style>
+    <Style TargetType="Canvas">
+        <Setter Property="Background" Value="Transparent"/>
+    </Style>
+    <Style TargetType="Border">
+        <Setter Property="Background" Value="Transparent"/>
+    </Style>
+
+    <!-- Scroll areas: the single biggest source of white panels. A
+         ScrollViewer/ListBox that is not themed paints the system window
+         colour, which is white regardless of what is behind it. -->
+    <Style TargetType="ScrollViewer">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{StaticResource G.Text}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource G.Line}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ScrollViewer">
+                    <Grid Background="Transparent">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <ScrollContentPresenter Grid.Row="0" Grid.Column="0"
+                                                CanContentScroll="{TemplateBinding CanContentScroll}"/>
+                        <ScrollBar x:Name="PART_VerticalScrollBar" Grid.Row="0" Grid.Column="1"
+                                   Orientation="Vertical"
+                                   Value="{TemplateBinding VerticalOffset}"
+                                   Maximum="{TemplateBinding ScrollableHeight}"
+                                   ViewportSize="{TemplateBinding ViewportHeight}"
+                                   Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"/>
+                        <ScrollBar x:Name="PART_HorizontalScrollBar" Grid.Row="1" Grid.Column="0"
+                                   Orientation="Horizontal"
+                                   Value="{TemplateBinding HorizontalOffset}"
+                                   Maximum="{TemplateBinding ScrollableWidth}"
+                                   ViewportSize="{TemplateBinding ViewportWidth}"
+                                   Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="ScrollBar">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{StaticResource G.TextDim}"/>
+        <Setter Property="Width" Value="10"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ScrollBar">
+                    <Grid Background="Transparent" SnapsToDevicePixels="True">
+                        <Track x:Name="PART_Track" IsDirectionReversed="True">
+                            <Track.Thumb>
+                                <Thumb>
+                                    <Thumb.Template>
+                                        <ControlTemplate TargetType="Thumb">
+                                            <Border Background="{StaticResource G.Line}"
+                                                    CornerRadius="4" Margin="2"/>
+                                        </ControlTemplate>
+                                    </Thumb.Template>
+                                </Thumb>
+                            </Track.Thumb>
+                        </Track>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- List surfaces -->
+    <Style TargetType="ListBox">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{StaticResource G.Text}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource G.Line}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+        <Setter Property="Padding" Value="0"/>
+    </Style>
+    <Style TargetType="ListBoxItem">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{StaticResource G.Text}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBoxItem">
+                    <Border x:Name="bd" Background="{TemplateBinding Background}"
+                            BorderBrush="Transparent" BorderThickness="0"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="bd" Property="Background" Value="#FF0B1422"/>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="bd" Property="Background" Value="{StaticResource G.Surface2}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="ListView">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{StaticResource G.Text}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource G.Line}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+    </Style>
+    <Style TargetType="ListViewItem">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{StaticResource G.Text}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListViewItem">
+                    <Border x:Name="bd" Background="{TemplateBinding Background}"
+                            BorderBrush="Transparent" BorderThickness="0"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="bd" Property="Background" Value="#FF0B1422"/>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="bd" Property="Background" Value="{StaticResource G.Surface2}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="ItemsControl">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{StaticResource G.Text}"/>
+    </Style>
+
+    <Style TargetType="TreeView">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{StaticResource G.Text}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+    </Style>
+    <Style TargetType="TreeViewItem">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{StaticResource G.Text}"/>
+    </Style>
+
+    <!-- Inputs -->
+    <Style TargetType="TextBox" BasedOn="{StaticResource G.TextBox}"/>
+    <Style TargetType="RichTextBox">
+        <Setter Property="Background" Value="{StaticResource G.Bg}"/>
+        <Setter Property="Foreground" Value="{StaticResource G.Text}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource G.Line}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CaretBrush" Value="{StaticResource G.Cyan}"/>
+        <Setter Property="Padding" Value="10,8"/>
+    </Style>
+    <Style TargetType="PasswordBox">
+        <Setter Property="Background" Value="{StaticResource G.Bg}"/>
+        <Setter Property="Foreground" Value="{StaticResource G.Text}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource G.Line}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CaretBrush" Value="{StaticResource G.Cyan}"/>
+        <Setter Property="Padding" Value="10,8"/>
+    </Style>
+
+    <!-- FlowDocument surfaces: a FlowDocument defaults to a WHITE page
+         background, which is a white panel even inside a dark host. -->
+    <Style TargetType="FlowDocument">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{StaticResource G.Text}"/>
+        <Setter Property="TextAlignment" Value="Left"/>
+    </Style>
+    <Style TargetType="FlowDocumentScrollViewer">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{StaticResource G.Text}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+    </Style>
+    <Style TargetType="FlowDocumentReader">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{StaticResource G.Text}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+    </Style>
+    <Style TargetType="Paragraph">
+        <Setter Property="Foreground" Value="{StaticResource G.Text}"/>
+    </Style>
+
+    <!-- ComboBox: provider/model selection in Settings.
+         Setting only Background/Foreground is NOT enough: the stock WPF
+         template keeps its own light ToggleButton chrome and a white Popup, so
+         the control rendered as a glaring white box inside the dark page. The
+         whole template has to be replaced. -->
+    <Style TargetType="ComboBox">
+        <Setter Property="Background" Value="{StaticResource G.BgDeep}"/>
+        <Setter Property="Foreground" Value="{StaticResource G.Text}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource G.Line}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding" Value="8,6"/>
+        <Setter Property="MinHeight" Value="30"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ComboBox">
+                    <Grid>
+                        <ToggleButton x:Name="ToggleButton" Focusable="False"
+                                      ClickMode="Press"
+                                      IsChecked="{Binding IsDropDownOpen, Mode=TwoWay,
+                                                  RelativeSource={RelativeSource TemplatedParent}}">
+                            <ToggleButton.Template>
+                                <ControlTemplate TargetType="ToggleButton">
+                                    <Border x:Name="Chrome"
+                                            Background="{StaticResource G.BgDeep}"
+                                            BorderBrush="{StaticResource G.Line}"
+                                            BorderThickness="1" CornerRadius="4">
+                                        <Path HorizontalAlignment="Right" VerticalAlignment="Center"
+                                              Margin="0,0,9,0"
+                                              Data="M 0 0 L 4 4 L 8 0 Z"
+                                              Fill="{StaticResource G.TextMid}"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="Chrome" Property="BorderBrush"
+                                                    Value="{StaticResource G.Primary}"/>
+                                        </Trigger>
+                                        <Trigger Property="IsChecked" Value="True">
+                                            <Setter TargetName="Chrome" Property="BorderBrush"
+                                                    Value="{StaticResource G.Primary}"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </ToggleButton.Template>
+                        </ToggleButton>
+
+                        <!-- Selection text. TextElement.Foreground is set on the
+                             presenter itself because a ContentPresenter rendering
+                             a string does not inherit Foreground from the ComboBox. -->
+                        <ContentPresenter x:Name="Selection"
+                                          Margin="{TemplateBinding Padding}"
+                                          Content="{TemplateBinding SelectionBoxItem}"
+                                          ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                          ContentStringFormat="{TemplateBinding SelectionBoxItemStringFormat}"
+                                          IsHitTestVisible="False"
+                                          HorizontalAlignment="Left"
+                                          VerticalAlignment="Center"
+                                          TextElement.Foreground="{StaticResource G.Text}"/>
+
+                        <Popup x:Name="PART_Popup"
+                               AllowsTransparency="True"
+                               Placement="Bottom"
+                               Focusable="False"
+                               PopupAnimation="Fade"
+                               IsOpen="{TemplateBinding IsDropDownOpen}">
+                            <Border MinWidth="{TemplateBinding ActualWidth}"
+                                    MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                    Background="{StaticResource G.Surface}"
+                                    BorderBrush="{StaticResource G.Primary}"
+                                    BorderThickness="1" CornerRadius="4">
+                                <ScrollViewer>
+                                    <ItemsPresenter/>
+                                </ScrollViewer>
+                            </Border>
+                        </Popup>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Selection" Property="TextElement.Foreground"
+                                    Value="{StaticResource G.TextDim}"/>
+                            <Setter TargetName="ToggleButton" Property="Opacity" Value="0.6"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="ComboBoxItem">
+        <Setter Property="Background" Value="{StaticResource G.Surface}"/>
+        <Setter Property="Foreground" Value="{StaticResource G.Text}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="8,6"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ComboBoxItem">
+                    <Border x:Name="bd" Background="{TemplateBinding Background}"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="bd" Property="Background" Value="{StaticResource G.Surface2}"/>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="bd" Property="Background" Value="{StaticResource G.PrimaryDark}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- CheckBox (§9). The default system template paints a low-contrast
+         mark that is nearly invisible on the dark theme, especially when
+         scaled. This template is explicit about every state:
+           Unchecked : dark neutral box, clear border
+           Checked   : sapphire fill + bright cyan glyph (glyph, not just colour)
+           Hover     : brighter border
+           Focus     : cyan focus ring (keyboard)
+         The check glyph is a real Path, so it stays legible at 100/125/150%. -->
+    <Style TargetType="CheckBox">
+        <Setter Property="Foreground" Value="{StaticResource G.Text}"/>
+        <Setter Property="Background" Value="#FF0A1220"/>
+        <Setter Property="BorderBrush" Value="{StaticResource G.Line}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding" Value="8,0,0,0"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="CheckBox">
+                    <Grid Background="Transparent">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Border x:Name="Box"
+                                Grid.Column="0"
+                                Width="18" Height="18"
+                                CornerRadius="3"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                SnapsToDevicePixels="True">
+                            <!-- Checked glyph. Hidden while unchecked. -->
+                            <Path x:Name="Check"
+                                  Data="M 3.5 9.5 L 7.5 13.5 L 14.5 5.5"
+                                  Stroke="#FFEDF2FF"
+                                  StrokeThickness="2.4"
+                                  StrokeStartLineCap="Round"
+                                  StrokeEndLineCap="Round"
+                                  StrokeLineJoin="Round"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  Visibility="Collapsed"
+                                  SnapsToDevicePixels="False"/>
+                        </Border>
+
+                        <ContentPresenter Grid.Column="1"
+                                          Margin="{TemplateBinding Padding}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          RecognizesAccessKey="True"/>
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <!-- Sapphire fill so the checked state reads as an
+                                 obvious solid block, not a subtle tint. -->
+                            <Setter TargetName="Box" Property="Background" Value="{StaticResource G.Primary}"/>
+                            <Setter TargetName="Box" Property="BorderBrush" Value="{StaticResource G.Cyan}"/>
+                            <Setter TargetName="Check" Property="Visibility" Value="Visible"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Box" Property="BorderBrush" Value="{StaticResource G.Cyan}"/>
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter TargetName="Box" Property="BorderBrush" Value="{StaticResource G.Cyan}"/>
+                            <Setter TargetName="Box" Property="BorderThickness" Value="2"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.45"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!-- Search box with a placeholder hint, used by the model filter (§5). -->
+    <Style x:Key="G.SearchBox" TargetType="TextBox">
+        <Setter Property="Background" Value="{StaticResource G.BgDeep}"/>
+        <Setter Property="Foreground" Value="{StaticResource G.Text}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource G.Line}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding" Value="8,6"/>
+        <Setter Property="CaretBrush" Value="{StaticResource G.Text}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="4"
+                            SnapsToDevicePixels="True">
+                        <Grid>
+                            <ScrollViewer x:Name="PART_ContentHost" Margin="0"/>
+                            <TextBlock x:Name="Hint"
+                                       Text="{TemplateBinding Tag}"
+                                       Foreground="{StaticResource G.TextDim}"
+                                       Margin="10,0,0,0"
+                                       VerticalAlignment="Center"
+                                       IsHitTestVisible="False"
+                                       Visibility="Collapsed"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Text" Value="">
+                            <Setter TargetName="Hint" Property="Visibility" Value="Visible"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="RadioButton">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{StaticResource G.Text}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource G.Line}"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+    </Style>
+
+    <Style TargetType="Label">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{StaticResource G.Text}"/>
+    </Style>
+    <Style TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource G.Text}"/>
+    </Style>
+    <Style TargetType="Button" BasedOn="{StaticResource G.Button}"/>
+
+    <!-- DataGrid: grid + row + cell + header must all be themed or the
+         row/cell templates repaint white over the dark grid. -->
+    <Style x:Key="G.DataGrid" TargetType="DataGrid">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{StaticResource G.Text}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource G.Line}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="GridLinesVisibility" Value="Horizontal"/>
+        <Setter Property="HorizontalGridLinesBrush" Value="{StaticResource G.LineSoft}"/>
+        <Setter Property="HeadersVisibility" Value="Column"/>
+        <Setter Property="RowBackground" Value="Transparent"/>
+        <Setter Property="AlternatingRowBackground" Value="#FF0B1422"/>
+        <Setter Property="AutoGenerateColumns" Value="False"/>
+        <Setter Property="IsReadOnly" Value="True"/>
+        <Setter Property="CanUserAddRows" Value="False"/>
+        <Setter Property="HorizontalScrollBarVisibility" Value="Disabled"/>
+    </Style>
+
+    <!-- DataGrid internals. A DataGrid themed without these still renders
+         white rows / white headers / white cells, because the row and cell
+         templates paint their own background. -->
+    <Style TargetType="DataGrid" BasedOn="{StaticResource G.DataGrid}"/>
+    <Style TargetType="DataGridRow">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{StaticResource G.Text}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#FF0B1422"/>
+            </Trigger>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="{StaticResource G.Surface2}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="DataGridCell">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{StaticResource G.Text}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="6,4"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="DataGridCell">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Foreground" Value="{StaticResource G.Text}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="DataGridColumnHeader">
+        <Setter Property="Background" Value="{StaticResource G.Surface}"/>
+        <Setter Property="Foreground" Value="{StaticResource G.TextMid}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource G.LineSoft}"/>
+        <Setter Property="BorderThickness" Value="0,0,0,1"/>
+        <Setter Property="Padding" Value="8,6"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+    </Style>
+
+    <!-- Tabs -->
+    <Style TargetType="TabControl">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{StaticResource G.Text}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+    </Style>
+    <Style TargetType="TabItem">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{StaticResource G.TextMid}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="12,6"/>
+    </Style>
+
+    <!-- Menus / popups / tooltips -->
+    <Style TargetType="ContextMenu">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ContextMenu">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" Padding="4">
+                        <StackPanel IsItemsHost="True"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Background" Value="{StaticResource G.Surface}"/>
+        <Setter Property="Foreground" Value="{StaticResource G.Text}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource G.Line}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+    </Style>
+    <Style TargetType="MenuItem">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="MenuItem">
+                    <Border x:Name="Item" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
+                        <ContentPresenter ContentSource="Header" RecognizesAccessKey="True"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsHighlighted" Value="True">
+                            <Setter TargetName="Item" Property="Background" Value="{StaticResource G.Surface2}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.45"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{StaticResource G.Text}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="8,5"/>
+    </Style>
+    <Style TargetType="ToolTip">
+        <Setter Property="Background" Value="{StaticResource G.Surface}"/>
+        <Setter Property="Foreground" Value="{StaticResource G.Text}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource G.Line}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+    </Style>
+
+    <!-- Misc containers -->
+    <Style TargetType="ProgressBar">
+        <Setter Property="Background" Value="{StaticResource G.Surface2}"/>
+        <Setter Property="Foreground" Value="{StaticResource G.Primary}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Height" Value="6"/>
+    </Style>
+    <Style TargetType="Expander">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{StaticResource G.Text}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+    </Style>
+    <!-- GroupBox: setting properties alone left the stock light template in
+         place, so a GroupBox rendered as a white-outlined box on the dark page.
+         The template is replaced to match the panel style used elsewhere. -->
+    <Style TargetType="GroupBox">
+        <Setter Property="Background" Value="{StaticResource G.Surface}"/>
+        <Setter Property="Foreground" Value="{StaticResource G.Text}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource G.LineSoft}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding" Value="12"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="GroupBox">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Margin="2,0,0,8"
+                                   FontWeight="SemiBold"
+                                   Text="{TemplateBinding Header}"
+                                   Foreground="{StaticResource G.Text}"/>
+                        <Border Grid.Row="1"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="6"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter/>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="Separator">
+        <Setter Property="Background" Value="{StaticResource G.LineSoft}"/>
+    </Style>
+    <Style TargetType="Thumb">
+        <Setter Property="Background" Value="{StaticResource G.Line}"/>
+    </Style>
+    <Style TargetType="ContentPresenter">
+        <Setter Property="TextBlock.Foreground" Value="{StaticResource G.Text}"/>
+    </Style>
+
+</ResourceDictionary>

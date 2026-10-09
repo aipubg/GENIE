@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>GENIE — Operator Console</title>
+<link rel="stylesheet" href="/ui/styles.css" />
+<style>
+  body { font-family: system-ui, sans-serif; margin: 0; background: #0f1216; color: #e6e6e6; }
+  header { padding: 12px 18px; border-bottom: 1px solid #232a33; display: flex; gap: 16px; align-items: center; }
+  header h1 { font-size: 16px; margin: 0; }
+  .pill { font-size: 12px; padding: 3px 8px; border-radius: 999px; background: #1b2129; }
+  main { padding: 18px; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 14px; }
+  .card { background: #161b22; border: 1px solid #232a33; border-radius: 10px; padding: 14px; }
+  .card h2 { font-size: 14px; margin: 0 0 8px; display: flex; justify-content: space-between; }
+  .kv { display: grid; grid-template-columns: auto 1fr; gap: 2px 10px; font-size: 12px; }
+  .kv b { color: #9aa7b5; font-weight: 600; }
+  .bar { height: 6px; background: #232a33; border-radius: 4px; margin: 8px 0; overflow: hidden; }
+  .bar > span { display: block; height: 100%; background: #3fa7ff; }
+  .btns { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  button { background: #1f2730; color: #e6e6e6; border: 1px solid #2c3744; border-radius: 6px;
+           padding: 5px 9px; font-size: 12px; cursor: pointer; }
+  button:hover { background: #27313d; }
+  button.danger { border-color: #5a2330; color: #ff9aa6; }
+  .flag { font-size: 11px; padding: 1px 6px; border-radius: 4px; }
+  .flag.paused { background: #4a3a12; color: #ffd479; }
+  .flag.cancelled { background: #4a1f24; color: #ff9aa6; }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 6px; }
+  th, td { text-align: left; padding: 4px 6px; border-bottom: 1px solid #20272f; }
+  .sev-high { color: #ff9aa6; } .sev-medium { color: #ffd479; } .sev-low { color: #9aa7b5; }
+  .muted { color: #6b7682; }
+  a.back { color: #3fa7ff; font-size: 12px; text-decoration: none; }
+</style>
+</head>
+<body>
+<header>
+  <h1>GENIE · Operator Console</h1>
+  <span class="pill" id="fleet">teams: –</span>
+  <span class="pill" id="budget">budget: –</span>
+  <span class="pill" id="exp">experience: –</span>
+  <a class="back" href="/ui/">← chat</a>
+  <label style="margin-left:auto;font-size:12px"><input type="checkbox" id="auto" checked /> live (2s)</label>
+</header>
+<main>
+  <section id="teams" class="cards"></section>
+
+  <h3 style="margin-top:22px">Improvements <span class="muted">(experience→improvement, Phase 12 input)</span></h3>
+  <div id="improvements"></div>
+
+  <h3 style="margin-top:18px">Recent audit trail <span class="muted">(tamper-evident)</span></h3>
+  <table id="audit"><thead><tr><th>ts</th><th>who</th><th>action</th><th>result</th><th>why</th></tr></thead><tbody></tbody></table>
+</main>
+<script src="/ui/api.js"></script>
+<script src="/ui/ops.js"></script>
+</body>
+</html>

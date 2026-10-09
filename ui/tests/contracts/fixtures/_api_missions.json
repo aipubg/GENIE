@@ -1,0 +1,39 @@
+{
+  "code": 200,
+  "body": {
+    "missions": [
+      {
+        "mission_id": "mission-1",
+        "state": "FAILED",
+        "goal": "sanitized example goal",
+        "steps": [
+          {
+            "status": "done",
+            "capability": "files.read",
+            "result": {}
+          },
+          {
+            "status": "failed",
+            "capability": "media.play",
+            "result": {
+              "error": "sanitized example failure"
+            }
+          }
+        ],
+        "targets": [
+          "device-example"
+        ],
+        "errors": [
+          {
+            "message": "sanitized example failure"
+          }
+        ],
+        "cost_usd": 0.0012,
+        "created_at": 1700000000000,
+        "updated_at": 1700000060000,
+        "agent_count": 1,
+        "artifact_count": 0
+      }
+    ]
+  }
+}

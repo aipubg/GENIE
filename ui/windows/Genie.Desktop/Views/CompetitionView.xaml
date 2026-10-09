@@ -1,0 +1,70 @@
+<UserControl x:Class="Genie.Desktop.Views.CompetitionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="24">
+
+            <TextBlock Text="Competition" FontSize="22" FontWeight="SemiBold"/>
+            <TextBlock TextWrapping="Wrap" Margin="0,4,0,0"
+                       Foreground="{StaticResource G.TextMid}"
+                       Text="Run several approaches against one task and let the verifier pick. Only the verified winner commits, so the side effect can never happen twice."/>
+            <TextBlock Text="{Binding Summary}" TextWrapping="Wrap" Margin="0,8,0,0"/>
+
+            <!-- Run controls: a mission id, an optional task id, then run/cancel. -->
+            <TextBlock Text="Run competing approaches" FontSize="16" FontWeight="SemiBold" Margin="0,24,0,8"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Mission" VerticalAlignment="Center" Margin="0,0,12,6"/>
+                <TextBox Grid.Row="0" Grid.Column="1" Margin="0,0,0,6"
+                         Text="{Binding MissionId, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Task (optional)" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                <TextBox Grid.Row="1" Grid.Column="1"
+                         Text="{Binding TaskId, UpdateSourceTrigger=PropertyChanged}"/>
+            </Grid>
+
+            <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
+                <Button Padding="16,8" Content="Run competing approaches"
+                        Command="{Binding RunCommand}"/>
+                <Button Padding="16,8" Margin="8,0,0,0" Content="Cancel"
+                        Command="{Binding CancelCommand}"/>
+                <Button Padding="16,8" Margin="8,0,0,0" Content="Refresh"
+                        Command="{Binding RefreshCommand}"/>
+            </StackPanel>
+
+            <TextBlock Text="{Binding Result}" TextWrapping="Wrap" Margin="0,12,0,0"/>
+
+            <!-- Recorded outcomes. failures read as needs_revision, never as wins. -->
+            <TextBlock Text="Recorded runs" FontSize="16" FontWeight="SemiBold" Margin="0,24,0,8"/>
+            <TextBlock Text="{Binding Status}" TextWrapping="Wrap"
+                       Foreground="{StaticResource G.TextMid}"/>
+            <ItemsControl ItemsSource="{Binding Recent}" Margin="0,8,0,0">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderThickness="0,0,0,1" Padding="0,6"
+                                BorderBrush="{StaticResource G.Line}">
+                            <StackPanel>
+                                <TextBlock>
+                                    <Run Text="{Binding Outcome, Mode=OneWay}" FontWeight="SemiBold"/>
+                                    <Run Text="  "/>
+                                    <Run Text="{Binding Winner, Mode=OneWay}"/>
+                                </TextBlock>
+                                <TextBlock Text="{Binding Summary, Mode=OneWay}" TextWrapping="Wrap"
+                                           Foreground="{StaticResource G.TextMid}"/>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

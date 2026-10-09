@@ -1,0 +1,14 @@
+{
+  "id": "test_timeout",
+  "name": "Timeout handling test fixture",
+  "version": "1.0.0",
+  "description": "Test fixture: its adapter never returns, proving the client timeout kills a hung plugin.",
+  "entry": "adapter.py",
+  "platforms": ["windows", "linux", "macos"],
+  "permissions": ["application.test.control"],
+  "capabilities": [
+    {"name": "hang", "description": "Never return",
+     "permissions": ["application.test.control"], "timeout_ms": 1500}
+  ],
+  "author": "GENIE", "license": "MIT", "first_party": true
+}

@@ -1,0 +1,39 @@
+{
+  "code": 200,
+  "body": {
+    "instance_id": "sanitized-instance",
+    "computer_capabilities": [
+      "window.list",
+      "files.read",
+      "browser.navigate",
+      "clipboard.get"
+    ],
+    "computer": {
+      "workspace": {
+        "root": "<sanitized-workspace-root>",
+        "bytes": 1048576
+      }
+    },
+    "providers": [
+      {
+        "id": "provider-a",
+        "display_name": "Provider A",
+        "enabled": true,
+        "has_secret_ref": false,
+        "models": [
+          {
+            "model_id": "model-a-1",
+            "enabled": true
+          }
+        ]
+      },
+      {
+        "id": "provider-b",
+        "display_name": "Provider B",
+        "enabled": false,
+        "has_secret_ref": false,
+        "models": []
+      }
+    ]
+  }
+}

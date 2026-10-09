@@ -1,0 +1,15 @@
+# Build-only dependencies for producing the packaged GENIE backend.
+#
+# These are NOT runtime dependencies: the frozen GENIEBackend.exe is
+# self-contained, and an installed GENIE never needs Python on the owner's PC.
+#
+# Install:
+#     python -m pip install -r requirements-build.txt
+#
+# Recorded for rc14:
+#     PyInstaller 6.22.2
+#
+# When this changes, record the new version in
+# artifacts/release_installer_manifest_rc14.json (field: pyinstaller_version).
+
+PyInstaller==6.22.2

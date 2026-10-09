@@ -1,0 +1,154 @@
+# GENIE — ignore rules
+
+# Local data (never commit personal memory / DB / caches)
+# NOTE: uses `/data/*` (children) rather than `/data/` (the directory), because
+# git will not re-include anything inside a directory that was excluded
+# wholesale. The persona exception below depends on this.
+/data/*
+*.db
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite3
+
+# EXCEPTION: the persona corpus is product DATA, not runtime state.
+# 295 markdown files (~4.7M); deterministic tests depend on it, so it MUST be
+# tracked — otherwise every fresh worktree/clone fails the persona suite.
+# Everything else under /data/ stays ignored.
+!/data/personas/
+!/data/personas/**
+
+# Secrets — NEVER commit
+.env
+.env.*
+*.key
+*.pem
+*.p12
+secrets/
+/secrets.json
+*.token
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Node build outputs
+node_modules/
+dist/
+# Embedded Python runtime for packaging. Large, regenerable via
+# scripts/build_backend_runtime.py. Its tests are third-party; pytest must not
+# collect them (see norecursedirs in pytest.ini).
+backend-dist/
+# Build scratch (frozen venv, embedded CPython download).
+.build/
+ui/electron/node_modules/
+build/
+out/
+*.tsbuildinfo
+
+# Kotlin / Android
+.gradle/
+/local.properties
+/build/
+*.apk
+*.aab
+
+# Artifacts & media
+/artifacts/
+*.mp4
+*.wav
+*.mp3
+*.png
+*.jpg
+!docs/**/*.png
+# Brand assets are source-of-truth visual references — they MUST be tracked
+# (these are the owner-supplied PNGs the locked UI is built against).
+!ui/assets/brand/**/*.png
+!ui/assets/brand/**/*.jpg
+!ui/assets/brand/**/*.webp
+!ui/assets/brand/**/*.svg
+!ui/assets/brand/**/*.ico
+
+# Logs & traces
+logs/
+*.log
+traces/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors / agents
+.idea/
+.workbuddy-aii/
+.vscode/*
+!.vscode/settings.example.json
+*.swp
+
+# Third-party vendored code is tracked ONLY with explicit license review.
+# Do not commit GPL/AGPL or unlicensed sources. See docs/LICENSE_MATRIX.md.
+
+# ---- Vendor policy (item 10 of the Git directive)
+# vendor/prime_rlm  -> REAL runtime dependency; tracked with provenance.
+# vendor/strix-audit -> audit-only extracted donor source; NEVER committed
+#                      (keep provenance, version, license, hash, source URL in
+#                      docs instead).
+vendor/strix-audit/
+
+# ---- Explicit runtime-DB ignores (defensive; /data/ also covers these)
+data/plugin_dbg.db
+data/plugin_dbg.db-*
+data/providers.user.json
+data/providers.local.json
+/config/user.json
+
+# ---- Browser profile and Chromium cache (Device Mesh / Computer)
+data/workspace/browser-profile/
+**/chrome-user-data/
+**/playwright-cache/
+**/ms-playwright/
+/browser-profile*/
+
+# ---- Owner / private data and runtime binaries
+OWNER*
+*OWNER*
+*.owner
+*.private
+data/models/
+
+# ---- Crawl state, Scrapling checkpoints, Strix scan state
+*.sqlite-shm
+*.sqlite-wal
+crawl-state/
+checkpoints/
+scrapling_checkpoints/
+
+# ---- Transient test screenshots/audio (in addition to *.png / *.wav)
+data/shot.bmp
+data/win.bmp
+data/voice/speech_*.wav
+data/voice/mic_capture.wav
+data/voice/pytest_stt.wav
+data/voice/stt_probe.wav
+data/voice/acoustic*.wav
+
+# .NET / WPF build output
+[Bb]in/
+[Oo]bj/
+ui/windows/**/[Bb]in/
+ui/windows/**/[Oo]bj/
+ui/windows/**/*_wpftmp.csproj
+
+# Agent workspace metadata (memory, artifacts, local notes). Not product source.
+.workbuddy-ai/
+
+# Owner authorization implementation is source, not personal authorization data.
+!computer/owner_policy.py
+!tests/unit/test_owner_policy.py
+!docs/GENIE_CODE_REPAIR_IMPLEMENTATION.md

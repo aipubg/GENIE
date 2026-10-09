@@ -1,0 +1,2 @@
+GENIE browser download fixture.
+This file exists so the download capability can be verified against a real file.

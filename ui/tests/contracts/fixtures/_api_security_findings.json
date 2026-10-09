@@ -1,0 +1,26 @@
+{
+  "code": 200,
+  "body": {
+    "registered": true,
+    "summary": {
+      "total": 1,
+      "unresolved": 1
+    },
+    "findings": [
+      {
+        "severity": "high",
+        "title": "sanitized example finding",
+        "target": "device-example",
+        "status": "open",
+        "reported_by": [
+          {
+            "who": "example-actor"
+          },
+          {
+            "agent": "agent-example"
+          }
+        ]
+      }
+    ]
+  }
+}

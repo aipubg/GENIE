@@ -1,0 +1,19 @@
+{
+  "code": 200,
+  "body": {
+    "providers": [
+      {
+        "id": "provider-a",
+        "display_name": "Provider A",
+        "enabled": true,
+        "has_secret_ref": false,
+        "models": [
+          {
+            "model_id": "model-a-1",
+            "enabled": true
+          }
+        ]
+      }
+    ]
+  }
+}

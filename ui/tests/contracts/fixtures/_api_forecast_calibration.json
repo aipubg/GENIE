@@ -1,0 +1,9 @@
+{
+  "code": 200,
+  "body": {
+    "registered": true,
+    "forecasts": 0,
+    "numeric": 0,
+    "declined": 0
+  }
+}

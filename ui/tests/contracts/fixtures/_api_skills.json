@@ -1,0 +1,23 @@
+{
+  "code": 200,
+  "body": {
+    "skills": [
+      {
+        "skill_id": "skill-example",
+        "name": "skill-example",
+        "version": "1.0.0",
+        "status": "active",
+        "provenance": {
+          "type": "builtin",
+          "origin": "sanitized"
+        },
+        "required_capabilities": [
+          "files.read"
+        ],
+        "permissions": [
+          "files.read"
+        ]
+      }
+    ]
+  }
+}

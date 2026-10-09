@@ -1,0 +1,249 @@
+<UserControl x:Class="Genie.Desktop.Views.ComputerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:Genie.Desktop.ViewModels"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DataContext="{d:DesignInstance Type=vm:ComputerViewModel}"
+             mc:Ignorable="d">
+    <Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <Grid Margin="24">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Header -->
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Computer"
+                               Style="{StaticResource G.PageTitle}"/>
+                    <Button Grid.Column="1" Padding="14,7"
+                            Style="{StaticResource G.Button}"
+                            Content="Refresh" Command="{Binding RefreshCommand}"/>
+                </Grid>
+
+                <!-- What GENIE has done on this machine, in one sentence. -->
+                <Border Grid.Row="1" Margin="0,12,0,16" Padding="14,10"
+                        CornerRadius="6"
+                        Background="{StaticResource G.Surface}"
+                        BorderBrush="{StaticResource G.LineSoft}"
+                        BorderThickness="1">
+                    <StackPanel Orientation="Horizontal">
+                        <Ellipse Width="8" Height="8" Margin="0,0,10,0"
+                                 VerticalAlignment="Center"
+                                 Fill="{Binding StatusTone,
+                                        Converter={StaticResource BrushKeyToBrush}}"/>
+                        <TextBlock Text="{Binding Status}" TextWrapping="Wrap"
+                                   Foreground="{StaticResource G.Text}"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Actions. Nothing to show is stated, not left as an empty grid. -->
+                <Border Grid.Row="2" Padding="24" CornerRadius="6" MinHeight="150"
+                        Background="{StaticResource G.Surface}"
+                        BorderBrush="{StaticResource G.LineSoft}"
+                        BorderThickness="1"
+                        Visibility="{Binding IsEmpty, Converter={StaticResource BoolToVisibility}}">
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
+                               MaxWidth="440" FontSize="14" TextWrapping="Wrap"
+                               TextAlignment="Center"
+                               Foreground="{StaticResource G.TextMid}"
+                               Text="{Binding EmptyText}"/>
+                </Border>
+
+                <Border Grid.Row="2" Padding="14,11" CornerRadius="6"
+                        Background="{StaticResource G.Surface}"
+                        BorderBrush="{StaticResource G.LineSoft}"
+                        BorderThickness="1"
+                        Visibility="{Binding HasActions, Converter={StaticResource BoolToVisibility}}">
+                    <StackPanel>
+                        <Grid Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="90"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="180"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="When" FontSize="11"
+                                       Foreground="{StaticResource G.TextDim}"/>
+                            <TextBlock Grid.Column="1" Text="Action" FontSize="11"
+                                       Foreground="{StaticResource G.TextDim}"/>
+                            <TextBlock Grid.Column="2" Text="Outcome" FontSize="11"
+                                       Foreground="{StaticResource G.TextDim}"/>
+                        </Grid>
+                        <ItemsControl ItemsSource="{Binding Recent}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="0,3">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="90"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="180"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="{Binding When}"
+                                                   Foreground="{StaticResource G.TextDim}"/>
+                                        <TextBlock Grid.Column="1" Text="{Binding Kind}"
+                                                   TextTrimming="CharacterEllipsis"
+                                                   Foreground="{StaticResource G.Text}"/>
+                                        <TextBlock Grid.Column="2" Text="{Binding Outcome}"
+                                                   Foreground="{Binding OutcomeTone,
+                                                                Converter={StaticResource BrushKeyToBrush}}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Border>
+
+                <!-- Isolation: where GENIE actually runs, stated truthfully. -->
+                <TextBlock Grid.Row="3" Margin="0,24,0,8" FontSize="18"
+                           FontWeight="SemiBold" Text="Where GENIE runs"
+                           Foreground="{StaticResource G.Text}"/>
+
+                <Border Grid.Row="4" Padding="14,12" CornerRadius="6"
+                        Background="{StaticResource G.Surface}"
+                        BorderBrush="{StaticResource G.LineSoft}"
+                        BorderThickness="1">
+                    <StackPanel>
+                        <TextBlock Text="{Binding IsolationHeadline}"
+                                   TextWrapping="Wrap"
+                                   Foreground="{StaticResource G.Text}"/>
+                        <ItemsControl ItemsSource="{Binding IsolationRows}" Margin="0,10,0,0">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="0,3">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="200"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="{Binding Primary}"
+                                                   Foreground="{StaticResource G.TextMid}"/>
+                                        <TextBlock Grid.Column="1" Text="{Binding Secondary}"
+                                                   TextWrapping="Wrap"
+                                                   Foreground="{StaticResource G.Text}"/>
+                                        <TextBlock Grid.Column="2" Margin="12,0,0,0" FontSize="12"
+                                                   Text="{Binding Badge}"
+                                                   Foreground="{Binding BadgeTone,
+                                                                Converter={StaticResource BrushKeyToBrush}}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <TextBlock Margin="0,10,0,0" FontSize="11" TextWrapping="Wrap"
+                                   Text="{Binding IsolationCaveat}"
+                                   Visibility="{Binding IsolationCaveat,
+                                                Converter={StaticResource StringToVisibility}}"
+                                   Foreground="{StaticResource G.TextDim}"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- GENIE's dedicated browser: status + READ-ONLY live preview. -->
+                <TextBlock Grid.Row="5" Margin="0,24,0,8" FontSize="18"
+                           FontWeight="SemiBold" Text="Live view"
+                           Foreground="{StaticResource G.Text}"/>
+
+                <Border Grid.Row="6" Padding="14,12" CornerRadius="6"
+                        Background="{StaticResource G.Surface}"
+                        BorderBrush="{StaticResource G.LineSoft}"
+                        BorderThickness="1">
+                    <StackPanel>
+                        <WrapPanel Margin="0,0,0,10">
+                            <CheckBox Content="Desktop" IsChecked="{Binding DesktopPreview}" VerticalAlignment="Center"
+                                      Foreground="{StaticResource G.Text}" Margin="0,0,12,0"/>
+                            <ComboBox ItemsSource="{Binding DisplayIndices}" SelectedItem="{Binding DisplayIndex}"
+                                      MinWidth="90" ToolTip="Display index"
+                                      Visibility="{Binding DesktopPreview, Converter={StaticResource BoolToVisibility}}"/>
+                        </WrapPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Ellipse Width="8" Height="8" Margin="0,0,10,0"
+                                     VerticalAlignment="Center"
+                                     Fill="{Binding BrowserTone,
+                                            Converter={StaticResource BrushKeyToBrush}}"/>
+                            <TextBlock Text="{Binding BrowserMessage}" TextWrapping="Wrap"
+                                       Foreground="{StaticResource G.Text}"/>
+                        </StackPanel>
+                        <TextBlock Margin="0,6,0,0" TextWrapping="Wrap"
+                                   Foreground="{StaticResource G.TextMid}"
+                                   Visibility="{Binding BrowserTitle,
+                                                Converter={StaticResource StringToVisibility}}"
+                                   Text="{Binding BrowserTitle, StringFormat=Page: {0}}"/>
+                        <TextBlock Margin="0,2,0,0" FontSize="11" TextWrapping="Wrap"
+                                   Foreground="{StaticResource G.TextDim}"
+                                   Visibility="{Binding BrowserUrl,
+                                                Converter={StaticResource StringToVisibility}}"
+                                   Text="{Binding BrowserUrl}"/>
+
+                        <!-- View-only preview. The owner never drives the browser
+                             from here — commands go through GENIE (voice / Chat). -->
+                        <Border Margin="0,10,0,0" CornerRadius="4" MinHeight="200"
+                                Background="{StaticResource G.BgDeep}"
+                                BorderBrush="{StaticResource G.LineSoft}" BorderThickness="1"
+                                Visibility="{Binding HasBrowserSession,
+                                             Converter={StaticResource BoolToVisibility}}">
+                            <Border.InputBindings>
+                                <MouseBinding MouseAction="LeftDoubleClick"
+                                              Command="{Binding ToggleExpandCommand}"/>
+                            </Border.InputBindings>
+                            <Grid>
+                                <Image x:Name="PreviewImage" Stretch="Uniform" Margin="6"
+                                       IsHitTestVisible="False"
+                                       RenderOptions.BitmapScalingMode="HighQuality"/>
+                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                                           Margin="0,0,0,6" FontSize="11"
+                                           Foreground="{StaticResource G.TextDim}"
+                                           IsHitTestVisible="False"
+                                           Text="Read-only preview · double-click to enlarge"/>
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </ScrollViewer>
+
+        <!-- Enlarged read-only viewer. Still observation only: no toolbar, no
+             owner navigation. Close returns to the page. -->
+        <Border Background="#E6040810"
+                Visibility="{Binding Expanded, Converter={StaticResource BoolToVisibility}}">
+            <Grid Margin="24">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="{Binding BrowserTitle}" FontSize="16"
+                                   FontWeight="SemiBold"
+                                   Foreground="{StaticResource G.Text}"
+                                   TextWrapping="Wrap"/>
+                        <TextBlock Text="{Binding BrowserUrl}" FontSize="12"
+                                   Foreground="{StaticResource G.TextMid}"
+                                   TextWrapping="Wrap"/>
+                    </StackPanel>
+                    <Button Grid.Column="1" Padding="14,7" VerticalAlignment="Top"
+                            Style="{StaticResource G.Button}"
+                            Content="Close" Command="{Binding CloseExpandCommand}"/>
+                </Grid>
+                <Border Grid.Row="1" Margin="0,12,0,0" CornerRadius="6"
+                        Background="{StaticResource G.BgDeep}"
+                        BorderBrush="{StaticResource G.LineSoft}" BorderThickness="1">
+                    <Image x:Name="ExpandedImage" Stretch="Uniform" Margin="8"
+                           RenderOptions.BitmapScalingMode="HighQuality"/>
+                </Border>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

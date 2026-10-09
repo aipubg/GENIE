@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- The node dials the daemon, so it needs no inbound port and no router configuration. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- Capability-gated permissions are requested only when the owner enables that capability.
+         Notification access and accessibility are granted by the owner in system settings and are
+         never assumed: the node registers those capabilities only after the grant is confirmed. -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+
+    <application
+        android:label="GENIE Node"
+        android:allowBackup="false"
+        android:usesCleartextTraffic="false">
+        <service
+            android:name=".GenieNodeService"
+            android:exported="false"
+            android:foregroundServiceType="dataSync" />
+    </application>
+</manifest>

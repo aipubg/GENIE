@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>GENIE — backend diagnostics</title>
+<style>
+  body { margin: 0; padding: 40px; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; color: #222; }
+  h1 { font-size: 20px; margin: 0 0 4px; }
+  p  { margin: 0 0 20px; color: #666; max-width: 62ch; line-height: 1.5; }
+  a  { display: block; margin: 8px 0; font-size: 15px; }
+  .note { margin-top: 28px; padding: 12px 14px; border-left: 3px solid #999;
+          background: #f6f6f6; font-size: 13px; color: #444; max-width: 70ch;
+          line-height: 1.5; }
+</style>
+</head>
+<body>
+  <h1>GENIE backend</h1>
+  <p>
+    This HTTP port is the backend's <strong>diagnostic surface</strong>. It is not
+    a desktop UI. The owner-facing application is
+    <strong>Genie.Desktop</strong>, the Windows-native client, which talks to
+    this same backend over these same endpoints.
+  </p>
+
+  <a href="/ui/ops">Operations dashboard</a>
+  <a href="/ui/control">Control centre</a>
+  <a href="/health">Health endpoint</a>
+
+  <div class="note">
+    The browser-based desktop UI that used to live here was removed once the
+    native client reached parity: two owner-facing shells means two places for
+    the same truth to drift. These diagnostic pages remain because they are
+    genuinely useful for support and debugging, and they read the same
+    authoritative endpoints the native client reads.
+  </div>
+</body>
+</html>

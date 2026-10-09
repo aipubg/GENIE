@@ -1,0 +1,25 @@
+{
+  "code": 200,
+  "body": {
+    "count": 1,
+    "by_state": {
+      "online": 1
+    },
+    "online": 1,
+    "devices": [
+      {
+        "device_id": "device-example",
+        "name": "Example Device",
+        "type": "pc",
+        "state": "online",
+        "trust_tier": "owner_primary",
+        "capabilities": [
+          "window.list",
+          "files.read",
+          "browser.navigate"
+        ],
+        "last_seen": 1700000000000
+      }
+    ]
+  }
+}

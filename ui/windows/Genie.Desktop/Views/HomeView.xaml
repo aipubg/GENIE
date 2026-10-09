@@ -1,0 +1,259 @@
+<!--
+  GENIE Home — full-display, Jarvis-like.
+
+  No white panels, no rectangular cards. The entire surface is the AI core:
+  four concentric rings over a deep gradient, the genie figure in the
+  centre (unclipped, no artificial background), and a single slim command
+  box at the bottom. The visual state is driven by HomeViewModel.State
+  via VisualStateManager so IDLE / LISTENING / THINKING / SPEAKING / ERROR
+  each get their own breathing rhythm and accent colour.
+-->
+<UserControl x:Class="Genie.Desktop.Views.HomeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:Genie.Desktop.ViewModels"
+             d:DataContext="{d:DesignInstance Type=vm:HomeViewModel}"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <!-- No user-control resources: each VisualState owns its Storyboard
+             inline so the active/inactive transition is just a swap. -->
+    </UserControl.Resources>
+
+    <Grid>
+        <!-- Full-bleed deep gradient. No panel, no card. -->
+        <Grid.Background>
+            <RadialGradientBrush Center="0.5,0.45" RadiusX="0.95" RadiusY="0.95">
+                <GradientStop Color="#FF0A1426" Offset="0"/>
+                <GradientStop Color="#FF060912" Offset="1"/>
+            </RadialGradientBrush>
+        </Grid.Background>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="StateGroup">
+                <VisualStateGroup.Transitions>
+                    <VisualTransition GeneratedDuration="0:0:0.4"/>
+                </VisualStateGroup.Transitions>
+                <VisualState x:Name="Idle"/>
+                <VisualState x:Name="Listening">
+                    <Storyboard>
+                        <!-- Scale is now driven entirely by the real amplitude
+                             render loop so the owner sees a clear, immediate
+                             reaction rather than a subtle storyboard pulse. -->
+                        <DoubleAnimation Storyboard.TargetName="Ring3"
+                        Storyboard.TargetProperty="Opacity"
+                        From="0.85" To="0.45" Duration="0:0:0.7" AutoReverse="True"/>
+                    </Storyboard>
+                </VisualState>
+                <VisualState x:Name="Thinking">
+                    <Storyboard>
+                        <DoubleAnimation Storyboard.TargetName="Ring2"
+                        Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                        From="0.96" To="1.06" Duration="0:0:0.9" AutoReverse="True"/>
+                        <DoubleAnimation Storyboard.TargetName="Ring2"
+                        Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                        From="0.96" To="1.06" Duration="0:0:0.9" AutoReverse="True"/>
+                        <DoubleAnimation Storyboard.TargetName="Ring4"
+                        Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"
+                        From="0" To="360" Duration="0:0:18"/>
+                        <DoubleAnimation Storyboard.TargetName="Ring3"
+                        Storyboard.TargetProperty="Opacity"
+                        From="0.55" To="0.90" Duration="0:0:1.0" AutoReverse="True"/>
+                    </Storyboard>
+                </VisualState>
+                <VisualState x:Name="Speaking">
+                    <Storyboard>
+                        <!-- Scale is now driven entirely by the real amplitude
+                             render loop so the owner sees a clear, immediate
+                             reaction rather than a subtle storyboard pulse. -->
+                        <DoubleAnimation Storyboard.TargetName="Ring3"
+                        Storyboard.TargetProperty="Opacity"
+                        From="0.70" To="1.0" Duration="0:0:1.1" AutoReverse="True"/>
+                    </Storyboard>
+                </VisualState>
+                <VisualState x:Name="Error">
+                    <Storyboard>
+                        <DoubleAnimation Storyboard.TargetName="Ring1"
+                        Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                        From="1.0" To="1.05" Duration="0:0:0.5" AutoReverse="True"/>
+                        <DoubleAnimation Storyboard.TargetName="Ring1"
+                        Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                        From="1.0" To="1.05" Duration="0:0:0.5" AutoReverse="True"/>
+                        <DoubleAnimation Storyboard.TargetName="Ring4"
+                        Storyboard.TargetProperty="Opacity"
+                        From="0.30" To="0.85" Duration="0:0:0.5" AutoReverse="True"/>
+                    </Storyboard>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <!-- Core: 4 concentric rings + the genie figure, vertically centred. -->
+        <Grid Width="520" Height="520"
+              HorizontalAlignment="Center" VerticalAlignment="Center">
+            <!-- RingsHost wraps ONLY the rings so the amplitude-driven scale
+                 (applied per-frame from real mic / playback levels) never moves
+                 the central microphone button. -->
+            <Grid x:Name="RingsHost">
+                <Grid.RenderTransform>
+                    <ScaleTransform x:Name="RingsHostScale" ScaleX="1" ScaleY="1"
+                                    CenterX="260" CenterY="260"/>
+                </Grid.RenderTransform>
+
+                <!-- Ring 1: outermost, soft halo. -->
+                <Ellipse x:Name="Ring1" Width="520" Height="520"
+                         StrokeThickness="1.2"
+                         Stroke="{StaticResource G.Cyan}" Opacity="0.35">
+                    <Ellipse.RenderTransform>
+                        <ScaleTransform ScaleX="1" ScaleY="1"
+                                        CenterX="260" CenterY="260"/>
+                    </Ellipse.RenderTransform>
+                </Ellipse>
+
+                <!-- Ring 2: middle, sapphire. -->
+                <Ellipse x:Name="Ring2" Width="420" Height="420" Margin="50,50,50,50"
+                         StrokeThickness="1.6"
+                         Stroke="{StaticResource G.Primary}" Opacity="0.55">
+                    <Ellipse.RenderTransform>
+                        <ScaleTransform ScaleX="1" ScaleY="1"
+                                        CenterX="210" CenterY="210"/>
+                    </Ellipse.RenderTransform>
+                </Ellipse>
+
+                <!-- Ring 3: inner glow, breathing opacity. -->
+                <Ellipse x:Name="Ring3" Width="320" Height="320" Margin="100,100,100,100"
+                         StrokeThickness="2"
+                         Stroke="{StaticResource G.Violet}" Opacity="0.45"/>
+
+                <!-- RingGlow: amplitude-driven inner glow. Its opacity is set
+                     per-frame from the REAL microphone / playback level, so the
+                     core visibly brightens when the owner speaks or GENIE talks.
+                     No storyboard targets it, so there is no fight for the
+                     property. -->
+                <Ellipse x:Name="RingGlow" Width="360" Height="360"
+                         Margin="80,80,80,80"
+                         Stroke="{StaticResource G.Violet}" StrokeThickness="3"
+                         Opacity="0.15"/>
+
+                <!-- Ring 4: rotating tick marks for THINKING/ERROR state. -->
+                <Canvas x:Name="Ring4" Width="380" Height="380" Margin="70,70,70,70"
+                        Opacity="0.35">
+                    <Canvas.RenderTransform>
+                        <RotateTransform x:Name="Ring4Rotate" Angle="0"
+                                         CenterX="190" CenterY="190"/>
+                    </Canvas.RenderTransform>
+                    <Ellipse Width="380" Height="380"
+                             StrokeThickness="0.6"
+                             Stroke="{StaticResource G.Cyan}"
+                             StrokeDashArray="2 6"/>
+                </Canvas>
+            </Grid>
+
+            <!-- The genie figure IS the microphone control (section 13).
+                 Clicking the core toggles listening on/off; there is no large
+                 separate mic button. NO clip, NO ellipse, NO white background —
+                 the PNG already has a transparent canvas so only the figure
+                 shows. The button chrome is stripped so the artwork reads as
+                 the control itself, not as a button sitting on top of it. -->
+            <Button x:Name="CoreButton"
+                    Width="300" Height="300"
+                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Background="Transparent" BorderThickness="0"
+                    Cursor="Hand"
+                    Command="{Binding ToggleMicCommand}"
+                    IsEnabled="{Binding MicrophoneAvailable}"
+                    ToolTip="{Binding MicHint, Mode=OneWay}">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="Transparent">
+                            <Image x:Name="CoreImage" Source="/Genie_brand_256.png"
+                                   Width="260" Height="260"
+                                   Stretch="Uniform"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   RenderOptions.BitmapScalingMode="HighQuality"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </Grid>
+
+        <!-- Bottom: voice status + mic affordance only.
+             The Home text composer was removed on purpose — Chat is the text
+             workspace and Home is the voice/presence surface. Duplicating a
+             full chat input here was redundant and the owner asked for one. -->
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                    Margin="0,0,0,44">
+
+            <!-- State label: the honest current voice state. -->
+            <TextBlock HorizontalAlignment="Center" FontSize="14"
+                       Foreground="{StaticResource G.TextMid}"
+                       Text="{Binding StateLabel, Mode=OneWay}"/>
+            <TextBlock Text="{Binding VoiceError}" TextWrapping="Wrap" MaxWidth="560"
+                       TextAlignment="Center" Margin="12,6" Foreground="{StaticResource G.TextMid}"/>
+            <Button Content="&#xE769;" FontFamily="Segoe MDL2 Assets" Width="32" Height="32"
+                    HorizontalAlignment="Center" ToolTip="Stop the spoken reply"
+                    Command="{Binding InterruptVoiceCommand}" Style="{StaticResource G.ButtonSmall}"
+                    Visibility="{Binding Capturing, Converter={StaticResource BoolToVisibility}}"/>
+
+            <!-- Microphone indicator. Subtle, integrated, only visible when
+                 the microphone is genuinely available. If it is not, Home says
+                 so instead of faking a listening state. -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"
+                        Margin="0,12,0,0"
+                        Visibility="{Binding MicrophoneAvailable,
+                                     Converter={StaticResource BoolToVisibility}}">
+                <TextBlock Text="{Binding MicGlyph, Mode=OneWay}"
+                           FontFamily="Segoe MDL2 Assets"
+                           FontSize="14"
+                           Foreground="{Binding MicBrush, Mode=OneWay}"
+                           VerticalAlignment="Center"/>
+                <TextBlock Margin="8,0,0,0" FontSize="12"
+                           Foreground="{StaticResource G.TextMid}"
+                           VerticalAlignment="Center"
+                           Text="{Binding MicHint, Mode=OneWay}"/>
+            </StackPanel>
+
+            <!-- Honest unavailable state: never fake listening. -->
+            <TextBlock Margin="0,12,0,0" HorizontalAlignment="Center"
+                       FontSize="12" TextAlignment="Center"
+                       Foreground="{StaticResource G.TextDim}"
+                       Visibility="{Binding MicrophoneAvailable,
+                                    Converter={StaticResource InverseBoolToVisibility}}"
+                       Text="{Binding MicUnavailableReason, Mode=OneWay}"/>
+
+            <!-- Advanced-only amplitude readout. Diagnostics: it proves the core
+                 is reacting to a REAL measurement. Hidden in normal mode. -->
+            <TextBlock Margin="0,14,0,0" HorizontalAlignment="Center"
+                       FontSize="11" FontFamily="Consolas"
+                       TextAlignment="Center"
+                       Foreground="{StaticResource G.TextDim}"
+                       Visibility="{Binding Advanced,
+                                    Converter={StaticResource BoolToVisibility}}"
+                       Text="{Binding AmplitudeText, Mode=OneWay}"/>
+        </StackPanel>
+
+        <!-- Greeting: top-left, light. -->
+        <ScrollViewer HorizontalAlignment="Right" VerticalAlignment="Top" MaxWidth="420"
+                      MaxHeight="130" Margin="180,28,24,0" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <TextBlock Text="{Binding Transcript}" TextWrapping="Wrap" Foreground="{StaticResource G.TextMid}"/>
+                <TextBlock Text="{Binding VoiceReply}" TextWrapping="Wrap" Margin="0,8,0,0"
+                           Foreground="{StaticResource G.Text}"/>
+            </StackPanel>
+        </ScrollViewer>
+        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top"
+                    Margin="32,28,0,0">
+            <TextBlock Text="GENIE" FontWeight="SemiBold" FontSize="18"
+                       Foreground="{StaticResource G.Text}"/>
+            <TextBlock Text="{Binding Greeting}" FontSize="13"
+                       Foreground="{StaticResource G.TextMid}"/>
+            <TextBlock Text="{Binding AwarenessStatus}" TextWrapping="Wrap" MaxWidth="260"
+                       FontSize="11" Margin="0,8,0,0" Foreground="{StaticResource G.TextMid}"/>
+            <CheckBox Content="Share screen with Gemini" Margin="0,12,0,0"
+                      IsChecked="{Binding ScreenSharing, Mode=OneWay}" Command="{Binding ToggleScreenCommand}"
+                      ToolTip="Send authorized display previews to Google's Gemini during Live voice. Camera sharing is separate."/>
+        </StackPanel>
+    </Grid>
+</UserControl>

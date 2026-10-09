@@ -1,0 +1,1872 @@
+{
+  "donor": "hack-skills",
+  "donor_root": "E:\\G3\\repos\\hack-skills-main\\skills",
+  "license": "MIT",
+  "imported": 103,
+  "verdicts": {
+    "OK": 80,
+    "CONFIRM": 23
+  },
+  "enabled": 103,
+  "skills": [
+    {
+      "skill_id": "skill-30d853167327",
+      "name": "401-403-bypass-techniques",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\401-403-bypass-techniques",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753303.9172904
+    },
+    {
+      "skill_id": "skill-0bacab0ca09e",
+      "name": "active-directory-acl-abuse",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\active-directory-acl-abuse",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.active_directory",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753303.9203043
+    },
+    {
+      "skill_id": "skill-6abd7aef507f",
+      "name": "active-directory-certificate-services",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\active-directory-certificate-services",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.active_directory",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753303.9223168
+    },
+    {
+      "skill_id": "skill-e08588e075a7",
+      "name": "active-directory-kerberos-attacks",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\active-directory-kerberos-attacks",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.active_directory",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753303.926331
+    },
+    {
+      "skill_id": "skill-92285d5a6fe1",
+      "name": "ai-ml-security",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\ai-ml-security",
+      "verdict": "CONFIRM",
+      "enabled": true,
+      "confirm_required": true,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.ai_ml",
+        "docs.read"
+      ],
+      "findings_count": 2,
+      "scanner_summary": "RCE_PIPE_SHELL(high); RCE_EVAL_EXEC(medium)",
+      "source": "local",
+      "registered_at": 1789753303.9283354
+    },
+    {
+      "skill_id": "skill-4ae7081b5553",
+      "name": "android-pentesting-tricks",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\android-pentesting-tricks",
+      "verdict": "CONFIRM",
+      "enabled": true,
+      "confirm_required": true,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.mobile",
+        "docs.read"
+      ],
+      "findings_count": 2,
+      "scanner_summary": "RCE_EVAL_EXEC(medium); RCE_EVAL_EXEC(medium)",
+      "source": "local",
+      "registered_at": 1789753303.9306679
+    },
+    {
+      "skill_id": "skill-5ec984e9ab53",
+      "name": "anti-debugging-techniques",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\anti-debugging-techniques",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753303.9356866
+    },
+    {
+      "skill_id": "skill-29cd06a41d35",
+      "name": "api-auth-and-jwt-abuse",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\api-auth-and-jwt-abuse",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.web",
+        "security.api",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753303.9356866
+    },
+    {
+      "skill_id": "skill-0e9f4ea9bf8a",
+      "name": "api-authorization-and-bola",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\api-authorization-and-bola",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.web",
+        "security.api",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753303.9356866
+    },
+    {
+      "skill_id": "skill-6fcc14d4eff2",
+      "name": "api-recon-and-docs",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\api-recon-and-docs",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.recon",
+        "security.web",
+        "security.api",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753303.9356866
+    },
+    {
+      "skill_id": "skill-716390b58213",
+      "name": "api-sec",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\api-sec",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.web",
+        "security.api",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753303.9376898
+    },
+    {
+      "skill_id": "skill-482bc274dee3",
+      "name": "arbitrary-write-to-rce",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\arbitrary-write-to-rce",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753303.9391932
+    },
+    {
+      "skill_id": "skill-9ef8f71409ad",
+      "name": "attack-surface-mapping",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\attack-surface-mapping",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753303.9507558
+    },
+    {
+      "skill_id": "skill-f8c8c5a8a55b",
+      "name": "auth-sec",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\auth-sec",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753303.954525
+    },
+    {
+      "skill_id": "skill-edc66b6b5578",
+      "name": "authbypass-authentication-flaws",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\authbypass-authentication-flaws",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753303.9654043
+    },
+    {
+      "skill_id": "skill-4d68a65cd722",
+      "name": "binary-protection-bypass",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\binary-protection-bypass",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753303.9801574
+    },
+    {
+      "skill_id": "skill-9e037ae0656c",
+      "name": "browser-exploitation-v8",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\browser-exploitation-v8",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.exploit",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753304.0109055
+    },
+    {
+      "skill_id": "skill-9cda31b75855",
+      "name": "business-logic-vuln",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\business-logic-vuln",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753304.0170655
+    },
+    {
+      "skill_id": "skill-993f980bcd63",
+      "name": "business-logic-vulnerabilities",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\business-logic-vulnerabilities",
+      "verdict": "CONFIRM",
+      "enabled": true,
+      "confirm_required": true,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 1,
+      "scanner_summary": "RCE_EVAL_EXEC(medium)",
+      "source": "local",
+      "registered_at": 1789753304.070218
+    },
+    {
+      "skill_id": "skill-5926693e1290",
+      "name": "classical-cipher-analysis",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\classical-cipher-analysis",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753304.0809047
+    },
+    {
+      "skill_id": "skill-f9d5b17665ed",
+      "name": "clickjacking",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\clickjacking",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753304.090261
+    },
+    {
+      "skill_id": "skill-5d7549ecec2d",
+      "name": "cmdi-command-injection",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\cmdi-command-injection",
+      "verdict": "CONFIRM",
+      "enabled": true,
+      "confirm_required": true,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 9,
+      "scanner_summary": "RCE_EVAL_EXEC(medium); RCE_OS_SYSTEM(high); RCE_SUBPROCESS_SHELL(high); RCE_EVAL_EXEC(medium); RCE_EVAL_EXEC(medium)",
+      "source": "local",
+      "registered_at": 1789753304.1090078
+    },
+    {
+      "skill_id": "skill-c0bc5c468a9f",
+      "name": "code-obfuscation-deobfuscation",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\code-obfuscation-deobfuscation",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753304.1233194
+    },
+    {
+      "skill_id": "skill-dc38176eac32",
+      "name": "container-escape-techniques",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\container-escape-techniques",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753304.1419318
+    },
+    {
+      "skill_id": "skill-d8a300772117",
+      "name": "cors-cross-origin-misconfiguration",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\cors-cross-origin-misconfiguration",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753304.2045157
+    },
+    {
+      "skill_id": "skill-e82a294810c8",
+      "name": "crlf-injection",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\crlf-injection",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753304.210069
+    },
+    {
+      "skill_id": "skill-9f1c73d4be83",
+      "name": "csp-bypass-advanced",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\csp-bypass-advanced",
+      "verdict": "CONFIRM",
+      "enabled": true,
+      "confirm_required": true,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 2,
+      "scanner_summary": "RCE_EVAL_EXEC(medium); RCE_EVAL_EXEC(medium)",
+      "source": "local",
+      "registered_at": 1789753304.2254863
+    },
+    {
+      "skill_id": "skill-e965372f83a7",
+      "name": "csrf-cross-site-request-forgery",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\csrf-cross-site-request-forgery",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753304.2569537
+    },
+    {
+      "skill_id": "skill-1c2b00480e67",
+      "name": "csv-formula-injection",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\csv-formula-injection",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753304.2599688
+    },
+    {
+      "skill_id": "skill-b9a14af29ec4",
+      "name": "dangling-markup-injection",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\dangling-markup-injection",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753304.2765455
+    },
+    {
+      "skill_id": "skill-04cef4fc6c77",
+      "name": "defi-attack-patterns",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\defi-attack-patterns",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753304.2800386
+    },
+    {
+      "skill_id": "skill-b3a69687d465",
+      "name": "dependency-confusion",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\dependency-confusion",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753304.2910106
+    },
+    {
+      "skill_id": "skill-2047a945237c",
+      "name": "deserialization-insecure",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\deserialization-insecure",
+      "verdict": "CONFIRM",
+      "enabled": true,
+      "confirm_required": true,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 12,
+      "scanner_summary": "RCE_EVAL_EXEC(medium); RCE_EVAL_EXEC(medium); RCE_EVAL_EXEC(medium); RCE_EVAL_EXEC(medium); RCE_EVAL_EXEC(medium)",
+      "source": "local",
+      "registered_at": 1789753304.323143
+    },
+    {
+      "skill_id": "skill-9a7570210570",
+      "name": "dns-rebinding-attacks",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\dns-rebinding-attacks",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753304.3358645
+    },
+    {
+      "skill_id": "skill-5e1d3a49a28c",
+      "name": "email-header-injection",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\email-header-injection",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753304.3527925
+    },
+    {
+      "skill_id": "skill-14a423c20a2e",
+      "name": "expression-language-injection",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\expression-language-injection",
+      "verdict": "CONFIRM",
+      "enabled": true,
+      "confirm_required": true,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 10,
+      "scanner_summary": "RCE_EVAL_EXEC(medium); RCE_EVAL_EXEC(medium); RCE_EVAL_EXEC(medium); RCE_EVAL_EXEC(medium); RCE_EVAL_EXEC(medium)",
+      "source": "local",
+      "registered_at": 1789753304.3671873
+    },
+    {
+      "skill_id": "skill-92da5def99d3",
+      "name": "file-access-vuln",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\file-access-vuln",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753304.3726118
+    },
+    {
+      "skill_id": "skill-15bb6d57ae86",
+      "name": "format-string-exploitation",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\format-string-exploitation",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.exploit",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753304.387895
+    },
+    {
+      "skill_id": "skill-dc2e0ca9fd54",
+      "name": "ghost-bits-cast-attack",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\ghost-bits-cast-attack",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753304.4169664
+    },
+    {
+      "skill_id": "skill-78187cba99bf",
+      "name": "graphql-and-hidden-parameters",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\graphql-and-hidden-parameters",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753304.420983
+    },
+    {
+      "skill_id": "skill-d2c576a68c28",
+      "name": "hack",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\hack",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753304.4749951
+    },
+    {
+      "skill_id": "skill-62828163cda8",
+      "name": "hash-attack-techniques",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\hash-attack-techniques",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753304.4869099
+    },
+    {
+      "skill_id": "skill-d9aa8bd2c3b6",
+      "name": "heap-exploitation",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\heap-exploitation",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.exploit",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753304.5111673
+    },
+    {
+      "skill_id": "skill-73dca6ee8b3f",
+      "name": "http-host-header-attacks",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\http-host-header-attacks",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753304.521276
+    },
+    {
+      "skill_id": "skill-496f53910dc7",
+      "name": "http-parameter-pollution",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\http-parameter-pollution",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753304.5298698
+    },
+    {
+      "skill_id": "skill-b7a025a3a49a",
+      "name": "http2-specific-attacks",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\http2-specific-attacks",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753304.5426433
+    },
+    {
+      "skill_id": "skill-2fcbc9e0bd1d",
+      "name": "idor-broken-object-authorization",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\idor-broken-object-authorization",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753304.5598578
+    },
+    {
+      "skill_id": "skill-be7f85bd2354",
+      "name": "injection-checking",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\injection-checking",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753304.5791137
+    },
+    {
+      "skill_id": "skill-f0994017c8e9",
+      "name": "insecure-source-code-management",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\insecure-source-code-management",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753304.5801215
+    },
+    {
+      "skill_id": "skill-f7e41c90cdce",
+      "name": "ios-pentesting-tricks",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\ios-pentesting-tricks",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753304.6108882
+    },
+    {
+      "skill_id": "skill-e4a5b80bf516",
+      "name": "jndi-injection",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\jndi-injection",
+      "verdict": "CONFIRM",
+      "enabled": true,
+      "confirm_required": true,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 1,
+      "scanner_summary": "RCE_EVAL_EXEC(medium)",
+      "source": "local",
+      "registered_at": 1789753304.6308851
+    },
+    {
+      "skill_id": "skill-d5bdeb380e93",
+      "name": "jwt-oauth-token-attacks",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\jwt-oauth-token-attacks",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753304.6401675
+    },
+    {
+      "skill_id": "skill-af23168b4328",
+      "name": "kernel-exploitation",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\kernel-exploitation",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.exploit",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753304.670893
+    },
+    {
+      "skill_id": "skill-5c89799cfa13",
+      "name": "kubernetes-pentesting",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\kubernetes-pentesting",
+      "verdict": "CONFIRM",
+      "enabled": true,
+      "confirm_required": true,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 1,
+      "scanner_summary": "RCE_EVAL_EXEC(medium)",
+      "source": "local",
+      "registered_at": 1789753304.6802163
+    },
+    {
+      "skill_id": "skill-52dcd3cb89d5",
+      "name": "lattice-crypto-attacks",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\lattice-crypto-attacks",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753304.689009
+    },
+    {
+      "skill_id": "skill-29c5f2f41a04",
+      "name": "linux-lateral-movement",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\linux-lateral-movement",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753304.690754
+    },
+    {
+      "skill_id": "skill-d6f5c63a4f32",
+      "name": "linux-privilege-escalation",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\linux-privilege-escalation",
+      "verdict": "CONFIRM",
+      "enabled": true,
+      "confirm_required": true,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.privesc",
+        "docs.read"
+      ],
+      "findings_count": 6,
+      "scanner_summary": "RCE_PIPE_SHELL(high); RCE_OS_SYSTEM(high); RCE_OS_SYSTEM(high); RCE_OS_SYSTEM(high); RCE_PIPE_SHELL(high)",
+      "source": "local",
+      "registered_at": 1789753304.7261112
+    },
+    {
+      "skill_id": "skill-5a04072c1a11",
+      "name": "linux-security-bypass",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\linux-security-bypass",
+      "verdict": "CONFIRM",
+      "enabled": true,
+      "confirm_required": true,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 1,
+      "scanner_summary": "RCE_PIPE_SHELL(high)",
+      "source": "local",
+      "registered_at": 1789753304.7319362
+    },
+    {
+      "skill_id": "skill-e042c6d37b5b",
+      "name": "llm-prompt-injection",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\llm-prompt-injection",
+      "verdict": "CONFIRM",
+      "enabled": true,
+      "confirm_required": true,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 7,
+      "scanner_summary": "INJECT_IGNORE_INSTRUCTIONS(medium); INJECT_IGNORE_INSTRUCTIONS(medium); INJECT_IGNORE_INSTRUCTIONS(medium); RCE_PIPE_SHELL(high); RCE_OS_SYSTEM(high)",
+      "source": "local",
+      "registered_at": 1789753304.7542155
+    },
+    {
+      "skill_id": "skill-5e60320fc3be",
+      "name": "macos-process-injection",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\macos-process-injection",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753304.7702053
+    },
+    {
+      "skill_id": "skill-a7bc7302d9c7",
+      "name": "macos-security-bypass",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\macos-security-bypass",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753304.7899923
+    },
+    {
+      "skill_id": "skill-e055e77ba139",
+      "name": "memory-forensics-volatility",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\memory-forensics-volatility",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.forensics",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753304.8007557
+    },
+    {
+      "skill_id": "skill-0a0584e925e7",
+      "name": "mobile-ssl-pinning-bypass",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\mobile-ssl-pinning-bypass",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.mobile",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753304.8218975
+    },
+    {
+      "skill_id": "skill-1d1e8da8da2f",
+      "name": "network-protocol-attacks",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\network-protocol-attacks",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753304.8426814
+    },
+    {
+      "skill_id": "skill-ec4e6598482f",
+      "name": "nosql-injection",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\nosql-injection",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753304.8533158
+    },
+    {
+      "skill_id": "skill-c32f82016cef",
+      "name": "ntlm-relay-coercion",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\ntlm-relay-coercion",
+      "verdict": "CONFIRM",
+      "enabled": true,
+      "confirm_required": true,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 1,
+      "scanner_summary": "RCE_EVAL_EXEC(medium)",
+      "source": "local",
+      "registered_at": 1789753304.876534
+    },
+    {
+      "skill_id": "skill-d32698ee2f9c",
+      "name": "oauth-oidc-misconfiguration",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\oauth-oidc-misconfiguration",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753304.8825042
+    },
+    {
+      "skill_id": "skill-4742dab6fdf2",
+      "name": "open-redirect",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\open-redirect",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753304.90151
+    },
+    {
+      "skill_id": "skill-ebd3313d3664",
+      "name": "path-traversal-lfi",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\path-traversal-lfi",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753304.919995
+    },
+    {
+      "skill_id": "skill-ef07eaf7357e",
+      "name": "prototype-pollution",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\prototype-pollution",
+      "verdict": "CONFIRM",
+      "enabled": true,
+      "confirm_required": true,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 2,
+      "scanner_summary": "RCE_EVAL_EXEC(medium); RCE_EVAL_EXEC(medium)",
+      "source": "local",
+      "registered_at": 1789753304.9291594
+    },
+    {
+      "skill_id": "skill-12b45c93fe8c",
+      "name": "prototype-pollution-advanced",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\prototype-pollution-advanced",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753304.9542868
+    },
+    {
+      "skill_id": "skill-03daa7bb284b",
+      "name": "race-condition",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\race-condition",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753304.962941
+    },
+    {
+      "skill_id": "skill-6821eb791fbd",
+      "name": "recon-and-methodology",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\recon-and-methodology",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.recon",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753304.9777672
+    },
+    {
+      "skill_id": "skill-19308f48c04e",
+      "name": "recon-for-sec",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\recon-for-sec",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.recon",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753304.9831016
+    },
+    {
+      "skill_id": "skill-c0eb6de4fae3",
+      "name": "request-smuggling",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\request-smuggling",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753305.0072186
+    },
+    {
+      "skill_id": "skill-bf1d57d04c4e",
+      "name": "reverse-shell-techniques",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\reverse-shell-techniques",
+      "verdict": "CONFIRM",
+      "enabled": true,
+      "confirm_required": true,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 6,
+      "scanner_summary": "RCE_EVAL_EXEC(medium); RCE_EVAL_EXEC(medium); RCE_EVAL_EXEC(medium); RCE_EVAL_EXEC(medium); RCE_EVAL_EXEC(medium)",
+      "source": "local",
+      "registered_at": 1789753305.0192459
+    },
+    {
+      "skill_id": "skill-f7d7f40795a8",
+      "name": "rsa-attack-techniques",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\rsa-attack-techniques",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753305.033855
+    },
+    {
+      "skill_id": "skill-91fbd59fc656",
+      "name": "saml-sso-assertion-attacks",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\saml-sso-assertion-attacks",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753305.0406694
+    },
+    {
+      "skill_id": "skill-bbdc32aa1e6a",
+      "name": "sandbox-escape-techniques",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\sandbox-escape-techniques",
+      "verdict": "CONFIRM",
+      "enabled": true,
+      "confirm_required": true,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 11,
+      "scanner_summary": "RCE_EVAL_EXEC(medium); RCE_EVAL_EXEC(medium); RCE_EVAL_EXEC(medium); RCE_EVAL_EXEC(medium); RCE_EVAL_EXEC(medium)",
+      "source": "local",
+      "registered_at": 1789753305.07598
+    },
+    {
+      "skill_id": "skill-5d98d1b04704",
+      "name": "smart-contract-vulnerabilities",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\smart-contract-vulnerabilities",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753305.1007621
+    },
+    {
+      "skill_id": "skill-8519733ece18",
+      "name": "sqli-sql-injection",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\sqli-sql-injection",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753305.1489706
+    },
+    {
+      "skill_id": "skill-2d75383af981",
+      "name": "ssrf-server-side-request-forgery",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\ssrf-server-side-request-forgery",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753305.5868623
+    },
+    {
+      "skill_id": "skill-e01f312b84ce",
+      "name": "ssti-server-side-template-injection",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\ssti-server-side-template-injection",
+      "verdict": "CONFIRM",
+      "enabled": true,
+      "confirm_required": true,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 20,
+      "scanner_summary": "RCE_OS_SYSTEM(high); RCE_EVAL_EXEC(medium); RCE_EVAL_EXEC(medium); RCE_EVAL_EXEC(medium); RCE_EVAL_EXEC(medium)",
+      "source": "local",
+      "registered_at": 1789753305.6046724
+    },
+    {
+      "skill_id": "skill-cad24b093cc1",
+      "name": "stack-overflow-and-rop",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\stack-overflow-and-rop",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753305.6307738
+    },
+    {
+      "skill_id": "skill-9c317dc52cd7",
+      "name": "steganography-techniques",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\steganography-techniques",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753305.6491
+    },
+    {
+      "skill_id": "skill-c473f4d1a913",
+      "name": "subdomain-takeover",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\subdomain-takeover",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753305.6559167
+    },
+    {
+      "skill_id": "skill-2b54ec31da17",
+      "name": "symbolic-execution-tools",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\symbolic-execution-tools",
+      "verdict": "CONFIRM",
+      "enabled": true,
+      "confirm_required": true,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 15,
+      "scanner_summary": "RCE_EVAL_EXEC(medium); RCE_EVAL_EXEC(medium); RCE_EVAL_EXEC(medium); RCE_EVAL_EXEC(medium); RCE_EVAL_EXEC(medium)",
+      "source": "local",
+      "registered_at": 1789753305.6741226
+    },
+    {
+      "skill_id": "skill-0fac7bf011df",
+      "name": "symmetric-cipher-attacks",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\symmetric-cipher-attacks",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753305.6902838
+    },
+    {
+      "skill_id": "skill-b75203087f0a",
+      "name": "traffic-analysis-pcap",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\traffic-analysis-pcap",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753305.704812
+    },
+    {
+      "skill_id": "skill-e6183d9eeef4",
+      "name": "tunneling-and-pivoting",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\tunneling-and-pivoting",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753305.712128
+    },
+    {
+      "skill_id": "skill-3a993870f398",
+      "name": "type-juggling",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\type-juggling",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753305.7210314
+    },
+    {
+      "skill_id": "skill-b9083249f18c",
+      "name": "unauthorized-access-common-services",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\unauthorized-access-common-services",
+      "verdict": "CONFIRM",
+      "enabled": true,
+      "confirm_required": true,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 2,
+      "scanner_summary": "RCE_EVAL_EXEC(medium); RCE_EVAL_EXEC(medium)",
+      "source": "local",
+      "registered_at": 1789753305.7346172
+    },
+    {
+      "skill_id": "skill-98d9204e48d3",
+      "name": "upload-insecure-files",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\upload-insecure-files",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753305.7409132
+    },
+    {
+      "skill_id": "skill-dbf913878e77",
+      "name": "vm-and-bytecode-reverse",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\vm-and-bytecode-reverse",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753305.750098
+    },
+    {
+      "skill_id": "skill-8f3035561caf",
+      "name": "waf-bypass-techniques",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\waf-bypass-techniques",
+      "verdict": "CONFIRM",
+      "enabled": true,
+      "confirm_required": true,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 1,
+      "scanner_summary": "RCE_EVAL_EXEC(medium)",
+      "source": "local",
+      "registered_at": 1789753305.7646163
+    },
+    {
+      "skill_id": "skill-3d9d3a00779a",
+      "name": "web-cache-deception",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\web-cache-deception",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.web",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753305.780886
+    },
+    {
+      "skill_id": "skill-e08653d576a2",
+      "name": "websocket-security",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\websocket-security",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753305.7951171
+    },
+    {
+      "skill_id": "skill-cfea82b3c6a2",
+      "name": "windows-av-evasion",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\windows-av-evasion",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.evasion",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753305.8207855
+    },
+    {
+      "skill_id": "skill-bc07e2387968",
+      "name": "windows-lateral-movement",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\windows-lateral-movement",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753305.8370435
+    },
+    {
+      "skill_id": "skill-b18444d0495c",
+      "name": "windows-privilege-escalation",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\windows-privilege-escalation",
+      "verdict": "OK",
+      "enabled": true,
+      "confirm_required": false,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.privesc",
+        "docs.read"
+      ],
+      "findings_count": 0,
+      "scanner_summary": "no dangerous patterns matched",
+      "source": "local",
+      "registered_at": 1789753305.872914
+    },
+    {
+      "skill_id": "skill-479c6eb0aa77",
+      "name": "xslt-injection",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\xslt-injection",
+      "verdict": "CONFIRM",
+      "enabled": true,
+      "confirm_required": true,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 3,
+      "scanner_summary": "RCE_EVAL_EXEC(medium); RCE_EVAL_EXEC(medium); RCE_EVAL_EXEC(medium)",
+      "source": "local",
+      "registered_at": 1789753305.8841863
+    },
+    {
+      "skill_id": "skill-b7aeb5878797",
+      "name": "xss-cross-site-scripting",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\xss-cross-site-scripting",
+      "verdict": "CONFIRM",
+      "enabled": true,
+      "confirm_required": true,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 5,
+      "scanner_summary": "RCE_EVAL_EXEC(medium); RCE_EVAL_EXEC(medium); RCE_EVAL_EXEC(medium); RCE_EVAL_EXEC(medium); RCE_EVAL_EXEC(medium)",
+      "source": "local",
+      "registered_at": 1789753305.952993
+    },
+    {
+      "skill_id": "skill-5bb948c23163",
+      "name": "xxe-xml-external-entity",
+      "path": "E:\\G3\\repos\\hack-skills-main\\skills\\xxe-xml-external-entity",
+      "verdict": "CONFIRM",
+      "enabled": true,
+      "confirm_required": true,
+      "forced": false,
+      "donor": "hack-skills",
+      "capabilities": [
+        "security.general",
+        "docs.read"
+      ],
+      "findings_count": 2,
+      "scanner_summary": "RCE_EVAL_EXEC(medium); RCE_EVAL_EXEC(medium)",
+      "source": "local",
+      "registered_at": 1789753305.9707787
+    }
+  ]
+}

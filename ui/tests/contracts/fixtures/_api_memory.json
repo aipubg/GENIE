@@ -1,0 +1,18 @@
+{
+  "code": 200,
+  "body": {
+    "scope": "personal",
+    "count": 1,
+    "hits": [
+      {
+        "text": "sanitized example memory item",
+        "source": {
+          "type": "conversation"
+        },
+        "scope": "personal",
+        "confidence": 0.9,
+        "ts": 1700000000000
+      }
+    ]
+  }
+}

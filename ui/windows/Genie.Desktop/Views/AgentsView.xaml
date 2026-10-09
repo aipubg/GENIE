@@ -1,0 +1,143 @@
+<UserControl x:Class="Genie.Desktop.Views.AgentsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:Genie.Desktop.ViewModels"
+             d:DataContext="{d:DesignInstance Type=vm:AgentsViewModel}"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="Agents"
+                       Style="{StaticResource G.PageTitle}"/>
+            <Button Grid.Column="1" Padding="14,7" Style="{StaticResource G.Button}"
+                    Content="Refresh" Command="{Binding RefreshCommand}"/>
+        </Grid>
+
+        <!-- Summary as a real surface, not a free TextBlock. -->
+        <Border Grid.Row="1" Margin="0,12,0,16" Padding="14,10"
+                CornerRadius="6"
+                Background="{StaticResource G.Surface}"
+                BorderBrush="{StaticResource G.LineSoft}"
+                BorderThickness="1">
+            <TextBlock Text="{Binding Summary}" TextWrapping="Wrap"
+                       Foreground="{StaticResource G.Text}"/>
+        </Border>
+
+        <!-- Mission specialists (Pass 3): the agents live missions spawned. -->
+        <Border Grid.Row="2" Margin="0,0,0,16" Padding="14,12" CornerRadius="6"
+                Background="{StaticResource G.Surface}"
+                BorderBrush="{StaticResource G.LineSoft}"
+                BorderThickness="1">
+            <StackPanel>
+                <TextBlock Text="Mission specialists" FontWeight="SemiBold"
+                           Foreground="{StaticResource G.Text}"/>
+                <TextBlock Margin="0,4,0,0" FontSize="12" TextWrapping="Wrap"
+                           Foreground="{StaticResource G.TextMid}"
+                           Visibility="{Binding HasNoMissionAgents,
+                                        Converter={StaticResource BoolToVisibility}}"
+                           Text="No agents are currently active."/>
+                <ItemsControl ItemsSource="{Binding MissionAgents}" Margin="0,8,0,0"
+                              MaxHeight="180">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="0,3">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="110"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="{Binding Agent}"
+                                           FontWeight="SemiBold"
+                                           Foreground="{StaticResource G.Text}"/>
+                                <TextBlock Grid.Column="1" Text="{Binding Mission}"
+                                           TextTrimming="CharacterEllipsis"
+                                           Foreground="{StaticResource G.TextMid}"/>
+                                <TextBlock Grid.Column="2" Text="{Binding TaskText}"
+                                           TextTrimming="CharacterEllipsis"
+                                           Foreground="{StaticResource G.Text}"/>
+                                <TextBlock Grid.Column="3" Text="{Binding State}"
+                                           Foreground="{StaticResource G.Cyan}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </Border>
+
+        <!-- Empty card: shown when there are no teams. No blank white panel. -->
+        <Border Grid.Row="3"
+                Background="{StaticResource G.Surface}"
+                BorderBrush="{StaticResource G.LineSoft}"
+                BorderThickness="1"
+                CornerRadius="6"
+                Padding="34"
+                Visibility="{Binding HasNoTeams,
+                             Converter={StaticResource BoolToVisibility}}">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center"
+                        MaxWidth="480">
+                <TextBlock HorizontalAlignment="Center" FontSize="16"
+                           FontWeight="SemiBold" Foreground="{StaticResource G.Text}"
+                           Text="No agents are currently active."/>
+                <TextBlock Margin="0,10,0,0" HorizontalAlignment="Center"
+                           TextWrapping="Wrap" TextAlignment="Center"
+                           Foreground="{StaticResource G.TextMid}"
+                           Text="Agent teams are spun up by missions. While a mission is in flight, the agents that are working on it appear here with their role, task, model and state. Nothing is invented — if it is not on this page, it is not running."/>
+            </StackPanel>
+        </Border>
+
+        <!-- Two-pane: teams on the left, selected detail on the right. -->
+        <Grid Grid.Row="3"
+              Visibility="{Binding HasTeams,
+                           Converter={StaticResource BoolToVisibility}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="340"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" CornerRadius="6"
+                    Background="{StaticResource G.Surface}"
+                    BorderBrush="{StaticResource G.LineSoft}" BorderThickness="1"
+                    Padding="2">
+                <ListBox ItemsSource="{Binding Teams}"
+                         SelectedItem="{Binding Selected}"
+                         Background="Transparent" BorderThickness="0"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Margin="6,4">
+                                <TextBlock Text="{Binding MissionId}" FontWeight="SemiBold"
+                                           Foreground="{StaticResource G.Text}"/>
+                                <TextBlock Text="{Binding Status}"
+                                           Foreground="{StaticResource G.TextMid}" FontSize="12"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Border>
+
+            <Border Grid.Column="1" Margin="16,0,0,0" Padding="16"
+                    CornerRadius="6"
+                    Background="{StaticResource G.Surface}"
+                    BorderBrush="{StaticResource G.LineSoft}" BorderThickness="1">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <TextBlock Text="{Binding Detail}" TextWrapping="Wrap"
+                               Foreground="{StaticResource G.Text}"/>
+                </ScrollViewer>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

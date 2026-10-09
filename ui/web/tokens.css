@@ -1,0 +1,168 @@
+/* GENIE Design Tokens.
+ * Single source of truth for color, typography, spacing, radius, blur, shadow,
+ * glow, motion, z-index, panel opacity, responsive breakpoints and quality
+ * modes. All components MUST consume these tokens. Inline hex values are
+ * forbidden outside this file and the per-component overrides (lamp/gem).
+ *
+ * Locked Home reference: ui/assets/brand/desktop-ui-reference.png (1536x1024)
+ */
+
+:root {
+  /* ---------------------------------------------------------------- surface */
+  --bg-deep-0:   #050812;   /* page background                    */
+  --bg-deep-1:   #07101D;   /* sidebar                            */
+  --bg-deep-2:   #09172A;   /* center vignette / panels           */
+  --bg-deep-3:   #0A1C34;   /* top accent                         */
+
+  /* panel / glass */
+  --panel:        rgba( 10, 22, 42, 0.62);
+  --panel-strong: rgba(  9, 18, 34, 0.78);
+  --panel-soft:   rgba( 10, 22, 42, 0.42);
+  --hairline:     rgba(110,150,210,0.16);
+  --hairline-soft:rgba(110,150,210,0.08);
+
+  /* ---------------------------------------------------------------- sapphire */
+  --blue-700: #0F4FB8;
+  --blue-500: #2478FF;     /* primary sapphire                  */
+  --blue-400: #3396FF;
+  --blue-300: #5CB5FF;     /* bright cyan-sapphire (gem core)   */
+  --blue-200: #8EC9FF;
+  --blue-100: #B7DCFF;
+
+  /* ---------------------------------------------------------------- gold */
+  --gold-700: #9F6F23;
+  --gold-500: #D79A3A;     /* primary antique gold               */
+  --gold-400: #F0B856;
+  --gold-300: #FFD37A;
+  --gold-100: #FFE9BD;
+
+  /* ---------------------------------------------------------------- text */
+  --text:        #E7E8EF;   /* warm white                        */
+  --text-dim:    #B7BDD0;   /* pale blue-gray                    */
+  --text-muted:  #7E8499;   /* dim slate                         */
+  --text-gold:   #F0B856;
+  --text-blue:   #8EC9FF;
+
+  /* ---------------------------------------------------------------- status */
+  --ok:    #5DD8A8;         /* restrained teal                   */
+  --warn:  #FFC86B;
+  --bad:   #FF7B7B;
+
+  /* ---------------------------------------------------------------- type */
+  --font-sans: "Segoe UI", "Inter", system-ui, -apple-system, "Helvetica Neue",
+               Arial, sans-serif;
+  --font-serif:"Cormorant Garamond", "EB Garamond", "Times New Roman", Georgia, serif;
+  --fs-xs:    11px;
+  --fs-sm:    12px;
+  --fs-md:    13px;
+  --fs-lg:    14px;
+  --fs-xl:    16px;
+  --fs-2xl:   20px;
+  --fs-3xl:   26px;
+  --fs-4xl:   34px;
+  --fs-hero:  56px;
+  --fw-regular: 400;
+  --fw-medium:  500;
+  --fw-semibold:600;
+  --fw-bold:    700;
+
+  /* ---------------------------------------------------------------- spacing */
+  --s-0: 0;
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 20px;
+  --s-6: 24px;
+  --s-7: 32px;
+  --s-8: 40px;
+  --s-9: 56px;
+  --s-10:72px;
+
+  /* ---------------------------------------------------------------- radius */
+  --r-xs: 6px;
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --r-xl: 22px;
+  --r-pill: 999px;
+
+  /* ---------------------------------------------------------------- blur */
+  --blur-sm:  6px;
+  --blur-md:  14px;
+  --blur-lg:  22px;
+
+  /* ---------------------------------------------------------------- shadow */
+  --shadow-sm: 0 4px 14px rgba( 0,  0,  0, 0.35);
+  --shadow-md: 0 12px 38px rgba( 0,  0,  0, 0.55);
+  --shadow-lg: 0 30px 80px rgba( 0,  0,  0, 0.65);
+
+  /* ---------------------------------------------------------------- glow */
+  --glow-blue-soft: 0 0 28px rgba( 70,140,255,0.30);
+  --glow-blue:      0 0 38px rgba( 70,140,255,0.55);
+  --glow-blue-hot:  0 0 70px rgba(140,200,255,0.85);
+  --glow-gold-soft: 0 0 28px rgba(240,184, 86,0.25);
+  --glow-gold:      0 0 48px rgba(240,184, 86,0.55);
+
+  /* ---------------------------------------------------------------- motion */
+  --motion-fast:    120ms;
+  --motion-base:    200ms;
+  --motion-slow:    320ms;
+  --motion-ambient: 12s;
+  --ease-out:       cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out:    cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* ---------------------------------------------------------------- z-index */
+  --z-base:    1;
+  --z-rail:    10;
+  --z-topbar:  20;
+  --z-companion:30;
+  --z-gem:     40;
+  --z-overlay: 50;
+  --z-toast:   60;
+
+  /* ---------------------------------------------------------------- layout */
+  /* Measured from the approved reference (1536x1024) by vertical-edge
+   * detection, not guessed:
+   *   strong vertical edge at x=218..220  -> sidebar is 219px wide
+   *   strong vertical edge at x=1176..1177 -> right rail begins at 1177
+   *   => right rail = 1536 - 1177 = 359px
+   * See ui/tests/visual/compare.py for the derivation.
+   */
+  --rail-left-w:  219px;
+  --rail-right-w: 359px;
+  --topbar-h:     60px;
+  --commandbar-h: 60px;
+  --content-max:  1480px;
+
+  /* responsive collapse order */
+  --bp-collapse-right: 1180px;   /* right rail collapses below this */
+  --bp-collapse-left:   900px;   /* left rail goes icon-only below this */
+
+  /* ---------------------------------------------------------------- quality */
+  /* LOW   : static environment, simple companion, voice gem still works */
+  /* BAL   : subtle particles + glows, full lamp effects */
+  /* HIGH  : richer ambient + parallax */
+  --quality:       "BAL";        /* default; overridden via JS        */
+  --quality-blur:  var(--blur-md);
+  --quality-particle-opacity: 0.55;
+  --quality-companion-breath: 1; /* multiplier for breathing scale */
+
+  /* ---------------------------------------------------------------- runtime */
+  /* Visual telemetry driven by the existing voice service (real mic RMS).
+   * CSS variable is updated from JS at most ~30 times/sec.
+   */
+  --voice-level: 0.0;
+  --tts-level:   0.0;
+}
+
+/* Reduced motion: simplify every ambient effect. Functionality stays. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-ambient: 9999s;
+    --motion-base: 0ms;
+    --motion-slow: 0ms;
+    --quality-particle-opacity: 0.0;
+    --quality-companion-breath: 0.4;
+  }
+}

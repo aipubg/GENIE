@@ -1,0 +1,183 @@
+<UserControl x:Class="Genie.Desktop.Views.KnowledgeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:Genie.Desktop.ViewModels"
+             d:DataContext="{d:DesignInstance Type=vm:KnowledgeViewModel}"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="Knowledge"
+                       Style="{StaticResource G.PageTitle}"/>
+            <Button Grid.Column="1" Padding="14,7" Style="{StaticResource G.Button}"
+                    Content="Refresh" Command="{Binding RefreshCommand}"/>
+        </Grid>
+
+        <!-- Status banner -->
+        <Border Grid.Row="1" Margin="0,12,0,16" Padding="14,10" CornerRadius="6"
+                Background="{StaticResource G.Surface}"
+                BorderBrush="{StaticResource G.LineSoft}" BorderThickness="1">
+            <StackPanel Orientation="Horizontal">
+                <Ellipse Width="8" Height="8" Margin="0,0,10,0"
+                         VerticalAlignment="Center"
+                         Fill="{StaticResource G.Cyan}"/>
+                <TextBlock Text="{Binding State}" TextWrapping="Wrap"
+                           Foreground="{StaticResource G.Text}"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Import source section -->
+        <Border Grid.Row="2" Padding="14" CornerRadius="6"
+                Background="{StaticResource G.Surface}"
+                BorderBrush="{StaticResource G.LineSoft}" BorderThickness="1"
+                Margin="0,0,0,16">
+            <StackPanel>
+                <TextBlock Text="Import source" FontWeight="SemiBold"
+                           Foreground="{StaticResource G.Text}" Margin="0,0,0,6"/>
+                <TextBlock Text="Point GENIE at a location on this machine. Only the reference is stored; your files are never copied."
+                           Foreground="{StaticResource G.TextMid}" FontSize="12"
+                           TextWrapping="Wrap" Margin="0,0,0,10"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox Grid.Column="0"
+                             Text="{Binding ImportPath, UpdateSourceTrigger=PropertyChanged}"
+                             Background="{StaticResource G.BgDeep}"
+                             Foreground="{StaticResource G.Text}"
+                             BorderBrush="{StaticResource G.Line}"
+                             Padding="10,8"/>
+                    <Button Grid.Column="1" Margin="10,0,0,0" Padding="16,8"
+                            Style="{StaticResource G.ButtonPrimary}"
+                            Content="Import" Command="{Binding ImportCommand}"/>
+                </Grid>
+            </StackPanel>
+        </Border>
+
+        <!-- Search -->
+        <Border Grid.Row="3" Padding="14" CornerRadius="6"
+                Background="{StaticResource G.Surface}"
+                BorderBrush="{StaticResource G.LineSoft}" BorderThickness="1"
+                Margin="0,0,0,16"
+                Visibility="{Binding HasSources,
+                             Converter={StaticResource BoolToVisibility}}">
+            <StackPanel>
+                <TextBlock Text="Search" FontWeight="SemiBold"
+                           Foreground="{StaticResource G.Text}" Margin="0,0,0,6"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox Grid.Column="0"
+                             Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}"
+                             Background="{StaticResource G.BgDeep}"
+                             Foreground="{StaticResource G.Text}"
+                             BorderBrush="{StaticResource G.Line}"
+                             Padding="10,8"
+                             KeyDown="Search_KeyDown"
+                             x:Name="SearchBox"/>
+                    <Button Grid.Column="1" Margin="10,0,0,0" Padding="16,8"
+                            Style="{StaticResource G.Button}"
+                            Content="Search" Command="{Binding SearchCommand}"/>
+                </Grid>
+            </StackPanel>
+        </Border>
+
+        <!-- Empty state when there are no sources -->
+        <Border Grid.Row="3"
+                Background="{StaticResource G.Surface}"
+                BorderBrush="{StaticResource G.LineSoft}" BorderThickness="1"
+                CornerRadius="6"
+                Padding="34"
+                Visibility="{Binding HasNoSources,
+                             Converter={StaticResource BoolToVisibility}}">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center"
+                        MaxWidth="480">
+                <TextBlock HorizontalAlignment="Center" FontSize="16"
+                           FontWeight="SemiBold" Foreground="{StaticResource G.Text}"
+                           Text="No knowledge sources imported yet."/>
+                <TextBlock Margin="0,10,0,0" HorizontalAlignment="Center"
+                           TextWrapping="Wrap" TextAlignment="Center"
+                           Foreground="{StaticResource G.TextMid}"
+                           Text="Knowledge sources let GENIE answer from the documents you point it at. Use Import source above to add a folder or file. The backend never copies your files — it only stores the reference."/>
+            </StackPanel>
+        </Border>
+
+        <!-- Source list (populated). Cards, not Field/Detail. -->
+        <StackPanel Grid.Row="3"
+                    Visibility="{Binding HasSources,
+                                 Converter={StaticResource BoolToVisibility}}">
+            <TextBlock Text="Indexed sources" FontWeight="SemiBold"
+                       Foreground="{StaticResource G.Text}" Margin="0,4,0,8"/>
+            <ItemsControl ItemsSource="{Binding Sources}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="0,4" Padding="14,10" CornerRadius="6"
+                                Background="{StaticResource G.Surface}"
+                                BorderBrush="{StaticResource G.LineSoft}"
+                                BorderThickness="1">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel>
+                                    <TextBlock Text="{Binding DisplayName}"
+                                               FontWeight="SemiBold"
+                                               Foreground="{StaticResource G.Text}"/>
+                                    <TextBlock Text="{Binding Path}"
+                                               Foreground="{StaticResource G.TextMid}"
+                                               FontSize="12" Margin="0,3,0,0"/>
+                                    <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                                        <TextBlock Text="{Binding Type}"
+                                                   Foreground="{StaticResource G.Cyan}"
+                                                   FontSize="11" Margin="0,0,12,0"/>
+                                        <TextBlock Text="{Binding ItemCount}"
+                                                   Foreground="{StaticResource G.TextDim}"
+                                                   FontSize="11" Margin="0,0,12,0"/>
+                                        <TextBlock Text="{Binding IndexedAt}"
+                                                   Foreground="{StaticResource G.TextDim}"
+                                                   FontSize="11"/>
+                                    </StackPanel>
+                                </StackPanel>
+                                <Button Grid.Column="1" Padding="12,6"
+                                        Style="{StaticResource G.ButtonSmall}"
+                                        VerticalAlignment="Center"
+                                        Content="Remove from index"
+                                        Command="{Binding DataContext.RemoveCommand,
+                                                  RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                        CommandParameter="{Binding SourceId}"/>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+
+        <!-- Status / message line + index summary -->
+        <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="0,12,0,0">
+            <TextBlock Text="{Binding IndexedCount}"
+                       Foreground="{StaticResource G.TextMid}" Margin="0,0,16,0"/>
+            <TextBlock Text="{Binding Provenance}"
+                       Foreground="{StaticResource G.TextDim}" Margin="0,0,16,0"/>
+            <TextBlock Text="{Binding Message}"
+                       Foreground="{StaticResource G.Cyan}"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

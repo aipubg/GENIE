@@ -1,0 +1,172 @@
+<Window x:Class="Genie.Desktop.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:Genie.Desktop.ViewModels"
+        xmlns:views="clr-namespace:Genie.Desktop.Views"
+        Title="GENIE" Width="1100" Height="720"
+        MinWidth="900" MinHeight="600"
+        WindowStartupLocation="CenterScreen"
+        FocusManager.FocusedElement="{Binding ElementName=NavList}"
+        Background="{StaticResource G.Bg}"
+        Foreground="{StaticResource G.Text}"
+        FontFamily="Segoe UI">
+    <!-- Window.Icon is intentionally NOT set: WPF falls back to the EXE icon
+         embedded by <ApplicationIcon> in the csproj. The icon is shipped in
+         two places (EXE PE resource via ApplicationIcon, and on-disk via
+         <None CopyToOutputDirectory> for installer/runtime lookups); the
+         taskbar, Start Menu, Desktop shortcut, and window title bar all use
+         the same bytes. Setting Icon="..." here as a pack URI would require
+         embedding as <Resource>, which is a duplicate of what ApplicationIcon
+         already does. -->
+    <!-- One component system: all styling lives in Themes/GenieControls.xaml.
+         This window only does layout + per-page DataTemplates. -->
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type vm:HomeViewModel}">
+            <views:HomeView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ChatViewModel}">
+            <views:ChatView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:MissionsViewModel}">
+            <views:MissionsView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:AgentsViewModel}">
+            <views:AgentsView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ComputerViewModel}">
+            <views:ComputerView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:CompetitionViewModel}">
+            <views:CompetitionView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ExperienceViewModel}">
+            <views:ExperienceView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:SettingsViewModel}">
+            <views:SettingsView/>
+        </DataTemplate>
+        <!-- One template for every operational surface. WPF matches a base-class
+             DataTemplate for derived instances, so Skills / Devices / Memory /
+             Forecast / Security all render through OwnerListView. -->
+        <DataTemplate DataType="{x:Type vm:OwnerSurfaceViewModel}">
+            <views:OwnerListView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:KnowledgeViewModel}">
+            <views:KnowledgeView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:MediaViewModel}">
+            <views:MediaView/>
+        </DataTemplate>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="220"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- ============== Navigation rail (themed) ============== -->
+        <Border Grid.Row="0" Grid.Column="0"
+                Background="{StaticResource G.BgDeep}"
+                BorderBrush="{StaticResource G.LineSoft}"
+                BorderThickness="0,0,1,0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Brand header: the canonical transparent GENIE mark + GENIE + status pill.
+                     The artwork is shown as authored: no circle frame, no matte,
+                     no background, uniform scaling so the aspect ratio is kept.
+                     A gold ring around it read as an empty placeholder badge,
+                     which is not the brand. -->
+                <Border Grid.Row="0" Padding="14,14,14,12">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Genie_brand_256.png"
+                               Width="34" Height="34"
+                               Stretch="Uniform"
+                               Margin="0,0,10,0"
+                               RenderOptions.BitmapScalingMode="HighQuality"
+                               VerticalAlignment="Center"/>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="GENIE" FontWeight="SemiBold" FontSize="14"
+                                       Foreground="{StaticResource G.Text}"/>
+                            <Border Margin="0,3,0,0" Padding="6,1" CornerRadius="8"
+                                    Background="{Binding StatusColor, Converter={StaticResource StatusToBrush}}">
+                                <TextBlock Text="{Binding StatusText, Mode=OneWay}"
+                                           FontSize="10" Foreground="#FF060912"
+                                           FontWeight="SemiBold"/>
+                            </Border>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- Nav list: Segoe MDL2 glyph + title; active item highlighted. -->
+                <ListBox x:Name="NavList" Grid.Row="1"
+                         ItemsSource="{Binding Items}"
+                         SelectedValue="{Binding Current}" SelectedValuePath="Target"
+                         BorderThickness="0" Background="Transparent"
+                         Padding="6,4,6,12">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="Foreground" Value="{StaticResource G.Text}"/>
+                            <Setter Property="Padding" Value="10,8"/>
+                            <Setter Property="Margin" Value="0,1"/>
+                            <!-- Without an explicit accessible name a ListBoxItem
+                                 announces its CLR type ("...ViewModels.NavItem") to
+                                 screen readers and to UI automation. -->
+                            <Setter Property="AutomationProperties.Name" Value="{Binding Title}"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#FF142036"/>
+                                </Trigger>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="#FF1B2742"/>
+                                    <Setter Property="BorderBrush" Value="{StaticResource G.Primary}"/>
+                                    <Setter Property="BorderThickness" Value="3,0,0,0"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Glyph}" FontFamily="Segoe MDL2 Assets"
+                                           FontSize="14" Width="24"
+                                           VerticalAlignment="Center"
+                                           Foreground="{StaticResource G.TextMid}"/>
+                                <TextBlock Text="{Binding Title}" FontSize="13"
+                                           VerticalAlignment="Center"
+                                           Foreground="{StaticResource G.Text}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+        </Border>
+
+        <!-- ============== Content ============== -->
+        <ContentControl Grid.Row="0" Grid.Column="1"
+                        Content="{Binding Current}"
+                        Background="{StaticResource G.Bg}"
+                        Foreground="{StaticResource G.Text}"/>
+
+        <!-- ============== Status bar ============== -->
+        <Border Grid.Row="1" Grid.ColumnSpan="2"
+                Background="{StaticResource G.BgDeep}"
+                BorderBrush="{StaticResource G.LineSoft}"
+                BorderThickness="0,1,0,0"
+                Padding="14,6">
+            <TextBlock>
+                <Run Text="● " Foreground="{Binding StatusColor, Converter={StaticResource StatusToBrush}}"/>
+                <Run Text="{Binding StatusText, Mode=OneWay}" Foreground="{StaticResource G.TextMid}"/>
+            </TextBlock>
+        </Border>
+    </Grid>
+</Window>

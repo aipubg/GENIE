@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>GENIE Accessible Controls Test</title></head>
+<body>
+  <h1>GENIE Accessible Controls Test</h1>
+  <label for="draft">Acceptance draft</label>
+  <input id="draft" value="Replace this old value">
+  <button aria-label="Apply draft"
+          onclick="document.getElementById('result').textContent = 'Applied: ' + document.getElementById('draft').value">Go</button>
+  <p id="result" role="status">No action yet</p>
+</body>
+</html>

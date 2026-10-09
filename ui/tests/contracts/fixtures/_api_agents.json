@@ -1,0 +1,24 @@
+{
+  "code": 200,
+  "body": {
+    "factory": {
+      "candidates": 3,
+      "agents": 0,
+      "profiles": {
+        "genie_native": "ready"
+      }
+    },
+    "budgets": {
+      "global_remaining": {
+        "usd": 1
+      }
+    },
+    "artifacts": {
+      "count": 2,
+      "files": 2,
+      "bytes": 2048
+    },
+    "teams": [],
+    "failovers": 0
+  }
+}

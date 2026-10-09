@@ -1,0 +1,44 @@
+<!--
+  GENIE visual identity palette + reusable control styles.
+  Midnight navy surfaces, sapphire/cyan/violet accents, restrained warm gold.
+  Every other view binds to these brushes; the brief is "one component system".
+-->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Palette. Names describe the role, not the hue, so dark/light variants can
+         be swapped without renaming bindings. -->
+    <SolidColorBrush x:Key="G.Bg"       Color="#FF060912"/>  <!-- near-black navy -->
+    <SolidColorBrush x:Key="G.BgDeep"   Color="#FF030611"/>  <!-- behind gradient -->
+    <SolidColorBrush x:Key="G.Surface"  Color="#FF0E1726"/>  <!-- cards/panels -->
+    <SolidColorBrush x:Key="G.Surface2" Color="#FF142036"/>  <!-- nested surfaces -->
+    <SolidColorBrush x:Key="G.Line"     Color="#FF22324F"/>  <!-- separator/dim border -->
+    <SolidColorBrush x:Key="G.LineSoft" Color="#FF1B2742"/>
+
+    <SolidColorBrush x:Key="G.Text"     Color="#FFEDF2FF"/>  <!-- high-contrast text -->
+    <SolidColorBrush x:Key="G.TextMid"  Color="#FFA9B7D9"/>  <!-- secondary text -->
+    <SolidColorBrush x:Key="G.TextDim"  Color="#FF6E7F9C"/>  <!-- hint text -->
+
+    <SolidColorBrush x:Key="G.Primary"  Color="#FF4DA3FF"/>  <!-- sapphire -->
+    <SolidColorBrush x:Key="G.PrimaryDark" Color="#FF2F7BE0"/>  <!-- darker sapphire -->
+    <SolidColorBrush x:Key="G.Cyan"     Color="#FF55E1FF"/>  <!-- electric cyan -->
+    <SolidColorBrush x:Key="G.Violet"   Color="#FF8C7DFF"/>  <!-- violet -->
+    <SolidColorBrush x:Key="G.Gold"      Color="#FFE6B86A"/>  <!-- warm gold (accent) -->
+
+    <SolidColorBrush x:Key="G.OK"       Color="#FF6DD58A"/>  <!-- status ok -->
+    <SolidColorBrush x:Key="G.Warn"     Color="#FFE8B25A"/>
+    <SolidColorBrush x:Key="G.Error"    Color="#FFE0707A"/>
+
+    <!-- A subtle, animation-friendly gradient for the hero waveform. Two stops so
+         WPF can fade between them without an animation cost. -->
+    <LinearGradientBrush x:Key="G.Wave" StartPoint="0,0.5" EndPoint="1,0.5">
+        <GradientStop Color="#FF55E1FF" Offset="0"/>
+        <GradientStop Color="#FF4DA3FF" Offset="0.5"/>
+        <GradientStop Color="#FF8C7DFF" Offset="1"/>
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="G.HeroBg" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#FF0E1726" Offset="0"/>
+        <GradientStop Color="#FF060912" Offset="1"/>
+    </LinearGradientBrush>
+
+</ResourceDictionary>

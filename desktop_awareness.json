@@ -1,0 +1,24 @@
+{
+  "enabled": false,
+  "auto_start": false,
+  "authorized_displays": [],
+  "excluded_processes": [
+    "authy",
+    "lastpass",
+    "bitwarden",
+    "1password",
+    "microsoftauthexe",
+    "keepass"
+  ],
+  "excluded_classes": [
+    "#32770"
+  ],
+  "excluded_title_fragments": [
+    "social security",
+    "password",
+    "credit card",
+    "ssn"
+  ],
+  "poll_interval_s": 5.0,
+  "remote_visual_consent": false
+}

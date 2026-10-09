@@ -1,0 +1,48 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <SelfContained>true</SelfContained>
+    <PublishSingleFile>false</PublishSingleFile>
+    <PlatformTarget>x64</PlatformTarget>
+
+    <AssemblyName>Genie.Desktop</AssemblyName>
+    <RootNamespace>Genie.Desktop</RootNamespace>
+    <ApplicationIcon>../../../assets/Genie.ico</ApplicationIcon>
+    <!-- Per-monitor DPI awareness. Without a manifest the process is
+         DPI-unaware and Windows bitmap-scales the window at 125% / 150%. -->
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <Version>0.1.0</Version>
+
+    <!-- No console of any kind. The app is a Windows GUI executable. -->
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+  </ItemGroup>
+
+  <!-- Brand asset (home artwork + nav avatar) and the multi-size icon are
+       embedded into the assembly so there are no runtime asset-path lookups
+       that could fail in a self-contained install. The .ico is ALSO embedded
+       as the EXE icon via <ApplicationIcon> above, and copied to the output
+       directory so the WPF window Icon= property can resolve it as a
+       relative path. -->
+  <ItemGroup>
+    <Resource Include="../../../assets/Genie_brand_256.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None   Include="../../../assets/Genie.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
