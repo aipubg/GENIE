@@ -415,6 +415,15 @@ def execute(computer, ctx, name, args, cancel_event):
                                         "window_id": window_id,
                                         "verify_in_window": verify_title,
                                         "task_id": ctx.interaction_id})
+    def grounded_target(payload):
+        hwnd = payload.get("window_id")
+        if hwnd is None:
+            return {}, None
+        title = str(payload.get("verify_in_window") or "").strip()
+        if type(hwnd) is not int or hwnd <= 0 or not title or len(title) > 300:
+            return None, {"ok": False, "error_code": "target_not_grounded", "error": "Provide a valid observed window ID and exact title."}
+        return {"window_id": hwnd, "verify_in_window": title}, None
+
     if name == "input_hotkey":
         keys = args.get("keys")
         if not isinstance(keys, list) or not keys or len(keys) > 3:
@@ -423,7 +432,10 @@ def execute(computer, ctx, name, args, cancel_event):
         if norm not in SAFE_HOTKEYS:
             return {"ok": False, "error_code": "hotkey_not_allowed",
                     "error": "That key combination is not on the safe shortcut list."}
-        return run("input.hotkey", {"chord": "+".join(norm)})
+        target, error = grounded_target(args)
+        if error:
+            return error
+        return run("input.hotkey", {"chord": "+".join(norm), **target})
     if name == "input_scroll":
         if args.get("dx", 0):
             return {"ok": False, "error_code": "unsupported_scroll_axis",
@@ -431,7 +443,10 @@ def execute(computer, ctx, name, args, cancel_event):
         dy = args.get("dy")
         if type(dy) is not int or abs(dy) > 2000:
             return {"ok": False, "error": "dy must be an integer between -2000 and 2000."}
-        return run("input.scroll", {"delta": -dy})
+        target, error = grounded_target(args)
+        if error:
+            return error
+        return run("input.scroll", {"delta": -dy, **target})
     if name == "input_click":
         from computer import uia
         element_id = str(args.get("element_id", "")).strip()

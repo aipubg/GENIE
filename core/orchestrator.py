@@ -937,12 +937,13 @@ class Orchestrator:
         cap = (decision.provider_category or "reasoning")
         if cap == "none":
             cap = "reasoning"
+        tool_loop_required = _use_conversational_tools(text, decision)
         req = ModelRequirement(
             capability=cap,
             min_quality="medium",
             # The adapter uses native function calls when supported and a strict
             # compatibility protocol otherwise; both reach the same dispatcher.
-            needs_tools=bool(decision.tasks or decision.memory_writes),
+            needs_tools=bool(tool_loop_required or decision.tasks or decision.memory_writes),
             needs_vision=(cap == "vision"),
             data_class=DataClass.INTERNAL, budget_usd=0.25)
         messages = [

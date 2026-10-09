@@ -8,17 +8,20 @@ from core.tool_protocol import looks_like_tool_syntax
 
 log = get_logger("core.tool_dialogue")
 
+_NAVIGATION_ACTION_RE = re.compile(r"\b(?:jao|jaana|chalo|switch\s+to|go\s+to|navigate\s+to|wapas\s+jao)\b", re.I)
+
 
 def action_requested(text):
     from director.heuristics import is_instruction_question
     if is_instruction_question(text):
         return False
-    return bool(re.search(
+    existing_match = bool(re.search(
         r"\b(open|launch|find|search|research|browse|click|switch|scroll|type|fill|close|create|make|folder|send|"
         r"enable|disable|delete|remove|install|uninstall|turn|toggle|wifi|wi-fi|bluetooth|connect|disconnect|"
         r"volume|mute|settings|show|read|download|play|stop|band|chalu|banao|bhejo|dikhao|khol|kholo|dhundho|karo|"
         r"likh|likho|likhna|dabao|dabana|select|look\s+for|go\s+to|manage|control|operate|change|access)\b|"
         r"लिख|खोल|खोज|ढूंढ|ढूँढ|क्लिक|दबाओ|दबा|चलाओ|बदलो|करो|बनाओ|भेजो|दिखाओ|आवाज़|आवाज|बंद|चालू|ऑन|ऑफ|हटाओ|इंस्टॉल", text, re.I))
+    return bool(existing_match or _NAVIGATION_ACTION_RE.search(str(text or "")))
 
 
 def _tools_for_instruction(user_text):
@@ -99,6 +102,14 @@ def _required_tool_groups(user_text):
                         "desktop_visual_action:type"}))
     if re.search(r"\bwhatsapp\b|व्हाट्सएप|व्हाट्सऐप", text) and re.search(r"\b(send|bhej|bhejo)\b|भेज", text):
         groups.append(("submit the approved WhatsApp message", {"desktop_send_message"}))
+    if re.search(r"\b(?:tab|tabs)\b", text) and re.search(r"\b(?:switch|jao|chalo|select|open|kholo)\b", text):
+        groups.append(("select and verify the requested browser tab", {"browser_switch_tab"}))
+    if re.search(r"\bscroll(?:ing)?\b", text):
+        groups.append(("change and verify the requested scroll position", {"browser_scroll", "input_scroll", "desktop_visual_action:scroll"}))
+    if re.search(r"\b(?:reload|refresh)\b", text):
+        groups.append(("reload and verify the selected browser tab", {"browser_reload"}))
+    if re.search(r"\b(?:youtube|video)\b", text) and re.search(r"\b(?:volume|awaaz|awaz)\b", text):
+        groups.append(("set and verify the selected video's volume", {"browser_media_volume"}))
     return groups
 
 

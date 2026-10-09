@@ -141,12 +141,12 @@ _CURATED: List[CapabilitySpec] = [
         "set of non-destructive combinations is accepted (navigation, editing, "
         "clipboard, save, find, select-all, undo). Destructive or system-level "
         "combinations are refused.",
-        {"keys": {"type": "ARRAY", "items": TEXT}}, ("keys",), ALL_CONTEXTS, RISK_MUTATE),
+        {"keys": {"type": "ARRAY", "items": TEXT}, "window_id": INT, "verify_in_window": TEXT}, ("keys",), ALL_CONTEXTS, RISK_MUTATE),
     CapabilitySpec(
         "input.scroll", "input_scroll",
         "Scroll the task-bound application window by a bounded "
         "amount. Positive dy scrolls down, negative dy scrolls up.",
-        {"dx": INT, "dy": INT}, ("dy",), ALL_CONTEXTS, RISK_MUTATE),
+        {"dx": INT, "dy": INT, "window_id": INT, "verify_in_window": TEXT}, ("dy",), ALL_CONTEXTS, RISK_MUTATE),
     CapabilitySpec(
         "input.click", "input_click",
         "Click an observed target: either an accessibility element_id from "
@@ -413,6 +413,7 @@ SAFE_HOTKEYS = frozenset({
     ("up",), ("down",), ("left",), ("right",), ("home",), ("end",),
     ("pageup",), ("pagedown",), ("backspace",), ("delete",), ("f5",),
 })
+SAFE_HOTKEYS = SAFE_HOTKEYS | frozenset(("ctrl", str(n)) for n in range(1, 10))
 
 # Safe single keys for grounded visual key presses. No modifier-only keys and no
 # destructive system chords; the same allow-list philosophy as SAFE_HOTKEYS.
