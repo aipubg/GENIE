@@ -131,6 +131,7 @@ SCOPE_BY_CAPABILITY: Dict[str, str] = {
     "browser.cookies": "browser:read",
     "browser.leases": "browser:read",
     "browser.media.play": "browser:media:play",
+    "browser.media.volume": "browser:dom:control",
     "browser.fullscreen": "browser:fullscreen",
     "browser.observe": "browser:read",
     "browser.detect_gate": "browser:read",

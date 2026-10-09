@@ -534,6 +534,7 @@ REGISTRY: Dict[str, Callable[[VerifyContext], Outcome]] = {
     # media (search + verified playback) and fullscreen reuse the same evidence
     # contract: they carry a verify block with a real observation.
     "browser.media.play": _verify_browser,
+    "browser.media.volume": _verify_browser,
     "browser.fullscreen": _verify_browser,
     "browser.observe": _verify_browser,
     "browser.detect_gate": _verify_browser,

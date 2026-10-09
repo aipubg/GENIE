@@ -105,6 +105,7 @@ BRIDGE_CAPABILITY = {
     "browser_session": "browser.session",
     "browser_tabs": "browser.tabs_list",
     "browser_switch_tab": "browser.tab_switch",
+    "browser_media_volume": "browser.media.volume",
     "browser_observe": "browser.observe",
     "browser_click": "browser.act",
     "browser_fill": "browser.fill",
@@ -298,6 +299,11 @@ def execute(computer, ctx, name, args, cancel_event):
         elif operation == "set_toggle":
             params["enabled"] = args["enabled"]
         return run(capability, params, approved=bool(sensitive))
+    if name == "browser_media_volume":
+        level = args.get("level")
+        if type(level) is not int or not 0 <= level <= 100:
+            return {"ok": False, "error_code": "invalid_volume", "error": "Level must be an integer from 0 to 100."}
+        return run("browser.media.volume", {"level": level})
     if name in ("browser_switch_tab", "browser_click"):
         key = "tab_id" if name == "browser_switch_tab" else "text"
         value = args.get(key, "")

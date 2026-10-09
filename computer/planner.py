@@ -142,6 +142,8 @@ CHAINS: Dict[str, List[Strategy]] = {
     "browser.leases": [Strategy("cdp-http", 10, ["browser"])],
     "browser.media.play": [Strategy("cdp-page", 10, ["browser"],
                                     "search -> open -> verified playback")],
+    "browser.media.volume": [Strategy("cdp-page", 10, ["browser"],
+                                       "Set and verify current video player volume")],
     "browser.fullscreen": [Strategy("cdp-page", 10, ["browser"])],
     "browser.observe": [Strategy("cdp-dom", 10, ["browser"])],
     "browser.detect_gate": [Strategy("cdp-dom", 10, ["browser"])],

@@ -292,6 +292,10 @@ _CURATED: List[CapabilitySpec] = [
         "Reload the currently bound browser tab and verify a fresh document load in that same tab.",
         {}, (), ALL_CONTEXTS, RISK_MUTATE),
     CapabilitySpec(
+        "browser.media.volume", "browser_media_volume",
+        "Set the selected YouTube player's volume from 0 to 100 percent. This does not change Windows master volume.",
+        {"level": INT}, ("level",), ALL_CONTEXTS, RISK_MUTATE),
+    CapabilitySpec(
         "browser.select", "browser_select",
         "Choose an option in a <select> control on the current authorized page by its "
         "visible text or value, then re-observe to confirm the selection took effect. "

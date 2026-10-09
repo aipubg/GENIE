@@ -31,6 +31,16 @@ The Computer Use bridge remains unavailable with `Trusted RPC service is not con
 - Preview EXE: `E:\G3\GENIE\ui\windows\Genie.Desktop\bin\Release\net8.0-windows\win-x64\Genie.Desktop.exe`
 - Backend runtime: `E:\G3\GENIE\backend-dist\backend-runtime`
 
+## P0.1 status
+
+- Model-to-tool routing: **PASS_UNIT_ONLY**.
+- YouTube player volume contract: **PASS_PACKAGED_INTEGRATION** (manifest validation, bridge registration, scope/planner/verifier registration, and bound-session implementation).
+- Provider override persistence: **PASS_UNIT_ONLY** (field-level default diff; credentials remain references).
+- Real provider Chat: **BLOCKED_ENVIRONMENT/PROVIDER** — prior Gemini transport timeout; no fabricated success.
+- Existing browser fallback, tab switching, scrolling, WhatsApp navigation: **BLOCKED_ENVIRONMENT** because the trusted desktop bridge is unavailable (`sky` RPC not configured).
+- Source/runtime parity: **PASS_PACKAGED_INTEGRATION**, 264/264.
+- WPF Release: **PASS_PACKAGED_INTEGRATION**, 0 warnings/0 errors; build-match 34/34.
+
 ## GitHub
 
-The prior safe publication is on `main` at `eef6cbe7f65f245dd68b235b79a9088dae493726`. These latest local source repairs are build-verified but are not claimed published until a subsequent safe, exclusion-checked push is completed.
+Baseline `4234e965272e008e09ed84810aae6333924fcea2` was already published. This P0.1 change set is prepared for the next safe exclusion-checked publication; no credentials, owner data, profiles, logs, or generated runtime binaries are included.

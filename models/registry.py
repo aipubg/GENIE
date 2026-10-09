@@ -146,21 +146,21 @@ class ModelRegistry:
     def _persist_user(self) -> None:
         """Persist only the user-created/edited providers (keeps provenance clean)."""
         defaults = json.loads(self.defaults_file.read_text(encoding="utf-8"))
-        default_ids = {p["id"] for p in defaults.get("providers", [])}
-        default_models = {p["id"]: {m["model_id"] for m in p.get("models", [])}
-                          for p in defaults.get("providers", [])}
+        defaults_by_id = {p["id"]: p for p in defaults.get("providers", [])}
         user_providers: List[Dict[str, Any]] = []
         for p in self._data["providers"]:
-            if p["id"] not in default_ids:
-                user_providers.append(p)
+            baseline = defaults_by_id.get(p["id"])
+            if baseline is None:
+                user_providers.append(copy.deepcopy(p))
                 continue
-            diff_models = [m for m in p.get("models", [])
-                           if m["model_id"] not in default_models.get(p["id"], set())]
-            edited = {k: v for k, v in p.items()
-                      if k != "models" and (p["id"] not in default_ids or True)}
-            if diff_models or edited.get("enabled") is False or edited.get("base_url"):
-                user_providers.append({"id": p["id"], **{k: v for k, v in edited.items() if k != "id"},
-                                       "models": diff_models})
+            edited = {k: copy.deepcopy(v) for k, v in p.items()
+                      if k not in ("id", "models") and v != baseline.get(k)}
+            baseline_models = {m["model_id"]: m for m in baseline.get("models", [])}
+            changed_models = [copy.deepcopy(m) for m in p.get("models", [])
+                              if m["model_id"] not in baseline_models
+                              or m != baseline_models[m["model_id"]]]
+            if edited or changed_models:
+                user_providers.append({"id": p["id"], **edited, "models": changed_models})
         payload: Dict[str, Any] = {"version": 1, "providers": user_providers}
         if self._data.get("roles"):
             payload["roles"] = self._data["roles"]

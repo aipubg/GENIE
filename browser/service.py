@@ -1550,6 +1550,33 @@ class BrowserService(BrowserMaturity):
             pass
         return {"ok": True, "killed": killed, "pid": pid}
 
+    def media_set_volume(self, params: Dict[str, Any]) -> Dict[str, Any]:
+        """Set and verify the HTML video volume on the bound YouTube tab."""
+        level = params.get("level")
+        if type(level) is not int or not 0 <= level <= 100:
+            return {"ok": False, "error_code": "invalid_volume", "verify": {"verified": False}}
+        if not self.session_context() or not self._active_tab:
+            return {"ok": False, "error_code": "browser_session_not_bound", "verify": {"verified": False}}
+        bound_tab = self._active_tab
+        desired = level / 100.0
+        state_js = """(() => { const v=document.querySelector('video'); return {host:location.hostname.toLowerCase(),url:location.href,present:!!v,volume:v?v.volume:null,muted:v?v.muted:null}; })()"""
+        try:
+            page = self._connect_page()
+            before = page.evaluate(state_js) or {}
+            if before.get("host") not in {"youtube.com", "www.youtube.com", "m.youtube.com", "music.youtube.com"}:
+                return {"ok": False, "error_code": "wrong_media_page", "verify": {"verified": False}}
+            if not before.get("present"):
+                return {"ok": False, "error_code": "media_element_not_found", "verify": {"verified": False}}
+            applied = page.evaluate(f"""(() => {{ const v=document.querySelector('video'); if(!v) return {{ok:false}}; v.volume={desired:.6f}; v.muted={str(level == 0).lower()}; return {{ok:true,volume:v.volume,muted:v.muted}}; }})()""") or {}
+            time.sleep(0.2)
+            after = page.evaluate(state_js) or {}
+            verified = bool(applied.get("ok") and bound_tab == self._active_tab and before.get("url") == after.get("url") and after.get("present") and isinstance(after.get("volume"), (int, float)) and abs(after["volume"] - desired) < 0.005 and after.get("muted") is (level == 0))
+            return {"ok": verified, "verified": verified, "level": level, "before": before, "after": after,
+                    "error_code": "" if verified else "volume_not_verified",
+                    "verify": {"verified": verified, "detail": f"Player volume readback: {after.get('volume')}"}}
+        except Exception as exc:
+            return {"ok": False, "error_code": "media_volume_failed", "detail": str(exc), "verify": {"verified": False}}
+
     # ---------------------------------------------------------------- actions
     def handle(self, capability: str, params: Dict[str, Any]) -> Dict[str, Any]:
         params = dict(params)
@@ -1601,6 +1628,7 @@ class BrowserService(BrowserMaturity):
             "browser.leases": self.lease_status,
             # media (search + verified playback) — reuses the demonstrated CDP flow
             "browser.media.play": self.media_play,
+            "browser.media.volume": self.media_set_volume,
             "browser.fullscreen": self.fullscreen,
             # general website interaction primitives (reusable by any site task)
             "browser.observe": self.observe,
