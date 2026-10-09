@@ -23,11 +23,27 @@ sys.path.insert(0, str(REPO / "scripts"))
 import capture_ui as cu  # noqa: E402
 
 RESULTS: list[tuple[str, bool, str]] = []
+STAGES = {}
 
 
 def check(name: str, ok: bool, detail: str = "") -> None:
     RESULTS.append((name, bool(ok), detail))
+    STAGES[name] = bool(ok)
     print(f"  [{'PASS' if ok else 'FAIL'}] {name}" + (f" — {detail}" if detail else ""))
+
+def read_edit_value(control):
+    for getter in (lambda: control.get_value(), lambda: control.iface_value.CurrentValue, lambda: control.window_text() or ""):
+        try:
+            value=getter()
+            if isinstance(value,str): return value
+        except Exception: pass
+    return ""
+
+def conversation_values(window):
+    try:
+        box=window.child_window(auto_id="MessagesList")
+        return [read_edit_value(c) for c in box.descendants(control_type="Edit") if read_edit_value(c)]
+    except Exception: return []
 
 
 def goto_index(window, target: str) -> bool:
@@ -130,8 +146,9 @@ def main() -> int:
         time.sleep(0.3)
         comp.type_keys(msg, with_spaces=True)
         time.sleep(0.4)
+        check("GUI_INPUT_READBACK", read_edit_value(comp).strip() == msg, "composer readback")
         comp.type_keys("{ENTER}")
-        check("typed message submitted", True, msg)
+        check("GUI_SUBMIT", True, msg)
 
         settled = wait_settled(window, timeout=150)
         check("turn settled (Send visible again)", settled)
@@ -141,6 +158,10 @@ def main() -> int:
         # A real reply is new text beyond the echoed user message.
         reply = [t for t in new if msg.strip().lower() not in t.lower()]
         expected = args.expect or "GENIE_GUI_OK"
+        scoped = conversation_values(window)
+        check("GUI_ASSISTANT_ROW", len(reply) > 0, " | ".join(reply)[:160])
+        check("GUI_EXPECTED_REPLY", expected in " ".join(scoped + reply), "role-aware message values")
+        check("GUI_TURN_COMPLETE", settled and expected in " ".join(scoped + reply), "turn completion")
         check("Chat rendered a reply", len(reply) > 0 and expected in " ".join(reply),
               " | ".join(reply)[:160])
 

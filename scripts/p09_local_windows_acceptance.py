@@ -29,6 +29,8 @@ def interactive(attach=False, launch=False, test_chat=False):
             except ValueError: observed_hwnd=None
     if r.returncode==0 and test_chat and observed_hwnd:
         chat=subprocess.run([sys.executable,"-u",str(ROOT/"scripts/p1_chat_gui_test.py"),"--attach-hwnd",str(observed_hwnd),"--expect","GENIE_GUI_OK","--no-external-messages"],cwd=str(ROOT),text=True,capture_output=True,timeout=180,check=False)
+        for line in chat.stdout.splitlines():
+            if any(key in line for key in ("GUI_INPUT_READBACK","GUI_SUBMIT","GUI_ASSISTANT_ROW","GUI_EXPECTED_REPLY","GUI_TURN_COMPLETE","Chat composer found","navigated to Chat")): print("CHAT_"+line.strip(),flush=True)
         out("CHAT_TEST_EXIT_CODE",chat.returncode); out("RESULT", "PASS_REAL_WPF_CHAT" if chat.returncode==0 else "FAIL_WPF_CHAT")
         if created: created.terminate()
         return chat.returncode
